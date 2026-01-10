@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
+import { Mail, ArrowDown } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Hero() {
   return (
@@ -48,10 +49,10 @@ export default function Hero() {
             {/* Social Icons */}
             <div className="flex items-center gap-6 justify-center md:justify-start pt-6">
               <a href="https://github.com" target="_blank" className="text-slate-400 hover:text-white transition-colors">
-                <Github size={24} />
+                <FaGithub size={24} />
               </a>
               <a href="https://linkedin.com" target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors">
-                <Linkedin size={24} />
+                <FaLinkedin size={24} />
               </a>
               <a href="mailto:email@example.com" className="text-slate-400 hover:text-red-400 transition-colors">
                 <Mail size={24} />

@@ -1,4 +1,5 @@
-import { Github, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 export default function Projects() {
   const projects = [
@@ -49,7 +50,7 @@ export default function Projects() {
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                   <a href={project.github} target="_blank" className="p-2 bg-slate-800 rounded-full hover:bg-white text-white hover:text-slate-900 transition-colors" title="View Code">
-                    <Github size={20} />
+                    <FaGithub size={20} />
                   </a>
                   <a href={project.demo} target="_blank" className="p-2 bg-slate-800 rounded-full hover:bg-white text-white hover:text-slate-900 transition-colors" title="View Demo">
                     <ExternalLink size={20} />

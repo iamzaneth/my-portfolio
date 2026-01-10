@@ -1,4 +1,5 @@
-import { Mail, Phone, MapPin, Github, Linkedin, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
 
 export default function Contact() {
   return (
@@ -55,13 +56,13 @@ export default function Contact() {
           <h4 className="font-semibold text-white mb-6">Mạng xã hội</h4>
           <div className="flex gap-6">
             <a href="https://facebook.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
-              <Facebook size={24} />
+              <FaFacebook size={24} />
             </a>
             <a href="https://linkedin.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#0A66C2] hover:text-white transition-all transform hover:-translate-y-1">
-              <Linkedin size={24} />
+              <FaLinkedin size={24} />
             </a>
             <a href="https://github.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#333] hover:text-white transition-all transform hover:-translate-y-1">
-              <Github size={24} />
+              <FaGithub size={24} />
             </a>
           </div>
         </div>
