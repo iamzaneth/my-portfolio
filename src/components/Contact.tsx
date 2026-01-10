@@ -33,8 +33,8 @@ export default function Contact() {
               <Phone size={28} />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Điện thoại</h3>
-            <a href="tel:+84123456789" className="text-slate-400 hover:text-blue-400 transition-colors">
-              +84 123 456 789
+            <a href="tel:+84348497984" className="text-slate-400 hover:text-blue-400 transition-colors">
+              +84 348 497 984
             </a>
           </div>
 
@@ -55,20 +55,20 @@ export default function Contact() {
         <div className="flex flex-col items-center mb-16">
           <h4 className="font-semibold text-white mb-6">Mạng xã hội</h4>
           <div className="flex gap-6">
-            <a href="https://facebook.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
+            <a href="https://www.facebook.com/thien.phuc.310380" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
               <FaFacebook size={24} />
             </a>
-            <a href="https://linkedin.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#0A66C2] hover:text-white transition-all transform hover:-translate-y-1">
+            <a href="https://www.linkedin.com/in/phúc-thiên-09845a329" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#0A66C2] hover:text-white transition-all transform hover:-translate-y-1">
               <FaLinkedin size={24} />
             </a>
-            <a href="https://github.com" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#333] hover:text-white transition-all transform hover:-translate-y-1">
+            <a href="https://github.com/Zane-Theodore" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#333] hover:text-white transition-all transform hover:-translate-y-1">
               <FaGithub size={24} />
             </a>
           </div>
         </div>
 
         <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Thiên Phúc. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Tran Thien Phuc - Zane. All rights reserved.</p>
         </div>
       </div>
     </section>
