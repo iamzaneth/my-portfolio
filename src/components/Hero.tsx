@@ -39,7 +39,7 @@ export default function Hero() {
                 Contact Me
               </a>
               <a 
-                href="#" 
+                href="/cv.pdf" 
                 className="px-8 py-3 bg-transparent text-white border border-slate-600 rounded-full font-medium hover:bg-slate-800 transition-all"
               >
                 Download CV
@@ -66,7 +66,7 @@ export default function Hero() {
             
             <img 
               src="/avatar.png" 
-              alt="Moomin Avatar" 
+              alt="Avatar" 
               className="w-64 h-64 md:w-96 md:h-112 object-cover rounded-2xl shadow-2xl border-4 border-slate-800 rotate-3 hover:rotate-0 transition-transform duration-500"
             />
           </div>

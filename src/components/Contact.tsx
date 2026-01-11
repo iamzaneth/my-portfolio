@@ -7,10 +7,10 @@ export default function Contact() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Liên hệ</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Contact</h2>
           <div className="w-20 h-1 bg-blue-600 mx-auto rounded"></div>
           <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-            Kết nối với tôi qua các kênh dưới đây.
+            Connect with me through the channels below.
           </p>
         </div>
 
@@ -22,8 +22,8 @@ export default function Contact() {
               <Mail size={28} />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Email</h3>
-            <a href="mailto:thienphuc@example.com" className="text-slate-400 hover:text-blue-400 transition-colors">
-              thienphuc@example.com
+            <a href="mailto:tthienphuc1612@gmail.com" className="text-slate-400 hover:text-blue-400 transition-colors">
+              tthienphuc1612@gmail.com
             </a>
           </div>
 
