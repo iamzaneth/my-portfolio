@@ -6,6 +6,24 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-200 antialiased selection:bg-blue-500 selection:text-white;
+    @apply bg-slate-950 text-slate-200 antialiased selection:bg-cyan-500 selection:text-slate-950;
+  }
+}
+
+@layer components {
+  .glow-effect {
+    @apply shadow-lg shadow-cyan-500/20;
+  }
+
+  .tech-border {
+    @apply border border-cyan-500/20 hover:border-cyan-500/50 transition-colors duration-300;
+  }
+
+  .code-block {
+    @apply bg-slate-900/50 rounded-lg px-4 py-3 font-mono text-sm;
+  }
+
+  .glass-effect {
+    @apply bg-slate-900/40 backdrop-blur-xl border border-slate-700/30;
   }
 }
