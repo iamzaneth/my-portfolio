@@ -32,7 +32,7 @@ export default function Contact() {
             <div className="p-4 bg-slate-900 text-blue-500 rounded-full mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <Phone size={28} />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Điện thoại</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Phone</h3>
             <a href="tel:+84348497984" className="text-slate-400 hover:text-blue-400 transition-colors">
               +84 348 497 984
             </a>
@@ -43,17 +43,17 @@ export default function Contact() {
             <div className="p-4 bg-slate-900 text-blue-500 rounded-full mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <MapPin size={28} />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Địa chỉ</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Location</h3>
             <p className="text-slate-400">
-              Hồ Chí Minh, Việt Nam
+              Ho Chi Minh City, Vietnam
             </p>
           </div>
 
         </div>
 
-        {/* Mạng xã hội */}
+        {/* Social Networks */}
         <div className="flex flex-col items-center mb-16">
-          <h4 className="font-semibold text-white mb-6">Mạng xã hội</h4>
+          <h4 className="font-semibold text-white mb-6">Follow Me</h4>
           <div className="flex gap-6">
             <a href="https://www.facebook.com/thien.phuc.310380" target="_blank" className="p-4 bg-slate-800 rounded-full text-slate-400 hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
               <FaFacebook size={24} />
@@ -68,7 +68,7 @@ export default function Contact() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Tran Thien Phuc - Zane. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Tran Thien Phuc. All rights reserved.</p>
         </div>
       </div>
     </section>

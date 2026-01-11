@@ -19,7 +19,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="shrink-0 cursor-pointer">
             <span className="text-2xl font-bold text-white">
-              MY PORTFOLIO<span className="text-blue-500">.</span>
+              TheodoreZn<span className="text-blue-500">.</span>
             </span>
           </div>
 

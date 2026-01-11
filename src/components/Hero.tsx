@@ -27,7 +27,7 @@ export default function Hero() {
             </p>
             
             <p className="text-slate-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
-              Mình chuyên xây dựng các ứng dụng web hiện đại, tối ưu hiệu năng và trải nghiệm người dùng. Luôn tìm tòi công nghệ mới để giải quyết các vấn đề thực tế.
+              I specialize in building modern web applications with optimized performance and exceptional user experience. Always exploring new technologies to solve real-world problems.
             </p>
 
             {/* Buttons */}

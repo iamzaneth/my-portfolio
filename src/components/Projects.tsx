@@ -1,46 +1,47 @@
 import { ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
+const PROJECTS_DATA = [
+  {
+    title: "E-Commerce Platform",
+    description: "A comprehensive e-commerce website with shopping cart, secure payment processing, and order management system.",
+    tags: ["React", "Node.js", "MongoDB", "Redux"],
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?fit=crop&w=800&q=80",
+    github: "https://github.com",
+    demo: "https://demo.com",
+  },
+  {
+    title: "Task Management App",
+    description: "Personal task management application with Drag & Drop functionality and Dark mode support for enhanced user experience.",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Supabase"],
+    image: "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?fit=crop&w=800&q=80",
+    github: "https://github.com",
+    demo: "https://demo.com",
+  },
+  {
+    title: "AI Image Generator",
+    description: "Web application that integrates with AI APIs to generate images from user-provided text descriptions using advanced neural networks.",
+    tags: ["Python", "Flask", "OpenAI API", "React"],
+    image: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?fit=crop&w=800&q=80",
+    github: "https://github.com",
+    demo: "https://demo.com",
+  },
+];
+
 export default function Projects() {
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description: "Một trang web thương mại điện tử đầy đủ tính năng với giỏ hàng, thanh toán và quản lý đơn hàng.",
-      tags: ["React", "Node.js", "MongoDB", "Redux"],
-      image: "https://images.unsplash.com/photo-1557821552-17105176677c?fit=crop&w=800&q=80",
-      github: "https://github.com",
-      demo: "https://demo.com",
-    },
-    {
-      title: "Task Management App",
-      description: "Ứng dụng quản lý công việc cá nhân, hỗ trợ Drag & Drop và giao diện tối (Dark mode).",
-      tags: ["Next.js", "TypeScript", "Tailwind", "Supabase"],
-      image: "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?fit=crop&w=800&q=80",
-      github: "https://github.com",
-      demo: "https://demo.com",
-    },
-    {
-      title: "AI Image Generator",
-      description: "Website tích hợp API trí tuệ nhân tạo để tạo ảnh từ văn bản mô tả của người dùng.",
-      tags: ["Python", "Flask", "OpenAI API", "React"],
-      image: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?fit=crop&w=800&q=80",
-      github: "https://github.com",
-      demo: "https://demo.com",
-    },
-  ];
 
   return (
     <section id="projects" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Dự án nổi bật</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Featured Projects</h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Dưới đây là một số dự án cá nhân mà tôi đã thực hiện để rèn luyện kỹ năng và áp dụng công nghệ mới.
+            Here are some personal projects I've developed to enhance my skills and explore cutting-edge technologies.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {PROJECTS_DATA.map((project, index) => (
             <div key={index} className="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
               <div className="relative overflow-hidden h-48">
                 <img 
