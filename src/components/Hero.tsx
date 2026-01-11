@@ -1,27 +1,33 @@
-import { Mail, ArrowDown, Zap } from "lucide-react";
+import { Mail, ArrowDown } from "lucide-react"; 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Hero() {
   return (
     <section id="home" className="min-h-screen flex items-center pt-16 overflow-hidden relative">
-      {/* Background Effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-10">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
           
           {/* Content */}
           <div className="w-full md:w-1/2 text-center md:text-left space-y-6">
+            
+            {/* Status Badge */}
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <Zap size={20} className="text-cyan-400" />
-              <span className="text-sm font-semibold text-cyan-400">Available for exciting projects</span>
+              <div className="px-3 py-1 rounded-full bg-slate-800/50 border border-cyan-500/20 flex items-center gap-2 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                <span className="text-xs font-medium text-cyan-300 tracking-wide">Open to Work</span>
+              </div>
             </div>
             
             <h2 className="text-2xl md:text-4xl font-medium text-slate-300">
-              Heyy, I'm
+              Hello, I'm
             </h2>
             
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
@@ -29,74 +35,66 @@ export default function Hero() {
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-200 font-semibold">
-              <span className="text-cyan-400">Full Stack</span> Developer <span className="text-slate-400">&</span> <span className="text-slate-200">Data Engineer</span>
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">AI Engineer</span> 
+              <span className="text-slate-500 mx-3">|</span> 
+              <span className="text-slate-300">Data Scientist</span>
             </p>
             
+            {/* Description */}
             <p className="text-slate-400 max-w-lg mx-auto md:mx-0 leading-relaxed text-base">
-              I specialize in building modern web applications with optimized performance and exceptional user experience. Always exploring new technologies to solve real-world problems.
+              Passionate about building intelligent agents and fine-tuning Large Language Models (LLMs). I turn complex data into actionable insights through Deep Learning and Computer Vision.
             </p>
 
-            {/* CTA Buttons */}
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start pt-4">
               <a 
                 href="#contact" 
-                className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
+                className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-semibold transition-all duration-300 shadow-lg shadow-cyan-900/20 flex items-center gap-2 group"
               >
-                <Mail size={18} />
-                Get In Touch
+                <Mail size={18} className="group-hover:rotate-12 transition-transform" />
+                Contact Me
               </a>
               <a 
                 href="/cv.pdf" 
-                className="px-8 py-3 bg-slate-800/50 text-cyan-400 border border-cyan-500/30 rounded-lg font-semibold hover:bg-slate-800 hover:border-cyan-500 transition-all duration-300"
+                className="px-8 py-3 bg-transparent text-slate-300 border border-slate-700 rounded-lg font-semibold hover:bg-slate-800 hover:text-white transition-all duration-300"
               >
                 Download CV
               </a>
             </div>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-6 justify-center md:justify-start pt-6">
-              <a 
-                href="https://github.com/Zane-Theodore" 
-                target="_blank" 
-                className="p-3 rounded-lg bg-slate-800/50 text-slate-400 hover:text-cyan-400 hover:bg-slate-800 hover:border hover:border-cyan-500/30 transition-all duration-300"
-                title="GitHub"
-              >
-                <FaGithub size={20} />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/phúc-thiên-09845a329" 
-                target="_blank" 
-                className="p-3 rounded-lg bg-slate-800/50 text-slate-400 hover:text-cyan-400 hover:bg-slate-800 hover:border hover:border-cyan-500/30 transition-all duration-300"
-                title="LinkedIn"
-              >
-                <FaLinkedin size={20} />
-              </a>
-              <a 
-                href="mailto:tthienphuc1612@gmail.com" 
-                className="p-3 rounded-lg bg-slate-800/50 text-slate-400 hover:text-cyan-400 hover:bg-slate-800 hover:border hover:border-cyan-500/30 transition-all duration-300"
-                title="Email"
-              >
-                <Mail size={20} />
-              </a>
+            <div className="flex items-center gap-5 justify-center md:justify-start pt-6">
+              <a href="https://github.com/Zane-Theodore" target="_blank" className="text-slate-400 hover:text-white transition-colors"><FaGithub size={24} /></a>
+              <a href="https://www.linkedin.com/in/phúc-thiên-09845a329" target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors"><FaLinkedin size={24} /></a>
+              <a href="mailto:tthienphuc1612@gmail.com" className="text-slate-400 hover:text-red-400 transition-colors"><Mail size={24} /></a>
             </div>
           </div>
 
-          {/* Image Section */}
-          <div className="w-full md:w-1/2 flex justify-center relative">
-            <img 
-              src="/avatar.png" 
-              alt="Avatar" 
-              className="w-64 h-64 md:w-96 md:h-96 object-cover rounded-2xl shadow-2xl border-2 border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-500 transform hover:scale-105"
-            />
+          {/* Avatar */}
+          <div className="w-full md:w-1/2 flex justify-center relative z-10">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 group">
+                
+                <div className="absolute inset-0 border-2 border-slate-800 rounded-4xl transform rotate-6 transition-transform duration-500 group-hover:rotate-12 bg-slate-900/50"></div>
+                
+                <div className="absolute inset-0 rounded-4xl overflow-hidden border border-slate-700/50 bg-slate-900 shadow-2xl">
+                    <img 
+                      src="/avatar.png" 
+                      alt="AI Engineer Avatar" 
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-linear-to-t from-slate-950/80 to-transparent"></div>
+                </div>
+
+            </div>
           </div>
         </div>
         
+        {/* Scroll Down */}
         <a 
           href="#about" 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block cursor-pointer p-3 rounded-full hover:bg-slate-800/50 transition-all group"
-          aria-label="Scroll down to About section"
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block cursor-pointer p-2 rounded-full hover:bg-slate-800/50 transition-all text-slate-500 hover:text-cyan-400"
         >
-          <ArrowDown className="text-cyan-400/60 group-hover:text-cyan-400 transition-colors" size={32} />
+          <ArrowDown size={28} />
         </a>
       </div>
     </section>
