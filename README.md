@@ -16,7 +16,7 @@ A modern, fully responsive personal portfolio website showcasing my work as an *
 ## 📸 Screenshots
 
 ```
-[Screenshot placeholders for: Hero Section, About Section, Projects Section, Contact Section]
+~~  Comming Soon  ~~
 ```
 
 ---
