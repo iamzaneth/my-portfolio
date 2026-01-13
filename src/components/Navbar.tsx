@@ -12,7 +12,8 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 glass-effect border-b border-cyan-500/20">
+    // Header
+    <nav className="fixed top-0 left-0 w-full z-50 glass-effect border-b border-cyan-500/20 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -26,7 +27,7 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Menu Desktop */}
+          {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-1">
               {navLinks.map((link) => (
@@ -42,7 +43,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Toggle Button */}
           <div className="-mr-2 flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -60,11 +61,11 @@ export default function Navbar() {
       <div
         className={`md:hidden grid transition-all duration-300 ease-in-out ${
           isOpen 
-            ? "grid-rows-[1fr] opacity-100 border-b border-cyan-500/20" 
-            : "grid-rows-[0fr] opacity-0 border-b-0"
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden bg-slate-900/95 backdrop-blur-md">
+        <div className="overflow-hidden border-t border-cyan-500/20">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link, index) => (
               <a
