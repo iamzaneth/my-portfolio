@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { FaGithub, FaFacebook } from "react-icons/fa";
 
 export default function Contact() {
   return (
@@ -80,14 +80,6 @@ export default function Contact() {
               title="Facebook"
             >
               <FaFacebook size={24} />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/phúc-thiên-09845a329" 
-              target="_blank" 
-              className="p-4 glass-effect tech-border rounded-full text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
-              title="LinkedIn"
-            >
-              <FaLinkedin size={24} />
             </a>
             <a 
               href="https://github.com/Zane-Theodore" 
