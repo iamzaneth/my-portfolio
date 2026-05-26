@@ -1,4 +1,4 @@
-import { Code2, Database, Globe, Cpu, Zap } from "lucide-react";
+import { Code2, Database, Globe, Cpu } from "lucide-react";
 
 export default function About() {
   const skills = [
@@ -28,7 +28,6 @@ export default function About() {
           {/* Left Column */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
-              <Zap size={24} className="text-cyan-400" />
               My Journey as a Developer
             </h3>
             <p className="text-slate-400 leading-relaxed text-base">

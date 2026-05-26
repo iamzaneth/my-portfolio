@@ -23,7 +23,7 @@ export default function Navbar() {
               <Code2 size={20} className="text-white" />
             </div>
             <span className="text-xl font-bold bg-linear-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Theodore<span className="text-cyan-500">.</span>
+              Zaneth
             </span>
           </div>
 

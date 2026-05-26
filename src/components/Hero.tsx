@@ -35,9 +35,9 @@ export default function Hero() {
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-200 font-semibold">
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">AI Engineer</span> 
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">Data Scientist</span> 
               <span className="text-slate-500 mx-3">|</span> 
-              <span className="text-slate-300">Data Scientist</span>
+              <span className="text-slate-300">AI Engineer</span>
             </p>
             
             {/* Description */}
@@ -64,7 +64,7 @@ export default function Hero() {
 
             {/* Social Icons */}
             <div className="flex items-center gap-5 justify-center md:justify-start pt-6">
-              <a href="https://github.com/Zane-Theodore" target="_blank" className="text-slate-400 hover:text-white transition-colors"><FaGithub size={24} /></a>
+              <a href="https://github.com/iamzaneth" target="_blank" className="text-slate-400 hover:text-white transition-colors"><FaGithub size={24} /></a>
               <a href="https://www.linkedin.com/in/phúc-thiên-09845a329" target="_blank" className="text-slate-400 hover:text-blue-400 transition-colors"><FaLinkedin size={24} /></a>
               <a href="mailto:tthienphuc1612@gmail.com" className="text-slate-400 hover:text-red-400 transition-colors"><Mail size={24} /></a>
             </div>
