@@ -1,164 +1,166 @@
-# 🚀 Theodore Portfolio
+# Tran Thien Phuc Portfolio
 
-A modern, fully responsive personal portfolio website showcasing my work as an **AI Engineer & Data Scientist** specializing in NLP, LLMs, and Deep Learning. Built with cutting-edge web technologies for optimal performance and user experience.
+Personal portfolio website for Tran Thien Phuc, showcasing my direction as a Data Analyst / AI Engineer, technical skills, featured project, and contact information.
 
-[![React](https://img.shields.io/badge/React-18.0+-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
-[![Vite](https://img.shields.io/badge/Vite-5.0+-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
+Demo: [https://phuc-dev.vercel.app](https://phuc-dev.vercel.app)
 
-## 🌐 Live Demo
+## Overview
 
-**[View Live Portfolio](https://phuc-dev.vercel.app)**
+This project is a single-page application built with React, TypeScript, Vite, and Tailwind CSS. The interface is designed to be clean, modern, responsive, and easy to deploy on Vercel.
 
----
+Main website sections:
 
-## 📸 Screenshots
+- `Home`: short introduction, open-to-work status, avatar, contact CTA, and CV download.
+- `About`: background in Data Engineering, Data Analysis, AI Engineering, and technical stack.
+- `Projects`: featured project showcase, currently focused on NexTick.
+- `Contact`: email, phone number, location, and social links.
 
+## Tech Stack
+
+- React 19
+- TypeScript 5
+- Vite 7
+- Tailwind CSS 4
+- Lucide React
+- React Icons
+- ESLint
+
+## Features
+
+- Dark mode interface with glassmorphism effects.
+- Responsive layout for desktop, tablet, and mobile.
+- Fixed navigation bar with a mobile menu.
+- Smooth scrolling between page sections.
+- Skill groups for Data Analysis, Database & Pipeline, AI & Mathematics, and Tools & Engineering.
+- Project card with image, description, tech tags, GitHub link, and details link.
+- Contact CTA via email and CV download from `public/cv.pdf`.
+
+## Requirements
+
+Vite 7 requires one of the following Node.js versions:
+
+- Node.js `^20.19.0`
+- Node.js `>=22.12.0`
+
+npm is recommended because the project includes a `package-lock.json` file.
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/iamzaneth/my-portfolio.git
+cd my-portfolio
 ```
-~~  Comming Soon  ~~
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
----
+Start the development server:
 
-## 🛠️ Tech Stack
-
-### Core Technologies
-- **React 18** - Modern UI library with hooks and functional components
-- **TypeScript 5** - Type-safe JavaScript for robust development
-- **Vite** - Lightning-fast build tool and development server
-- **Tailwind CSS v4** - Utility-first CSS framework for responsive design
-
-### UI & Icons
-- **Lucide React** - Beautiful, consistent icon library
-- **React Icons** - Additional icon sets for social media and branding
-- **CSS Glassmorphism** - Modern frosted glass effects
-
-### State Management
-- **React Hooks** (useState) - Built-in state management
-- **Custom CSS Animations** - Smooth transitions and hover effects
-
-### Deployment
-- **Vercel** - Optimized for React applications with zero-config deployment
-- **GitHub Pages** - Alternative static hosting option
-
----
-
-## ✨ Key Features
-
-### 🎨 **Modern UI/UX Design**
-- Sleek slate dark mode theme with cyan accents
-- Fully responsive design (mobile, tablet, desktop)
-- Glassmorphism effects for premium look and feel
-- Custom gradient text and smooth color transitions
-
-### ⚡ **Performance Optimized**
-- Vite-powered ultra-fast build times
-- Optimized bundle size and lazy loading
-- Instant page load and smooth interactions
-- Production-ready optimizations
-
-### 🎭 **Interactive Animations**
-- Smooth mobile menu with accordion-style transitions
-- Elegant hover effects on buttons and cards
-- Floating status badge and animated icons
-- Bounce animations on scroll indicators
-
-### 📱 **Fully Responsive**
-- Mobile-first approach
-- Adaptive layouts for all screen sizes
-- Touch-friendly interactive elements
-- Optimized performance on all devices
-
-### 🎯 **Rich Content Sections**
-- **Hero** - Eye-catching introduction with avatar and CTA buttons
-- **About** - Professional bio with visual tech stack and skills showcase
-- **Projects** - Featured projects with descriptions, tech tags, and links
-- **Contact** - Multiple contact methods (email, phone, social links)
-
-### 🔗 **Social Integration**
-- GitHub profile links
-- LinkedIn professional network
-- Email contact functionality
-- Direct call-to-action buttons
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
-- Git for version control
-
-### Installation & Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Zane-Theodore/my-portfolio.git
-   cd my-portfolio
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-   The portfolio will open at `http://localhost:5173`
-
-4. **Build for production**
-   ```bash
-   npm run build
-   ```
-   Creates an optimized production build in the `dist` folder
-
-5. **Preview production build**
-   ```bash
-   npm run preview
-   ```
-
-### Project Structure
+```bash
+npm run dev
 ```
+
+By default, Vite runs at:
+
+```text
+http://localhost:5173
+```
+
+## Scripts
+
+```bash
+npm run dev
+```
+
+Runs the local development server with Vite.
+
+```bash
+npm run build
+```
+
+Runs TypeScript checks and builds the production output into the `dist` directory.
+
+```bash
+npm run preview
+```
+
+Serves the production build locally for preview.
+
+```bash
+npm run lint
+```
+
+Runs ESLint across the project.
+
+## Project Structure
+
+```text
 my-portfolio/
-├── src/
-│   ├── components/
-│   │   ├── Navbar.tsx         # Navigation bar with mobile menu
-│   │   ├── Hero.tsx           # Hero section with introduction
-│   │   ├── About.tsx          # About section with skills
-│   │   ├── Projects.tsx       # Featured projects showcase
-│   │   └── Contact.tsx        # Contact information section
-│   ├── App.tsx                # Main application component
-│   ├── main.tsx               # Entry point
-│   └── index.css              # Global styles and Tailwind imports
-├── public/                    # Static assets
-├── package.json               # Project dependencies
-├── vite.config.ts             # Vite configuration
-├── tailwind.config.js         # Tailwind CSS configuration
-└── tsconfig.json              # TypeScript configuration
+|-- public/
+|   |-- avatar.png
+|   |-- cv.pdf
+|   `-- favicon.ico
+|-- src/
+|   |-- components/
+|   |   |-- About.tsx
+|   |   |-- Contact.tsx
+|   |   |-- Hero.tsx
+|   |   |-- Navbar.tsx
+|   |   `-- Projects.tsx
+|   |-- App.tsx
+|   |-- index.css
+|   `-- main.tsx
+|-- eslint.config.js
+|-- index.html
+|-- package.json
+|-- postcss.config.js
+|-- tailwind.config.js
+|-- tsconfig.app.json
+|-- tsconfig.json
+|-- tsconfig.node.json
+`-- vite.config.ts
 ```
 
----
+## Main Content
 
-## 📧 Contact & Social
+### Personal Profile
 
-- **Email:** [tthienphuc1612@gmail.com](mailto:tthienphuc1612@gmail.com)
-- **Phone:** [+84 348 497 984](tel:+84348497984)
-- **GitHub:** [@Zane-Theodore](https://github.com/Zane-Theodore)
-- **LinkedIn:** [Tran Thien Phuc](https://www.linkedin.com/in/phúc-thiên-09845a329)
-- **Location:** Ho Chi Minh City, Vietnam
+- Name: Tran Thien Phuc
+- Target roles: Data Analyst / AI Engineer
+- Interests: Data Analysis, AI Engineering, Applied Mathematics
+- Location: Ho Chi Minh City, Vietnam
 
----
+### Featured Project
 
-## 📄 License
+**NexTick**
 
-This project is open source and available under the [MIT License](LICENSE). Feel free to use this portfolio template as a reference for your own projects.
+A real-time cryptocurrency candle streaming platform. The project ingests Binance trade ticks, streams data through Kafka, aggregates OHLCV candles, stores historical data in QuestDB, and visualizes real-time market updates with a React interface.
 
----
+Main tech stack: Python, Kafka, QuestDB, NestJS, React, TypeScript, Docker.
 
-**Made with ❤️ by [Tran Thien Phuc](https://github.com/Zane-Theodore)**
+Repository: [https://github.com/iamzaneth/NexTick](https://github.com/iamzaneth/NexTick)
 
-*Last Updated: January 2026*
+## Deployment
+
+This project is suitable for deployment on Vercel.
+
+Recommended build settings:
+
+- Framework Preset: Vite
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+Production demo: [https://phuc-dev.vercel.app](https://phuc-dev.vercel.app)
+
+## Contact
+
+- Email: [tthienphuc1612@gmail.com](mailto:tthienphuc1612@gmail.com)
+- Phone: [+84 348 497 984](tel:+84348497984)
+- GitHub: [Zaneth](https://github.com/iamzaneth)
+- Facebook: [Thiên Phúc](https://www.facebook.com/zanethdr)
