@@ -74,7 +74,7 @@ export default function Contact() {
           <p className="text-slate-400 text-sm mb-6">Connect with me on social media</p>
           <div className="flex gap-4">
             <a 
-              href="https://www.facebook.com/thien.phuc.310380" 
+              href="https://www.facebook.com/zanethdr" 
               target="_blank" 
               className="p-4 glass-effect tech-border rounded-full text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
               title="Facebook"
