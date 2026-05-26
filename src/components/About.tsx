@@ -2,10 +2,26 @@ import { Code2, Database, Globe, Cpu } from "lucide-react";
 
 export default function About() {
   const skills = [
-    { category: "Frontend", items: ["React", "TypeScript", "Tailwind CSS", "Next.js"], icon: <Globe className="text-cyan-400" /> },
-    { category: "Backend", items: ["Node.js", "NestJS", "PostgreSQL", "Python"], icon: <Database className="text-blue-400" /> },
-    { category: "Tools & DevOps", items: ["Git", "Docker", "AWS", "Linux"], icon: <Cpu className="text-purple-400" /> },
-    { category: "Others", items: ["Machine Learning", "Data Analysis", "UI/UX Design"], icon: <Code2 className="text-cyan-400" /> },
+    {
+      category: "Data Analysis",
+      items: ["SQL", "Data Cleaning", "Data Validation"],
+      icon: <Globe className="text-cyan-400" />,
+    },
+    {
+      category: "Database & Pipeline",
+      items: ["PostgreSQL", "MySQL", "QuestDB", "Kafka"],
+      icon: <Database className="text-blue-400" />,
+    },
+    {
+      category: "AI & Mathematics",
+      items: ["Machine Learning", "Statistics", "Linear Algebra", "Recommendation Systems"],
+      icon: <Code2 className="text-cyan-400" />,
+    },
+    {
+      category: "Tools & Engineering",
+      items: ["Python", "Docker", "Git", "Linux/WSL"],
+      icon: <Cpu className="text-purple-400" />,
+    },
   ];
 
   return (
@@ -28,27 +44,39 @@ export default function About() {
           {/* Left Column */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
-              My Journey as a Developer
+              My Journey in Data and AI
             </h3>
+
             <p className="text-slate-400 leading-relaxed text-base">
-              I'm a passionate technologist with a strong foundation in computer science. My journey started with curiosity about how websites work, and now I build complex full-stack systems. I'm experienced in creating modern, scalable applications with a focus on performance and user experience.
+              I'm a Data Engineering student with a strong interest in data analysis,
+              data operations, AI engineering, and applied mathematics. I enjoy working
+              with raw data, understanding how it flows through systems, and transforming
+              it into reliable insights for real-world problems.
             </p>
+
             <p className="text-slate-400 leading-relaxed text-base">
-              Beyond coding, I'm enthusiastic about Machine Learning models and system optimization. I believe technology is not just lines of code, but a powerful tool to solve real-world problems and make a positive impact.
+              My work focuses on SQL, Python, databases, data pipelines, and machine
+              learning concepts. I like building practical data-driven systems that
+              combine clean data processing, clear technical design, and meaningful
+              analysis.
             </p>
+
             <div className="pt-4">
               <div className="text-slate-300 font-semibold mb-3 flex items-center gap-2">
                 <Code2 size={18} className="text-cyan-400" />
                 Tech Stack
               </div>
+
               <div className="code-block text-cyan-300">
-                const dev = {'{'}
+                const dataEngineer = {'{'}
                 <br />
-                &nbsp;&nbsp;languages: ['JS', 'Python', 'SQL'],
+                &nbsp;&nbsp;languages: ['SQL', 'Python', 'TypeScript'],
                 <br />
-                &nbsp;&nbsp;frameworks: ['React', 'Next.js'],
+                &nbsp;&nbsp;databases: ['PostgreSQL', 'MySQL', 'QuestDB'],
                 <br />
-                &nbsp;&nbsp;databases: ['PostgreSQL', 'MongoDB']
+                &nbsp;&nbsp;dataTools: ['Kafka', 'Docker'],
+                <br />
+                &nbsp;&nbsp;interests: ['Data Analysis', 'AI Engineering', 'Applied Math']
                 <br />
                 {'}'}
               </div>
@@ -58,8 +86,8 @@ export default function About() {
           {/* Right Column - Skills */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {skills.map((group, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="glass-effect tech-border p-6 rounded-xl hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-300 group"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -68,10 +96,11 @@ export default function About() {
                   </div>
                   <h4 className="font-bold text-slate-200">{group.category}</h4>
                 </div>
+
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
-                    <span 
-                      key={item} 
+                    <span
+                      key={item}
                       className="px-3 py-1 bg-slate-800/50 text-sm text-cyan-300 border border-cyan-500/20 rounded-full hover:border-cyan-500/50 transition-colors cursor-default"
                     >
                       {item}

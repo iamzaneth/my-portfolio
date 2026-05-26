@@ -35,14 +35,14 @@ export default function Hero() {
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-200 font-semibold">
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">Data Scientist</span> 
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">Data Analyst</span> 
               <span className="text-slate-500 mx-3">|</span> 
               <span className="text-slate-300">AI Engineer</span>
             </p>
             
             {/* Description */}
             <p className="text-slate-400 max-w-lg mx-auto md:mx-0 leading-relaxed text-base">
-              Passionate about building intelligent agents and fine-tuning Large Language Models (LLMs). I turn complex data into actionable insights through Deep Learning and Computer Vision.
+              Data Engineering student passionate about data analysis, AI engineering, and applied mathematics. I transform raw data into reliable insights and build practical data-driven systems for real-world problems.
             </p>
 
             {/* Buttons */}
