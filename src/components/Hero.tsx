@@ -58,7 +58,7 @@ export default function Hero() {
                 href="/cv.pdf" 
                 className="px-8 py-3 bg-transparent text-slate-300 border border-slate-700 rounded-lg font-semibold hover:bg-slate-800 hover:text-white transition-all duration-300"
               >
-                Download CV
+                View Resume
               </a>
             </div>
 
