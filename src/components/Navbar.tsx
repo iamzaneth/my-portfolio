@@ -55,7 +55,7 @@ export default function Navbar() {
       </div>
       <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation" hidden={!open}>
         {navigation.map((link) => <a key={link.id} href={`#${link.id}`} aria-current={active === link.id ? 'location' : undefined} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={17} /></a>)}
-        <a href={profile.resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>View résumé<ArrowUpRight size={17} /></a>
+        {profile.showResume && <a href={profile.resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>View résumé<ArrowUpRight size={17} /></a>}
       </nav>
     </header>
   )

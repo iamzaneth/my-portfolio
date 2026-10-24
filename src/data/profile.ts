@@ -8,6 +8,7 @@ export const profile = {
   github: 'https://github.com/iamzaneth',
   facebook: 'https://www.facebook.com/zanethdr',
   resume: '/cv.pdf',
+  showResume: false,
 }
 
 export const navigation = [

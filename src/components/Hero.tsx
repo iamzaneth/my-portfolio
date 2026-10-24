@@ -16,7 +16,7 @@ export default function Hero() {
           </div>
           <div className="hero-actions">
             <a className="button button-primary" href="#projects">Explore my work <ArrowDownRight size={18} /></a>
-            <a className="button button-secondary" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>
+            {profile.showResume && <a className="button button-secondary" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>}
           </div>
           <div className="hero-socials"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} /> GitHub <ArrowUpRight size={13} /></a><span className="tiny-divider" /><span>AI Engineering <span className="accent">×</span> Data Engineering</span></div>
         </div>
