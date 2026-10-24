@@ -1,0 +1,14 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --surface: #111b2b;
+  --surface-raised: #152033;
+  --text: #f1f4fa;
+  --muted: #a7b4c9;
+  --faint: #7d8ca4;
+  --line: #263247;
+  --accent: #b59af8;
+  --cyan: #83cbd1;
+  --font: 'Manrope', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}

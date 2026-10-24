@@ -1,102 +1,38 @@
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { FaGithub, FaFacebook } from "react-icons/fa";
+import { useEffect, useRef, useState } from 'react'
+import { ArrowUp, ArrowUpRight, Check, Copy, Github, Mail, MapPin, Phone } from 'lucide-react'
+import { profile } from '@/data/profile'
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false)
+  const [copyError, setCopyError] = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(profile.email)
+      setCopied(true)
+      setCopyError(false)
+      clearTimeout(timer.current)
+      timer.current = setTimeout(() => setCopied(false), 2500)
+    } catch { setCopyError(true) }
+  }
   return (
-    <section id="contact" className="pt-20 pb-10 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Let's Build Something Together
+    <section id="contact" className="contact-section">
+      <div className="container">
+        <div className="contact-top" data-reveal><p className="eyebrow"><span>04 /</span> THE NEXT CHAPTER</p><span className="availability"><span className="status-dot" /> Open to opportunities</span></div>
+        <div className="contact-heading" data-reveal>
+          <h2>Good things start<br />
+            <span className="contact-last-line">
+              <span>with a <span className="accent">hello.</span></span>
+              <a href={`mailto:${profile.email}`} className="contact-arrow" aria-label="Send Phuc an email"><ArrowUpRight size={30} strokeWidth={1.4} /></a>
+            </span>
           </h2>
-          <div className="w-20 h-1 bg-cyan-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-            I'm always interested in hearing about new projects. Whether you have a question or just want to chat, feel free to reach out!
-          </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-          {/* Email Card */}
-          <div className="glass-effect tech-border p-6 rounded-xl hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 group flex flex-col items-center text-center">
-            <div className="p-4 bg-cyan-600 text-white rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
-              <Mail size={28} />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Email</h3>
-            <a 
-              href="mailto:tthienphuc1612@gmail.com" 
-              className="text-slate-400 hover:text-cyan-400 transition-colors break-all"
-            >
-              tthienphuc1612@gmail.com
-            </a>
-          </div>
-
-          {/* Phone Card */}
-          <div className="glass-effect tech-border p-6 rounded-xl hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 group flex flex-col items-center text-center">
-            <div className="p-4 bg-slate-700 text-white rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
-              <Phone size={28} />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Phone</h3>
-            <a 
-              href="tel:+84348497984" 
-              className="text-slate-400 hover:text-cyan-400 transition-colors"
-            >
-              +84 348 497 984
-            </a>
-          </div>
-
-          {/* Location Card */}
-          <div className="glass-effect tech-border p-6 rounded-xl hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 group flex flex-col items-center text-center">
-            <div className="p-4 bg-slate-700 text-white rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
-              <MapPin size={28} />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Location</h3>
-            <p className="text-slate-400">
-              Ho Chi Minh City, Vietnam
-            </p>
-          </div>
-
-        </div>
-
-        {/* Social Networks */}
-        <div className="flex flex-col items-center mb-16">
-          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
-            <Send size={18} className="text-cyan-400" />
-            Follow Me
-          </h4>
-          <p className="text-slate-400 text-sm mb-6">Connect with me on social media</p>
-          <div className="flex gap-4">
-            <a 
-              href="https://www.facebook.com/zanethdr" 
-              target="_blank" 
-              className="p-4 glass-effect tech-border rounded-full text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
-              title="Facebook"
-            >
-              <FaFacebook size={24} />
-            </a>
-            <a 
-              href="https://github.com/Zane-Theodore" 
-              target="_blank" 
-              className="p-4 glass-effect tech-border rounded-full text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
-              title="GitHub"
-            >
-              <FaGithub size={24} />
-            </a>
-          </div>
-        </div>
-
-        <div className="border-t border-cyan-500/20 pt-8 text-center text-slate-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Tran Thien Phuc. All rights reserved.</p>
-          <p className="text-slate-600 text-xs mt-2">Built with React • TypeScript • Tailwind CSS</p>
-        </div>
+        <p className="contact-description" data-reveal>Have an interesting problem, an opportunity, or a shared curiosity?<br />I’d love to hear about it.</p>
+        <div className="contact-email-row" data-reveal><a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a><button type="button" className="icon-button copy-email" onClick={copyEmail} aria-label={copied ? 'Email copied' : 'Copy email address'}>{copied ? <Check size={18} /> : <Copy size={18} />}</button><span className="copy-status" role="status">{copied ? 'Copied!' : copyError ? 'Please use the email link.' : ''}</span></div>
+        <div className="contact-details" data-reveal><span><MapPin size={15} /> {profile.location}</span><a href={profile.phoneHref}><Phone size={15} /> {profile.phone}</a><a href={profile.github} target="_blank" rel="noreferrer"><Github size={16} /> GitHub <ArrowUpRight size={13} /></a><a href={profile.facebook} target="_blank" rel="noreferrer">Facebook <ArrowUpRight size={13} /></a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé <ArrowUpRight size={13} /></a></div>
+        <footer className="footer"><a className="footer-brand" href="#home">zaneth<span className="accent">.</span></a><span>© {new Date().getFullYear()} Tran Thien Phuc</span><span className="footer-built">Built with curiosity & a little cat energy.</span><a className="back-top" href="#home">Back to top <ArrowUp size={15} /></a><a href={`mailto:${profile.email}`} className="footer-mail" aria-label="Email Phuc"><Mail size={18} /></a></footer>
       </div>
     </section>
-  );
+  )
 }

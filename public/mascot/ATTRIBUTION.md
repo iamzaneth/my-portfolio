@@ -1,0 +1,13 @@
+# Pixel companion
+
+Original art: **Pet Cats Pack**, Cat 1, by **LuizMelo**.
+
+- Source: https://luizmelo.itch.io/pet-cat-pack
+- License: CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/
+- Original author-provided license: `LICENSE.txt` in this directory.
+- Retrieved: October 24, 2026.
+- Original download: `Pet Cats Pack.zip`, public itch.io upload 14065011.
+
+The local sheets are cropped from 50 × 50 to 32 × 32 per frame, keeping the original frame alignment. Their brown palette is remapped to muted lavender, preserving alpha and luminance. Idle, Walk, Run, Meow, Sleeping2, Stretching, Sitting, Laying, Licking 1, Licking 2, and Itch are used. These eleven sheets are packed into the locally served `cat-atlas.png`; the individual sheets are retained as source derivatives. Jump combines the Meow sheet with GSAP movement; it is not an additional animation supplied by the artist. Idle includes the artist’s existing small movements; no separate blinking sheet is claimed.
+
+Regenerate with `node scripts/prepare-assets.mjs "<extracted Pet Cats Pack directory>"` after downloading the pack from the author. No critical art is hotlinked. The interface’s pixel face mark and architecture illustration are original code-native graphics.
