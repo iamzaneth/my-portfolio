@@ -117,7 +117,7 @@ test('project links are truthful, local assets load, and email can be copied', a
   await page.getByRole('button', { name: 'Copy email address' }).click()
   await expect(page.getByRole('status')).toHaveText('Copied!')
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(email)
-  for (const url of ['/cv.pdf', '/avatar.webp', '/mascot/cat-atlas.png', '/mascot/idle.png', '/mascot/walk.png', '/mascot/run.png', '/mascot/sleep.png', '/mascot/wake.png', '/fonts/manrope-latin.woff2']) {
+  for (const url of ['/cv.pdf', '/avatar.webp', '/favicon.svg', '/mascot/cat-atlas.png', '/fonts/manrope-latin.woff2', '/fonts/ibm-plex-mono-latin.woff2']) {
     expect((await page.request.get(url)).status()).toBe(200)
   }
   expect(failed).toEqual([])

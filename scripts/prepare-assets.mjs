@@ -26,7 +26,6 @@ if (source) {
       cropped.push({ input: await sharp(data, { raw: info }).extract({ left: frame * 50 + 9, top: 10, width: 32, height: 32 }).png().toBuffer(), left: frame * 32, top: 0 })
     }
     const sheet = await sharp({ create: { width: frames * 32, height: 32, channels: 4, background: '#00000000' } }).composite(cropped).png().toBuffer()
-    await writeFile(`public/mascot/${name}.png`, sheet)
     catalog[name] = { row: sheets.length, frames }
     sheets.push({ input: sheet, left: 0, top: sheets.length * 32 })
   }

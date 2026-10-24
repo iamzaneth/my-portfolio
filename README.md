@@ -31,6 +31,10 @@ npm.cmd run preview
 
 The production output is `dist/`. Stop the dev/preview server before running `npm ci` on Windows so native CSS modules are not locked.
 
+The CSS build uses the Tailwind 4 PostCSS adapter. It already handles imports and vendor prefixes, as described in the [Tailwind upgrade guide](https://tailwindcss.com/docs/upgrade-guide#using-postcss). Shared colors and typography live in `src/styles/tokens.css`.
+
+`sharp` and the Fontsource packages are development tools used by `assets:prepare`. The original avatar is an input to that script. The public mascot directory contains the runtime atlas and its license/attribution; intermediate sprite sheets stay in memory. Browser screenshots and reports are generated on demand by the Playwright suite and ignored by Git.
+
 ## Structure
 
 ```text
@@ -40,7 +44,7 @@ public/
   cv.pdf                          Existing résumé
   favicon.svg                     Pixel face identity
   fonts/                          Local WOFF2 files and font licenses
-  mascot/                         Local sprite sheets, license, attribution
+  mascot/                         Runtime sprite atlas, license, attribution
 src/
   animations/usePortfolioMotion.ts Hero and ScrollTrigger orchestration
   components/                     Sections, navigation, shared section heading
@@ -183,17 +187,18 @@ Executed in this workspace with Node 24.18.1, npm 11.16.0, Playwright 1.61.1, an
 
 | Check | Actual result |
 | --- | --- |
-| `npm ci` | Passed during the initial redesign; 0 vulnerabilities reported. Dependency files are unchanged by the subsequent header/mascot update. |
+| `npm ci` | Passed offline in an isolated directory using the cleaned package manifest and lockfile. |
+| `npm run assets:prepare -- <source-pack>` | Passed; reproduced the atlas without publishing intermediate sprite sheets. |
 | `npm run lint` | Passed, including the browser test source. |
-| `npm run build` | Passed TypeScript and Vite; application JS 348.04 KB / 120.44 KB gzip. |
-| `npm run test:e2e` | **30 passed** after adding the Pet/Play routines and submenu feedback, including all nine viewport widths and animated/reduced-motion states. |
+| `npm run build` | Passed TypeScript and Vite; application JS 347.84 KB / 120.37 KB gzip. |
+| `npm run test:e2e` | **30 passed** after removing redundant dependencies and unused files, including all nine viewport widths and animated/reduced-motion states. |
 | Preference-switch regression | Passed in the current full suite; also passed 10 consecutive runs during the initial redesign. |
 | axe WCAG A/AA scans | 0 detected violations at 375px and 1440px, including the open mobile menu. |
 | Runtime/asset checks | No page errors in responsive checks; tested local assets returned HTTP 200. |
-| Local resource sample | 182,110 bytes transferred; 474 DOM nodes; CLS below 0.000001. |
+| Local resource sample | 181,966 bytes transferred; 472 DOM nodes; CLS below 0.000001. |
 | `git diff --check` | Passed. |
 
-Desktop, tablet, and mobile screenshots were generated and visually reviewed, including the updated desktop/mobile header, submenu hover feedback, action routines, grooming, and sleeping. The original avatar is preserved outside `public/`; its served WebP is 6,694 bytes. The runtime sprite atlas is 4,731 bytes, with eleven individual source derivatives also retained locally. The production directory is approximately 527 KB including the existing PDF and asset licenses.
+Desktop, tablet, and mobile screenshots were generated and visually reviewed, including the updated desktop/mobile header, submenu hover feedback, action routines, grooming, and sleeping. The original avatar is preserved outside `public/`; its served WebP is 6,694 bytes. The runtime sprite atlas is 4,731 bytes. Intermediate animation sheets are assembled in memory rather than published as unused files.
 
 These results cover local Chromium automation and screenshot inspection. Physical-device testing, other browser engines, field performance, and a full manual accessibility audit remain outside this verification. The interface has no fabricated work history, project statistics, or live-demo links. No deployment, remote push, or production infrastructure change was performed.
 
