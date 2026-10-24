@@ -28,3 +28,8 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local browser verification
+artifacts/
+playwright-report/
+test-results/
