@@ -1,4 +1,4 @@
-import { ArrowUpRight, MapPin } from 'lucide-react'
+import { ArrowDownRight, MapPin } from 'lucide-react'
 import SectionHeading from './SectionHeading'
 import { profile } from '@/data/profile'
 
@@ -31,7 +31,7 @@ export default function About() {
           <p>I’m Phuc, a <strong>Data Engineering student</strong> drawn to the space where data, mathematics, and software meet.</p>
           <p>I enjoy following data from its raw beginnings to something useful: a reliable pipeline, a clear visualization, or an intelligent system. My focus is on <strong>AI Engineering and Data Engineering</strong>, with data analysis as a foundation for asking better questions.</p>
           <p>Right now, I’m building practical systems with Python, SQL, and streaming technologies while deepening my understanding of machine learning and applied mathematics.</p>
-          <a className="text-link" href="#skills">Meet my toolkit <ArrowUpRight size={17} /></a>
+          <a className="text-link [&:hover>svg]:[transform:translate(3px,3px)]" href="#skills">Meet my toolkit <ArrowDownRight size={17} /></a>
         </div>
       </div>
     </section>
