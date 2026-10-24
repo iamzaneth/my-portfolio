@@ -1,9 +1,11 @@
-import { catRoutines, type CatMode, type CatRoutineId } from './catConfig'
+import { autonomousCatSteps, catBridges, catRoutines, connectCatSteps, type CatMode, type CatRoutineId } from './catConfig'
 
+type CatIntent = CatRoutineId | 'nap' | 'idle'
 export interface CatState {
   mode: CatMode
+  expression: CatMode
   origin: 'user' | 'auto'
-  pending: CatRoutineId | null
+  pending: CatIntent | null
   routine: CatRoutineId | null
   steps: readonly CatMode[]
   engaged: boolean
@@ -17,45 +19,54 @@ export type CatEvent =
   | { type: 'finish'; version: number }
 
 export const initialCatState: CatState = {
-  mode: 'idle', origin: 'auto', pending: null, routine: null, steps: [], engaged: false, previousAuto: null, version: 0,
+  mode: 'idle', expression: 'idle', origin: 'auto', pending: null, routine: null, steps: [], engaged: false, previousAuto: null, version: 0,
 }
 
 function move(state: CatState, mode: CatMode, patch: Partial<CatState> = {}): CatState {
   return { ...state, mode, version: state.version + 1, ...patch }
 }
-function startRoutine(state: CatState, routine: CatRoutineId): CatState {
-  if (state.mode === 'sleep' || state.mode === 'lieDown' || state.mode === 'wake') {
-    return move(state, 'wake', { origin: 'user', pending: routine, routine, steps: [] })
+function startSteps(state: CatState, requested: readonly CatMode[], patch: Partial<CatState> = {}): CatState {
+  const [mode, ...steps] = connectCatSteps(state.mode, requested)
+  return move(state, mode, { pending: null, steps, ...patch })
+}
+function startIntent(state: CatState, intent: CatIntent): CatState {
+  const routine = intent === 'nap' || intent === 'idle' ? null : intent
+  const requested: readonly CatMode[] = intent === 'nap' ? ['settle', 'lieDown', 'sleep']
+    : routine ? [...catRoutines[routine].steps, 'idle'] : ['idle']
+  return startSteps(state, requested, { origin: 'user', routine, expression: routine ? catRoutines[routine].steps[0] : intent === 'nap' ? 'sleep' : 'idle' })
+}
+function requestIntent(state: CatState, intent: CatIntent): CatState {
+  // Finish a short posture bridge before changing intention. Repeated clicks replace
+  // the queue without restarting the current clip, its motion, or its countdown.
+  if (catBridges.has(state.mode)) {
+    return { ...state, origin: 'user', pending: intent, routine: intent === 'nap' || intent === 'idle' ? null : intent, expression: intent === 'nap' ? 'sleep' : intent === 'idle' ? 'idle' : catRoutines[intent].steps[0] }
   }
-  const [first, ...steps] = catRoutines[routine].steps
-  return move(state, first, { origin: 'user', pending: null, routine, steps })
+  return startIntent(state, intent)
 }
 
 export function catReducer(state: CatState, event: CatEvent): CatState {
   switch (event.type) {
     case 'pet':
-    case 'play': return startRoutine(state, event.routine)
-    case 'nap':
-      return state.mode === 'sleep' || state.mode === 'lieDown'
-        ? move(state, 'wake', { origin: 'user', pending: null, routine: null, steps: [] })
-        : move(state, 'settle', { origin: 'user', pending: null, routine: null, steps: [] })
+    case 'play': return requestIntent(state, event.routine)
+    case 'nap': return requestIntent(state, state.mode === 'sleep' || state.mode === 'lieDown' ? 'idle' : 'nap')
     case 'approach':
       if (state.engaged) return state
-      if (state.mode === 'sleep') return move(state, 'wake', { origin: 'user', engaged: true, pending: null, routine: null, steps: [] })
-      if (state.mode === 'idle') return move(state, 'attentive', { origin: 'user', engaged: true })
+      if (state.mode === 'sleep') return startIntent({ ...state, engaged: true }, 'idle')
+      if (state.mode === 'idle') return startSteps(state, ['attentive', 'idle'], { origin: 'user', engaged: true, expression: 'attentive' })
       return { ...state, engaged: true }
     case 'leave': return { ...state, engaged: false }
     case 'auto':
       if (state.version !== event.version || state.mode !== 'idle' || state.engaged) return state
-      return move(state, event.mode, { origin: 'auto', previousAuto: event.mode, pending: null, routine: null, steps: [] })
+      return startSteps(state, autonomousCatSteps(event.mode), { origin: 'auto', previousAuto: event.mode, routine: null, expression: event.mode })
     case 'finish': {
       if (state.version !== event.version) return state
-      if (state.mode === 'settle') return move(state, 'lieDown')
-      if (state.mode === 'lieDown') return move(state, 'sleep')
-      if (state.mode === 'sleep') return state.origin === 'auto' ? move(state, 'wake') : state
-      if (state.mode === 'wake' && state.pending) return startRoutine(move(state, 'idle'), state.pending)
-      if (state.steps.length) return move(state, state.steps[0], { steps: state.steps.slice(1) })
-      return move(state, 'idle', { pending: null, routine: null, steps: [] })
+      if (state.pending) return startIntent(state, state.pending)
+      if (state.mode === 'sleep') return state.origin === 'auto' ? startSteps(state, ['idle'], { expression: 'idle' }) : state
+      if (state.steps.length) {
+        const next = state.steps[0]
+        return move(state, next, { steps: state.steps.slice(1), ...(next === 'idle' ? { routine: null, expression: 'idle' } : {}) })
+      }
+      return startSteps(state, ['idle'], { pending: null, routine: null })
     }
   }
 }

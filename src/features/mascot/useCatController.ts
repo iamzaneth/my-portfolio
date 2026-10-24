@@ -13,6 +13,7 @@ export function useCatController() {
       dispatchEvent({ type: event.type, routine: next.routine })
     } else dispatchEvent({ type: event.type })
   }, [])
+  const countdown = useRef<{ version: number; remaining: number; event: 'auto' | 'finish'; mode?: ReturnType<typeof planCatBehavior>['mode'] } | null>(null)
   const [visible, setVisible] = useState(true)
   const [pageVisible, setPageVisible] = useState(!document.hidden)
   const scene = useRef<HTMLDivElement>(null)
@@ -31,22 +32,31 @@ export function useCatController() {
   }, [reducedMotion])
 
   useEffect(() => {
-    if (!visible || !pageVisible) return
-    // Autonomous behavior is quiet while visitors interact, and disabled for reduced motion.
-    if (state.mode === 'idle') {
-      if (reducedMotion || state.engaged) return
-      const plan = planCatBehavior(state.previousAuto)
-      const timer = window.setTimeout(() => dispatchEvent({ type: 'auto', mode: plan.mode, version: state.version }), plan.delay)
-      return () => window.clearTimeout(timer)
+    if (!countdown.current || countdown.current.version !== state.version) {
+      if (state.mode === 'idle') {
+        const plan = planCatBehavior(state.previousAuto)
+        countdown.current = { version: state.version, remaining: plan.delay, event: 'auto', mode: plan.mode }
+      } else {
+        const delay = state.mode === 'sleep'
+          ? state.origin === 'auto' ? 9000 + Math.random() * 5000 : undefined
+          : catAnimations[state.mode].after
+        countdown.current = delay === undefined ? null : { version: state.version, remaining: delay, event: 'finish' }
+      }
     }
+    const clock = countdown.current
+    if (!clock || !visible || !pageVisible) return
+    if (state.mode === 'idle' && (reducedMotion || state.engaged)) return
     if (reducedMotion && state.origin === 'auto') return
-    const delay = state.mode === 'sleep'
-      ? state.origin === 'auto' ? 9000 + Math.random() * 5000 : undefined
-      : catAnimations[state.mode].after
-    if (delay === undefined) return
-    const timer = window.setTimeout(() => dispatchEvent({ type: 'finish', version: state.version }), delay)
-    return () => window.clearTimeout(timer)
-  }, [state, visible, pageVisible, reducedMotion])
+    const started = performance.now()
+    const timer = window.setTimeout(() => {
+      if (clock.event === 'auto') dispatchEvent({ type: 'auto', mode: clock.mode!, version: clock.version })
+      else dispatchEvent({ type: 'finish', version: clock.version })
+    }, clock.remaining)
+    return () => {
+      window.clearTimeout(timer)
+      clock.remaining = Math.max(0, clock.remaining - (performance.now() - started))
+    }
+  }, [state.mode, state.origin, state.version, state.previousAuto, state.engaged, visible, pageVisible, reducedMotion])
 
   return { ...state, dispatch, scene, running, reducedMotion, visible, pageVisible }
 }

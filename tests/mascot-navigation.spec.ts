@@ -33,11 +33,11 @@ test('random behaviors vary without interrupting user actions or repeating conse
   await page.clock.install()
   await page.goto('/')
   const scene = page.locator('.mascot-scene')
-  await page.clock.runFor(5300)
+  await page.clock.runFor(5700)
   await expect(scene).toHaveAttribute('data-state', 'groom')
   await expect(scene).toHaveAttribute('data-origin', 'auto')
   await expect(page.locator('.cat-bubble')).toHaveAttribute('aria-live', 'off')
-  await page.clock.runFor(6800)
+  await page.clock.runFor(10000)
   await expect(scene).toHaveAttribute('data-state', 'groomPaw')
   await page.getByRole('button', { name: 'Pet', exact: true }).click()
   await expect(scene).toHaveAttribute('data-state', 'jump')
@@ -86,7 +86,7 @@ test('sprite changes overlap without a blank frame or new image requests', async
 test('interrupting a walk with a pet preserves the current horizontal position', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Play', exact: true }).click()
-  await page.waitForTimeout(600)
+  await page.waitForTimeout(1000)
   const { before, after } = await page.evaluate(async () => {
     const element = document.querySelector('.cat-character')!
     const before = new DOMMatrixReadOnly(getComputedStyle(element).transform).m41

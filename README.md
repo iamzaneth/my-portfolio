@@ -91,11 +91,11 @@ The pack’s Cat 1 sheets were cropped into aligned 32 × 32 frames and palette-
 - `catConfig.ts`: animation timing, labels, and weighted random behavior selection.
 - `catState.ts`: pure state machine with queued intentions and stale-event protection.
 - `useCatController.ts`: visibility detection and scheduling with timer cleanup.
-- `PixelCat.tsx`: two CSS sprite layers sharing the atlas, with a 140ms opacity transition.
-- `useCatMotion.ts`: GSAP parent movement; interrupted timelines are killed without reverting the current position.
+- `PixelCat.tsx`: two CSS sprite layers sharing the atlas, with a 100ms opacity transition, reversible frame ranges, and preserved gait phase.
+- `useCatMotion.ts`: GSAP movement, facing, and synchronized ground shadow; interrupted actions retain position and height, while visibility changes pause/resume the existing timeline.
 - `MascotScene.tsx`: accessible controls, speech bubble, and scene composition.
 
-States include idle, attention, walking/running, jumping, resting, grooming, scratching, stretching, nuzzling, purring, paw gestures, prowling, pouncing, double hops, and wiggling. Approaching with a pointer or focus makes the cat attentive, or wakes it. **Pet and Play each have four distinct multi-step routines**:
+States include idle, attention, walking/running, jumping, resting, grooming, scratching, stretching, nuzzling, purring, paw gestures, prowling, pouncing, double hops, and wiggling. Approaching with a pointer or focus makes the cat attentive, or wakes it. **Pet and Play each have six distinct multi-step routines**:
 
 | Action | Routine | Sequence |
 | --- | --- | --- |
@@ -103,20 +103,26 @@ States include idle, attention, walking/running, jumping, resting, grooming, scr
 | Pet | Head rub | Lean and nuzzle → contented purr |
 | Pet | Paw thanks | Paw gesture → nuzzle → meow |
 | Pet | Happy stretch | Stretch → purr → paw gesture |
+| Pet | Biscuit time | Curious head tilt → alternating kneads → purr |
+| Pet | Fluffy thanks | Fluff shake → paw gesture → nuzzle |
 | Play | Zoomies | Walk → run → pounce |
 | Play | Double bounce | Two alternating hops → paw gesture |
 | Play | Stalk and pounce | Slow prowl → low forward pounce → meow |
 | Play | Wiggle dance | Wiggle → double hop → purr |
+| Play | Curious explorer | Sniff → prowl → peek → pounce |
+| Play | Tail detective | Peek → chase tail → curious head tilt |
 
-Each action has an independent shuffle bag. The first press keeps the original familiar reaction, the remaining three routines vary, and all four are used before reshuffling. Consecutive presses never repeat the same routine, including across cycle boundaries. A new press can replace the current routine smoothly; its versioned queue prevents an old timer from resuming an interrupted sequence.
+Each action has an independent shuffle bag. The first press keeps the original familiar reaction, the remaining five routines vary, and all six are used before reshuffling. Consecutive presses never repeat the same routine, including across cycle boundaries. A new press replaces the intended routine. If the cat is in a short posture bridge, it completes that bridge without restarting its timer, then follows the latest intention. Versioned events prevent an old timer from resuming an interrupted sequence. Speech stays consistent during a routine rather than flashing through bridge messages.
 
-**Nap/Wake** settles, lies down, sleeps, and stretches awake. Requests made while sleeping are queued until waking finishes; a newer request replaces the pending one. One-shot lying/stretching clips hold their last frame; the outgoing sprite freezes its current frame while the incoming clip starts at frame zero. Related states using the same sheet keep their frame phase, avoiding an unnecessary restart. Sleep includes subtle breathing and floating Zs; petting adds a floating heart. Horizontal clipping contains the moving sprite layers on narrow screens while allowing vertical jumps and an inset keyboard focus ring.
+**Posture continuity:** every clip declares its entry and exit posture (standing, sitting, or lying). The planner inserts only the required bridges: sit down, stand up, lie down, or wake. Sitting/standing use forward/reverse segments of the existing lying-down sheet. Stretching ends seated, so a standing action waits for the stand-up segment. One-shot clips hold their last frame. Related looping clips retain their current phase when their playback speed changes.
 
-After **5–9 seconds** of idle time, a weighted random choice produces grooming, paw cleaning, scratching, stretching, looking around, walking, or an occasional nap. Consecutive choices differ. Autonomous naps wake naturally after **9–14 seconds**; naps requested by the visitor persist until another interaction. Random actions are suspended while the cat has pointer/keyboard attention, offscreen, in a hidden tab, or under reduced motion. User actions take priority and autonomous speech does not repeatedly announce through the screen reader’s live region.
+**Movement continuity:** actions inherit the current world position rather than returning to the center after every step. Locomotion keeps travelling in the same direction until reaching its bounds; a separate facing wrapper turns the cat when it changes direction. Travel bounds account for the widest sprite silhouette, and mobile sprite sizing leaves room for movement without clipping the head or tail. Jumps and pounces include anticipation, flight, landing compression, and recovery. Interrupting a jump first lands from the current height. The ground shadow follows horizontal movement and softens during flight. Sleep includes subtle breathing and floating Zs; petting adds a floating heart. All states use the existing atlas; no new image requests or runtime image processing are needed.
+
+**Nap/Wake** settles, sits, lies down, sleeps, stretches awake, and stands as needed. Requests made during waking replace the pending intention without replaying the wake clip. After **5–9 seconds** of idle time, weighted choices produce grooming, paw cleaning, scratching, stretching, exploring, sniffing, kneading, fluff shakes, curious head tilts, peeking, tail chasing, or an occasional nap. Autonomous behavior can itself be a connected sequence, such as walking → sniffing → peeking, or grooming → paw cleaning. Consecutive choices differ. Autonomous naps wake after **9–14 seconds**; visitor-requested naps persist until another interaction. Random behavior pauses during pointer/keyboard attention and is disabled under reduced motion. Autonomous speech stays out of the screen reader live region.
 
 The mobile menu uses three persistent bars with a 180-degree rotation and bar-to-X morph. Submenu links have lavender hover/focus surfaces, an accent marker, arrow movement, and pressed feedback for touch. Desktop navigation sits as one right-aligned group beside “Let’s talk”. Both respect reduced motion.
 
-Offscreen scenes and hidden tabs pause sprite playback, character movement, and behavior timers. The intersection observer is renewed when the motion preference changes, and callbacks from retired observers are ignored, preventing a stale paused state while the scene entrance is recreated. All listeners, observers, timers, and GSAP contexts are cleaned up. There are no pointer-move React updates or custom animation loops.
+Offscreen scenes and hidden tabs pause sprite playback, the existing movement timeline, and the remaining behavior countdown. Returning resumes the same frame and movement progress rather than restarting the action or its full duration. The intersection observer is renewed when the motion preference changes, and callbacks from retired observers are ignored, preventing a stale paused state while the scene entrance is recreated. All listeners, observers, timers, and GSAP contexts are cleaned up. There are no pointer-move React updates or custom animation loops.
 
 Regenerate derived assets after downloading/extracting the author’s pack:
 
@@ -177,9 +183,24 @@ $env:PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH = 'C:\path\to\chrome.exe'
 npm.cmd run test:e2e
 ```
 
-The suite checks widths **320, 375, 430, 600, 768, 900, 1024, 1440, and 1920**, clipping/overflow, runtime errors, all eight Pet/Play routines and their mobile movement bounds, complete shuffle cycles without adjacent repeats, mascot states and visibility, autonomous behavior without consecutive repeats, sleeping/waking bridges, replacement of queued requests, user priority, uninterrupted sprite coverage, shared-atlas image requests, position continuity, right-aligned desktop navigation, rotating mobile menu bars, submenu hover/focus/press feedback, keyboard navigation, reduced-motion changes, correct project links, clipboard behavior, local assets, axe WCAG A/AA scans, transferred-resource size, and layout stability. Screenshots are saved under ignored `artifacts/`; failure traces and the HTML report are under `test-results/` and `playwright-report/`.
+The suite checks widths **320, 375, 430, 600, 768, 900, 1024, 1440, and 1920**, clipping/overflow, runtime errors, all twelve Pet/Play routines and their mobile movement bounds, complete shuffle cycles without adjacent repeats, mascot states and visibility, autonomous behavior without consecutive repeats, sleeping/waking bridges, replacement of queued requests, user priority, uninterrupted sprite coverage, shared-atlas image requests, position and airborne interruption continuity, reverse posture bridges, retained footfall phase, remaining-time pause/resume, right-aligned desktop navigation, rotating mobile menu bars, submenu hover/focus/press feedback, keyboard navigation, reduced-motion changes, correct project links, clipboard behavior, local assets, axe WCAG A/AA scans, transferred-resource size, and layout stability. Screenshots are saved under ignored `artifacts/`; failure traces and the HTML report are under `test-results/` and `playwright-report/`.
 
 Local Chromium budgets are 650 KB transferred resources, CLS below 0.1, and fewer than 1,000 DOM nodes. These are regression checks on a local production server, not field Core Web Vitals, a Lighthouse score, or a guarantee of performance on physical mobile devices. Automated axe checks supplement, rather than replace, human accessibility review.
+
+## Animation continuity verification — October 25, 2026
+
+Executed against the current production build in local Chromium:
+
+| Check | Actual result |
+| --- | --- |
+| `npm run lint` and `git diff --check` | Passed. |
+| `npm run build` | Passed TypeScript and Vite; application JS 352.00 KB / 121.96 KB gzip. |
+| `npm run test:e2e` | **36 passed**, including all twelve Pet/Play routines, posture bridges, interruption continuity, queued intentions, footfall phase, and retained countdown/motion progress after visibility pauses. |
+| Mobile sprite containment | Full running silhouette remained inside the stage at 320px, 375px, and 430px during walking, running, and pouncing. |
+| Responsive and accessibility checks | All nine viewport widths passed; axe detected 0 violations at 375px and 1440px, including the open mobile menu. |
+| Local resource sample | 183,857 bytes transferred; 461 DOM nodes; CLS below 0.000001. |
+
+Desktop and mobile action sequences were captured and visually reviewed. The existing 4,731-byte atlas and dependency set are unchanged. The earlier asset-generation and clean-install evidence below belongs to the October 24 cleanup run; those operations were not repeated for this animation change.
 
 ## Implementation verification — October 24, 2026
 

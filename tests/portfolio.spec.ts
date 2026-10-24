@@ -59,7 +59,7 @@ test('sprite frames animate, and an autonomous nap includes lying down first', a
   await expect(scene).toHaveAttribute('data-running', 'true')
   const sprite = page.locator('.pixel-cat-sprite[data-active=true]')
   expect(await sprite.evaluate((element) => getComputedStyle(element).animationName)).toBe('cat-frames')
-  await page.clock.runFor(9200)
+  await page.clock.runFor(9700)
   await expect(scene).toHaveAttribute('data-state', 'lieDown')
   await page.clock.runFor(1200)
   await expect(scene).toHaveAttribute('data-state', 'sleep')

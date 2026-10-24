@@ -6,11 +6,13 @@ import { useCatController } from './useCatController'
 import { useCatMotion } from './useCatMotion'
 
 export default function MascotScene() {
-  const { mode, origin, routine, version, dispatch, scene, running, reducedMotion, visible, pageVisible } = useCatController()
+  const { mode, expression, origin, routine, version, dispatch, scene, running, reducedMotion, visible, pageVisible } = useCatController()
   const character = useRef<HTMLSpanElement>(null)
+  const facing = useRef<HTMLSpanElement>(null)
+  const shadow = useRef<HTMLDivElement>(null)
   const animation = catAnimations[mode]
 
-  useCatMotion(character, mode, running, reducedMotion, version)
+  useCatMotion(character, facing, shadow, mode, running, reducedMotion, version)
   const action = routine ? catRoutines[routine].action : 'none'
   const resting = mode === 'sleep' || mode === 'lieDown'
 
@@ -19,11 +21,11 @@ export default function MascotScene() {
     <div className="scene-coordinate scene-coordinate-right scene-tag">32 × 32 PX<br /><span>INFINITELY CURIOUS</span></div>
     <div className="scene-orbit" aria-hidden="true"><i /><i /><i /></div>
     <div className="pixel-stars" aria-hidden="true"><i className="star star-one">✦</i><i className="star star-two">+</i><i className="star star-three">✦</i><i className="pixel pixel-one" /><i className="pixel pixel-two" /><i className="pixel pixel-three" /><i className="pixel pixel-four" /><i className="pixel pixel-five" /></div>
-    <div className="cat-bubble" aria-live={origin === 'user' ? 'polite' : 'off'}>{animation.message}</div>
+    <div className="cat-bubble" aria-live={origin === 'user' ? 'polite' : 'off'}>{catAnimations[expression].message}</div>
     <div className="cat-stage">
-      <div className="cat-shadow" aria-hidden="true" />
+      <div ref={shadow} className="cat-shadow" aria-hidden="true" />
       <button type="button" className="cat-interaction" aria-label="Pet the pixel cat" onClick={() => dispatch({ type: 'pet' })} onPointerEnter={() => dispatch({ type: 'approach' })} onPointerLeave={() => dispatch({ type: 'leave' })} onFocus={() => dispatch({ type: 'approach' })} onBlur={() => dispatch({ type: 'leave' })}>
-        <span ref={character} className="cat-character"><PixelCat mode={mode} running={running} /></span>
+        <span ref={character} className="cat-character"><span ref={facing} className="cat-facing"><PixelCat mode={mode} running={running} version={version} /></span></span>
         {mode === 'sleep' && <span className="cat-zzz" aria-hidden="true">z<span>z</span>Z</span>}
         {(action === 'pet' || mode === 'jump' || mode === 'meow') && <span key={routine ?? mode} className="cat-heart" aria-hidden="true">♡</span>}
       </button>
