@@ -1,0 +1,101 @@
+/* Sprite geometry, frame playback, and scene choreography. */
+.mascot-scene { --sprite-size: 448px; position: relative; width: 100%; height: 500px; align-self: center; isolation: isolate; }
+.scene-coordinate { position: absolute; top: 27px; left: 28px; font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: 1.3px; line-height: 1.9; }
+.scene-coordinate > span { color: var(--accent); margin-left: 12px; }
+.scene-coordinate-right { left: auto; right: 6px; text-align: right; }
+.scene-coordinate-right > span { margin: 0; color: var(--faint); font-size: 9px; letter-spacing: .9px; }
+.scene-orbit { position: absolute; width: 350px; height: 350px; left: 50%; top: 60px; margin-left: -175px; border: 1px dashed #74658f40; border-radius: 50%; z-index: -1; }
+.scene-orbit::before { content: ''; position: absolute; inset: 36px; border: 1px solid #494e683c; border-radius: 50%; }
+.scene-orbit::after { content: ''; position: absolute; top: 50%; left: -30px; right: -30px; height: 1px; background: #39445860; }
+.scene-orbit i { position: absolute; width: 7px; height: 7px; background: var(--accent); top: 52px; right: 47px; }
+.scene-orbit i:nth-child(2) { width: 4px; height: 4px; left: -2px; top: 175px; background: var(--cyan); }
+.scene-orbit i:nth-child(3) { width: 4px; height: 4px; left: 100px; top: auto; bottom: 13px; opacity: .6; }
+.pixel-stars { position: absolute; inset: 0; pointer-events: none; }
+.star { position: absolute; font-style: normal; color: var(--accent); }
+.star-one { font-size: 23px; left: 13%; top: 25%; }
+.star-two { font-size: 22px; right: 8%; top: 56%; color: var(--cyan); }
+.star-three { font-size: 12px; right: 24%; top: 22%; }
+.pixel { position: absolute; width: 5px; height: 5px; background: #75658e; }
+.pixel-one { left: 21%; top: 64%; width: 7px; height: 7px; }
+.pixel-two { right: 16%; top: 30%; background: #456a7f; }
+.pixel-three { right: 25%; top: 70%; width: 3px; height: 3px; }
+.pixel-four { left: 40%; top: 16%; width: 3px; height: 3px; }
+.pixel-five { right: 8%; top: 75%; width: 3px; height: 3px; }
+.cat-bubble { position: absolute; top: 102px; left: 50%; transform: translateX(-50%); width: max-content; max-width: 90%; font-family: var(--mono); font-size: 12px; letter-spacing: -.3px; background: var(--surface-accent); border: 1px solid #645b7a; color: #d0c2eb; padding: 11px 15px; border-radius: 5px; z-index: 2; }
+.cat-bubble::after { content: ''; position: absolute; width: 8px; height: 8px; bottom: -5px; left: calc(50% - 4px); background: var(--surface-accent); border-right: 1px solid #645b7a; border-bottom: 1px solid #645b7a; transform: rotate(45deg); }
+.cat-stage { position: absolute; height: 270px; top: 135px; width: 100%; overflow-x: clip; }
+.cat-interaction { position: absolute; inset: 0; width: 100%; background: transparent; padding: 0; border-radius: 15px; z-index: 1; }
+.cat-interaction:focus-visible { outline-offset: -6px; }
+.cat-character { display: block; position: absolute; inset: 0; pointer-events: none; transform-origin: 50% 85%; }
+.cat-facing { position: absolute; inset: 0; transform-origin: 50% 65%; }
+.pixel-cat-renderer { position: absolute; inset: 0; }
+.pixel-cat-sprite { position: absolute; width: var(--sprite-size); height: var(--sprite-size); left: calc(50% - var(--sprite-size) / 2); top: calc(50% - var(--sprite-size) / 2); background-image: url('/mascot/cat-atlas.png'); background-repeat: no-repeat; background-size: calc(var(--atlas-columns) * var(--sprite-size)) calc(var(--atlas-rows) * var(--sprite-size)); background-position-y: calc(-1 * var(--sprite-row) * var(--sprite-size)); image-rendering: pixelated; animation: cat-frames var(--sprite-duration) steps(var(--frames)) infinite; animation-fill-mode: forwards; opacity: 0; transition: opacity .1s linear; }
+.pixel-cat-sprite[data-active=true] { opacity: 1; }
+@keyframes cat-frames { from { background-position-x: calc(-1 * var(--frame-start) * var(--sprite-size)); } to { background-position-x: calc(-1 * var(--frame-end) * var(--sprite-size)); } }
+@keyframes cat-pose { from { background-position-x: calc(-1 * var(--frame-start) * var(--sprite-size)); } to { background-position-x: calc(-1 * var(--frame-end) * var(--sprite-size)); } }
+.cat-shadow { position: absolute; width: 245px; height: 19px; border-radius: 50%; bottom: 31px; left: calc(50% - 122.5px); background: #03091550; }
+.cat-floor { position: absolute; height: 1px; bottom: 30px; width: 82%; left: 9%; background: #74658f50; }
+.cat-floor i { position: absolute; width: 5px; height: 5px; background: #5d5171; bottom: -2px; }
+.cat-floor i:nth-child(2) { right: 0; }
+.cat-floor i:nth-child(3) { left: 48%; bottom: -10px; width: 25px; height: 1px; opacity: .5; }
+.scene-caption { position: absolute; top: 407px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.scene-caption .status-dot { width: 4px; height: 4px; }
+.caption-id { color: var(--faint); font-size: 9px; margin-left: 4px; }
+.cat-hint { position: absolute; top: 489px; width: 100%; text-align: center; color: var(--faint); font-family: var(--mono); font-size: 10px; }
+.cat-zzz { position: absolute; top: 100px; right: 24%; font-family: var(--mono); font-size: 17px; color: var(--accent); }
+.cat-zzz span { display: inline-block; transform: translateY(-12px); padding-inline: 4px; }
+.cat-heart { position: absolute; top: 16px; left: 42%; color: var(--accent); font-size: 40px; }
+.mascot-scene[data-state=sleep] .pixel-cat-renderer { transform-origin: 50% 85%; animation: cat-breathe 3.6s ease-in-out infinite; }
+.cat-zzz { animation: cat-dream 3.6s ease-in-out infinite; }
+.cat-heart { animation: cat-affection .85s ease-out both; }
+.mascot-scene[data-running=false] .pixel-cat-renderer, .mascot-scene[data-running=false] .cat-zzz, .mascot-scene[data-running=false] .cat-heart { animation-play-state: paused; }
+@keyframes cat-breathe { 50% { transform: scaleY(1.012); } }
+@keyframes cat-dream { 50% { transform: translateY(-4px); opacity: .6; } }
+@keyframes cat-affection { from { transform: translateY(16px) scale(.75); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-16px) scale(1.05); opacity: 0; } }
+@media (min-width: 1600px) {
+  .mascot-scene { transform-origin: center; }
+}
+@media (max-width: 1100px) {
+  .mascot-scene { --sprite-size: 384px; }
+  .scene-coordinate { left: 12px; }
+  .scene-coordinate-right { left: auto; right: 0; }
+  .scene-orbit { width: 300px; height: 300px; margin-left: -150px; top: 80px; }
+  .scene-caption { font-size: 9px; }
+  .caption-id { display: none; }
+}
+@media (max-width: 899px) {
+  .mascot-scene { --sprite-size: 352px; height: 470px; }
+  .scene-coordinate { font-size: 9px; left: 10px; }
+  .scene-coordinate-right { display: none; }
+  .scene-orbit { width: 270px; height: 270px; margin-left: -135px; }
+  .cat-bubble { font-size: 10px; top: 105px; }
+  .cat-stage { top: 120px; }
+  .scene-caption { top: 375px; }
+  .cat-hint { top: 451px; font-size: 9px; }
+  .cat-shadow { width: 180px; left: calc(50% - 90px); bottom: 47px; }
+  .cat-floor { bottom: 45px; }
+}
+@media (max-width: 767px) {
+  .mascot-scene { --sprite-size: min(352px, calc(100vw - 80px)); max-width: 470px; margin-inline: auto; height: 415px; margin-top: 4px; }
+  .scene-coordinate { top: 8px; left: 3px; }
+  .scene-coordinate-right { display: block; font-size: 9px; left: auto; right: 0; }
+  .scene-orbit { width: 270px; height: 270px; top: 36px; }
+  .cat-bubble { top: 61px; font-size: 11px; }
+  .cat-stage { top: 70px; }
+  .scene-caption { top: 325px; font-size: 10px; }
+  .cat-hint { top: 405px; font-size: 10px; }
+  .star-one { top: 25%; left: 11%; }
+  .star-two { top: 53%; right: 7%; }
+  .star-three { top: 19%; right: 17%; }
+}
+@media (max-width: 359px) {
+  .scene-orbit { width: 240px; height: 240px; margin-left: -120px; top: 45px; }
+  .scene-coordinate-right { font-size: 8px; }
+  .scene-coordinate-right > span { font-size: 8px; }
+  .cat-bubble { font-size: 10px; }
+  .scene-caption { font-size: 9px; }
+  .cat-hint { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pixel-cat-sprite { background-position-x: 0 !important; }
+}

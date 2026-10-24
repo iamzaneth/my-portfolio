@@ -1,0 +1,27 @@
+/* Menu morph and the custom architecture illustration. */
+.menu-glyph { position: relative; display: block; width: 23px; height: 23px; transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
+.menu-glyph > span { position: absolute; left: 1px; top: 10.5px; width: 21px; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform .38s cubic-bezier(.22, 1, .36, 1), opacity .2s; }
+.menu-glyph > span:first-child { transform: translateY(-7px); }
+.menu-glyph > span:last-child { transform: translateY(7px); }
+.menu-toggle[aria-expanded=true] .menu-glyph { transform: rotate(180deg); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:first-child { transform: rotate(45deg); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:last-child { transform: rotate(-45deg); }
+.pipeline-art::before { content: ''; position: absolute; inset: 0; opacity: .3; background-image: radial-gradient(#516078 1px, transparent 1px); background-size: 18px 18px; pointer-events: none; }
+.candle-illustration { position: absolute; left: 25px; right: 25px; height: 105px; bottom: 48px; display: flex; align-items: flex-end; justify-content: space-between; opacity: .32; transform: skewY(-3deg); overflow: hidden; border-bottom: 1px solid #5a7892; }
+.candle-illustration i { position: relative; width: 9px; max-height: 84px; background: #7dc4c9; transform: scaleY(.5); transform-origin: bottom; }
+.candle-illustration i::after { content: ''; position: absolute; top: -12px; bottom: -10px; left: 4px; width: 1px; background: inherit; }
+.candle-illustration .down { background: #a18bbc; }
+@media (max-width: 899px) {
+  .candle-illustration { height: 95px; }
+}
+@media (max-width: 767px) {
+  .candle-illustration { bottom: 40px; height: 55px; left: 18px; right: 18px; }
+  .candle-illustration i { width: 6px; }
+  .candle-illustration i::after { left: 3px; }
+}
+.pipeline-progress { transform: scaleX(.1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pipeline-progress { transform: scaleX(1); }
+}

@@ -1,14 +1,52 @@
 :root {
   color-scheme: dark;
-  --bg: #0b1220;
-  --surface: #111b2b;
-  --surface-raised: #152033;
-  --text: #f1f4fa;
-  --muted: #a7b4c9;
-  --faint: #7d8ca4;
-  --line: #263247;
+  /* Lift the navy foundations while keeping large text softly off-white. */
+  --bg: #182438;
+  --bg-subtle: #1c293d;
+  --surface: #223148;
+  --surface-raised: #2a3b53;
+  --surface-accent: #34304b;
+  --surface-accent-hover: #403755;
+  --surface-accent-pressed: #4a3b60;
+  --text: #e4eaf3;
+  --muted: #b6c3d5;
+  --faint: #9cacc2;
+  --line: #40516b;
   --accent: #b59af8;
   --cyan: #83cbd1;
   --font: 'Manrope', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
+}
+
+/* Expose the shared palette to Tailwind and the sprite's custom CSS. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-accent: var(--surface-accent);
+  --color-surface-accent-hover: var(--surface-accent-hover);
+  --color-surface-accent-pressed: var(--surface-accent-pressed);
+  --color-foreground: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-cyan: var(--cyan);
+  --font-sans: var(--font);
+  --font-mono: var(--mono);
+}
+
+/* Keep all breakpoints in pixels so responsive utilities sort consistently. */
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-tiny: 360px;
+  --breakpoint-phone: 420px;
+  --breakpoint-tablet: 900px;
+  --breakpoint-desktop: 1101px;
+  --breakpoint-wide: 1600px;
 }

@@ -33,6 +33,14 @@ The production output is `dist/`. Stop the dev/preview server before running `np
 
 The CSS build uses the Tailwind 4 PostCSS adapter. It already handles imports and vendor prefixes, as described in the [Tailwind upgrade guide](https://tailwindcss.com/docs/upgrade-guide#using-postcss). Shared colors and typography live in `src/styles/tokens.css`.
 
+## Styling with Tailwind
+
+Page sections, cards, typography, navigation, buttons, project illustrations, and responsive states use Tailwind utility classes directly in the React components. The brighter navy palette is exposed through [`@theme`](https://tailwindcss.com/docs/theme) in `src/styles/tokens.css`, so use utilities such as `bg-bg`, `bg-surface`, `text-muted`, `text-faint`, `text-accent`, and `border-line` instead of duplicating palette values.
+
+`src/styles/utilities.css` defines a small set of shared primitives with [`@utility`](https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities) and `@apply`: `page-container`, `section-space`, `eyebrow`, `status-dot`, `button`, `text-link`, and `icon-button`. Their responsive and interaction styles can be composed with component utilities. Breakpoints use one unit (pixels) so named variants sort consistently: `tiny` (360), `phone` (420), `md` (768), `tablet` (900), `desktop` (1101), and `wide` (1600).
+
+Custom CSS is limited to global foundations, sprite geometry/playback and scene artwork in `src/styles/mascot.css`, and menu morphing/architecture artwork in `src/styles/motion.css`. GSAP continues to own motion transforms; avoid adding Tailwind transform utilities to its animated elements. Semantic classes such as `hero-copy`, `skill-card`, and `project-visual` remain as animation and browser-test hooks.
+
 `sharp` and the Fontsource packages are development tools used by `assets:prepare`. The original avatar is an input to that script. The public mascot directory contains the runtime atlas and its license/attribution; intermediate sprite sheets stay in memory. Browser screenshots and reports are generated on demand by the Playwright suite and ignored by Git.
 
 ## Structure
@@ -53,10 +61,13 @@ src/
     mascot/                       Configuration, controller, sprite, scene
     projects/                     Reusable ProjectCard and PipelineVisual
   hooks/useMotionPreference.ts    Live system preference subscription
-  styles/tokens.css               Shared colors and typography
+  styles/tokens.css               Shared palette, Tailwind theme, and breakpoints
+  styles/utilities.css            Reusable Tailwind UI primitives
+  styles/mascot.css               Sprite playback and pixel scene artwork
+  styles/motion.css               Menu morph and architecture artwork
   types/portfolio.ts              Typed project contract
   App.tsx                         Page composition
-  index.css                       Visual system and responsive rules
+  index.css                       Tailwind imports, fonts, and global base styles
   main.tsx                        Strict Mode entry point
 scripts/prepare-assets.mjs         Reproducible local asset optimization
 tests/portfolio.spec.ts            Browser, accessibility, and budget checks

@@ -32,10 +32,20 @@ export default function MascotScene() {
       <div className="cat-floor" aria-hidden="true"><i /><i /><i /></div>
     </div>
     <div className="scene-caption scene-note"><span className="status-dot" /> {animation.label}<span className="caption-id">/ curiosity online</span></div>
-    <div className="cat-controls scene-note" role="group" aria-label="Pixel cat interactions">
-      <button type="button" onClick={() => dispatch({ type: 'pet' })}><Heart size={13} /> Pet</button>
-      <button type="button" onClick={() => dispatch({ type: 'play' })}><Play size={13} /> Play</button>
-      <button type="button" onClick={() => dispatch({ type: 'nap' })} aria-pressed={resting}>{resting ? <Sparkles size={13} /> : <Moon size={13} />}{resting ? 'Wake' : 'Nap'}</button>
+    <div className="cat-controls scene-note absolute top-[437px] flex w-full justify-center gap-1.5 max-tablet:top-[403px]
+      max-md:top-[350px]" role="group" aria-label="Pixel cat interactions">
+      <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
+        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
+        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'pet' })}><Heart size={13} /> Pet</button>
+      <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
+        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
+        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'play' })}><Play size={13} /> Play</button>
+      <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
+        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
+        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'nap' })} aria-pressed={resting}>{resting ? <Sparkles size={13} /> : <Moon size={13} />}{resting ? 'Wake' : 'Nap'}</button>
     </div>
     <span className="cat-hint scene-note">A tiny companion. Go on, say hello.</span>
   </div>
