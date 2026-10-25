@@ -1,7 +1,7 @@
 /* Sprite geometry, frame playback, and scene choreography. */
 .mascot-scene { --sprite-size: 448px; position: relative; width: 100%; height: 500px; align-self: center; isolation: isolate; }
 /* A square canvas keeps the halo circular; fade fully before its clipped edge. */
-.scene-sky { position: absolute; left: 50%; top: 235px; width: min(100%, 420px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; z-index: -2; overflow: clip; pointer-events: none; mask-image: radial-gradient(circle closest-side, #000 30%, #000c 48%, #0006 65%, #0002 80%, transparent 96%); }
+.scene-sky { position: absolute; left: 50%; top: 235px; width: min(100%, 480px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; z-index: -2; overflow: clip; pointer-events: none; mask-image: radial-gradient(circle closest-side, #000 30%, #000c 48%, #0006 65%, #0002 80%, transparent 96%); }
 .scene-sky::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 38% 40%, #9b7ddd1c, #9b7ddd0c 30%, #9b7ddd00 65%), radial-gradient(circle at 65% 55%, #70c9de14, #70c9de06 32%, #70c9de00 65%), radial-gradient(circle, #b59af80f, #b59af800 65%); }
 .sky-star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #d5dff3; opacity: .4; box-shadow: 0 0 5px #b9c9ff45; animation: sky-twinkle var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite; }
 .sky-star:nth-child(3n) { width: 1px; height: 1px; background: var(--cyan); }
@@ -65,6 +65,7 @@
 @keyframes cat-affection { from { transform: translateY(16px) scale(.75); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-16px) scale(1.05); opacity: 0; } }
 @media (min-width: 1600px) {
   .mascot-scene { transform-origin: center; }
+  .scene-sky { width: min(100%, 520px); }
 }
 @media (max-width: 1100px) {
   .mascot-scene { --sprite-size: 384px; }
