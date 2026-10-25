@@ -1,9 +1,19 @@
-import { useRef } from 'react'
+import { useRef, type CSSProperties } from 'react'
 import { Heart, Moon, Play, Sparkles } from 'lucide-react'
 import PixelCat from './PixelCat'
 import { catAnimations, catRoutines } from './catConfig'
 import { useCatController } from './useCatController'
 import { useCatMotion } from './useCatMotion'
+
+// Keep most stars around the edges so the cat has a quiet silhouette.
+const skyStars = [
+  [12, 12], [26, 8], [42, 13], [63, 7], [79, 13], [90, 24],
+  [6, 29], [18, 24], [32, 19], [56, 21], [72, 26], [84, 33],
+  [10, 43], [22, 38], [77, 43], [94, 47], [5, 59], [16, 54],
+  [26, 49], [83, 57], [90, 65], [12, 71], [23, 65], [74, 67],
+  [80, 78], [94, 81], [7, 85], [19, 88], [31, 77], [65, 84],
+  [38, 5], [87, 8], [4, 17], [96, 35], [45, 89], [57, 78],
+]
 
 export default function MascotScene() {
   const { mode, expression, origin, routine, version, dispatch, scene, running, reducedMotion, visible, pageVisible } = useCatController()
@@ -17,6 +27,13 @@ export default function MascotScene() {
   const resting = mode === 'sleep' || mode === 'lieDown'
 
   return <div ref={scene} className="mascot-scene" data-running={running} data-state={mode} data-origin={origin} data-action={action} data-routine={routine ?? 'none'} data-onscreen={visible} data-tab-active={pageVisible} data-reduced-motion={reducedMotion}>
+    <div className="scene-sky" aria-hidden="true">
+      {skyStars.map(([x, y], index) => <i key={index} className="sky-star" style={{
+        left: `${x}%`, top: `${y}%`,
+        '--twinkle-delay': `${-index * 1.37}s`,
+        '--twinkle-duration': `${4 + index % 5}s`,
+      } as CSSProperties} />)}
+    </div>
     <div className="scene-coordinate scene-tag">COMPANION_01 <span>✳</span></div>
     <div className="scene-coordinate scene-coordinate-right scene-tag">32 × 32 PX<br /><span>INFINITELY CURIOUS</span></div>
     <div className="scene-orbit-clip" aria-hidden="true"><div className="scene-orbit"><i /><i /><i /></div></div>

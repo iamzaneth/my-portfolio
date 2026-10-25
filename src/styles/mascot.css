@@ -1,5 +1,13 @@
 /* Sprite geometry, frame playback, and scene choreography. */
 .mascot-scene { --sprite-size: 448px; position: relative; width: 100%; height: 500px; align-self: center; isolation: isolate; }
+/* A square canvas keeps the halo circular; fade fully before its clipped edge. */
+.scene-sky { position: absolute; left: 50%; top: 235px; width: min(100%, 420px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; z-index: -2; overflow: clip; pointer-events: none; mask-image: radial-gradient(circle closest-side, #000 30%, #000c 48%, #0006 65%, #0002 80%, transparent 96%); }
+.scene-sky::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 38% 40%, #9b7ddd1c, #9b7ddd0c 30%, #9b7ddd00 65%), radial-gradient(circle at 65% 55%, #70c9de14, #70c9de06 32%, #70c9de00 65%), radial-gradient(circle, #b59af80f, #b59af800 65%); }
+.sky-star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #d5dff3; opacity: .4; box-shadow: 0 0 5px #b9c9ff45; animation: sky-twinkle var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite; }
+.sky-star:nth-child(3n) { width: 1px; height: 1px; background: var(--cyan); }
+.sky-star:nth-child(9n)::before, .sky-star:nth-child(9n)::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #cfc1f0a0, transparent); width: 9px; height: 1px; }
+.sky-star:nth-child(9n)::after { transform: translate(-50%, -50%) rotate(90deg); }
+@keyframes sky-twinkle { 0%, 100% { opacity: .18; transform: scale(.85); } 50% { opacity: .65; transform: scale(1.15); } }
 .scene-coordinate { position: absolute; top: 27px; left: 28px; font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: 1.3px; line-height: 1.9; }
 .scene-coordinate > span { color: var(--accent); margin-left: 12px; }
 .scene-coordinate-right { left: auto; right: 6px; text-align: right; }
@@ -8,14 +16,15 @@
 .scene-orbit { position: absolute; width: 350px; height: 350px; left: 50%; top: 60px; margin-left: -175px; border: 1px dashed #74658f40; border-radius: 50%; }
 .scene-orbit::before { content: ''; position: absolute; inset: 36px; border: 1px solid #494e683c; border-radius: 50%; }
 .scene-orbit::after { content: ''; position: absolute; top: 50%; left: -30px; right: -30px; height: 1px; background: #39445860; }
-.scene-orbit i { position: absolute; width: 7px; height: 7px; background: var(--accent); top: 52px; right: 47px; }
+.scene-orbit i { position: absolute; width: 7px; height: 7px; background: var(--accent); top: 52px; right: 47px; box-shadow: 0 0 9px #b59af840; }
 .scene-orbit i:nth-child(2) { width: 4px; height: 4px; left: -2px; top: 175px; background: var(--cyan); }
 .scene-orbit i:nth-child(3) { width: 4px; height: 4px; left: 100px; top: auto; bottom: 13px; opacity: .6; }
-.pixel-stars { position: absolute; inset: 0; pointer-events: none; }
-.star { position: absolute; font-style: normal; color: var(--accent); }
+.pixel-stars { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.star { position: absolute; font-style: normal; color: var(--accent); opacity: .7; text-shadow: 0 0 12px #b59af83b; animation: sky-sparkle 5.5s ease-in-out infinite; }
 .star-one { font-size: 23px; left: 13%; top: 25%; }
-.star-two { font-size: 22px; right: 8%; top: 56%; color: var(--cyan); }
-.star-three { font-size: 12px; right: 24%; top: 22%; }
+.star-two { font-size: 22px; right: 8%; top: 56%; color: var(--cyan); animation-delay: -2s; }
+.star-three { font-size: 12px; right: 24%; top: 22%; animation-delay: -3.7s; }
+@keyframes sky-sparkle { 0%, 100% { opacity: .4; } 50% { opacity: .85; } }
 .pixel { position: absolute; width: 5px; height: 5px; background: #75658e; }
 .pixel-one { left: 21%; top: 64%; width: 7px; height: 7px; }
 .pixel-two { right: 16%; top: 30%; background: #456a7f; }
@@ -50,6 +59,7 @@
 .cat-zzz { animation: cat-dream 3.6s ease-in-out infinite; }
 .cat-heart { animation: cat-affection .85s ease-out both; }
 .mascot-scene[data-running=false] .pixel-cat-renderer, .mascot-scene[data-running=false] .cat-zzz, .mascot-scene[data-running=false] .cat-heart { animation-play-state: paused; }
+.mascot-scene[data-running=false] .sky-star, .mascot-scene[data-running=false] .star { animation-play-state: paused; }
 @keyframes cat-breathe { 50% { transform: scaleY(1.012); } }
 @keyframes cat-dream { 50% { transform: translateY(-4px); opacity: .6; } }
 @keyframes cat-affection { from { transform: translateY(16px) scale(.75); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-16px) scale(1.05); opacity: 0; } }
@@ -58,6 +68,7 @@
 }
 @media (max-width: 1100px) {
   .mascot-scene { --sprite-size: 384px; }
+  .scene-sky { top: 230px; width: min(100%, 390px); }
   .scene-coordinate { left: 12px; }
   .scene-coordinate-right { left: auto; right: 0; }
   .scene-orbit { width: 300px; height: 300px; margin-left: -150px; top: 80px; }
@@ -66,6 +77,7 @@
 }
 @media (max-width: 899px) {
   .mascot-scene { --sprite-size: 352px; height: 470px; }
+  .scene-sky { top: 215px; width: min(100%, 350px); }
   .scene-coordinate { font-size: 9px; left: 10px; }
   .scene-coordinate-right { display: none; }
   .scene-orbit { width: 270px; height: 270px; margin-left: -135px; }
@@ -78,6 +90,7 @@
 }
 @media (max-width: 767px) {
   .mascot-scene { --sprite-size: min(352px, calc(100vw - 80px)); max-width: 470px; margin-inline: auto; height: 415px; margin-top: 4px; }
+  .scene-sky { top: 171px; width: min(100%, 330px); }
   .scene-coordinate { top: 8px; left: 3px; }
   .scene-coordinate-right { display: block; font-size: 9px; left: auto; right: 0; }
   .scene-orbit { width: 270px; height: 270px; top: 36px; }
@@ -90,6 +103,7 @@
   .star-three { top: 19%; right: 17%; }
 }
 @media (max-width: 359px) {
+  .scene-sky { top: 165px; width: min(100%, 300px); }
   .scene-orbit { width: 240px; height: 240px; margin-left: -120px; top: 45px; }
   .scene-coordinate-right { font-size: 8px; }
   .scene-coordinate-right > span { font-size: 8px; }
