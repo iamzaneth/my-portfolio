@@ -4,7 +4,8 @@
 .scene-coordinate > span { color: var(--accent); margin-left: 12px; }
 .scene-coordinate-right { left: auto; right: 6px; text-align: right; }
 .scene-coordinate-right > span { margin: 0; color: var(--faint); font-size: 9px; letter-spacing: .9px; }
-.scene-orbit { position: absolute; width: 350px; height: 350px; left: 50%; top: 60px; margin-left: -175px; border: 1px dashed #74658f40; border-radius: 50%; z-index: -1; }
+.scene-orbit-clip { position: absolute; inset: 0; overflow: clip; pointer-events: none; z-index: -1; }
+.scene-orbit { position: absolute; width: 350px; height: 350px; left: 50%; top: 60px; margin-left: -175px; border: 1px dashed #74658f40; border-radius: 50%; }
 .scene-orbit::before { content: ''; position: absolute; inset: 36px; border: 1px solid #494e683c; border-radius: 50%; }
 .scene-orbit::after { content: ''; position: absolute; top: 50%; left: -30px; right: -30px; height: 1px; background: #39445860; }
 .scene-orbit i { position: absolute; width: 7px; height: 7px; background: var(--accent); top: 52px; right: 47px; }

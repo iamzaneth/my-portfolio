@@ -37,11 +37,15 @@ export function usePortfolioMotion() {
           scrollTrigger: { trigger: element, start: 'top 90%', once: true },
         })
       })
+      // Follow the scene's visible scroll range, including below the text on mobile.
+      gsap.to('.scene-orbit', {
+        rotate: 240, y: -24, ease: 'none',
+        scrollTrigger: {
+          trigger: '.mascot-scene', start: 'clamp(top bottom)', end: 'bottom top',
+          scrub: 0.15, invalidateOnRefresh: true,
+        },
+      })
       if (context.conditions.desktop) {
-        gsap.to('.scene-orbit', {
-          rotate: 35, y: -35, ease: 'none',
-          scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1 },
-        })
         gsap.to('.pipeline-progress', {
           scaleX: 1, ease: 'none',
           scrollTrigger: { trigger: '#projects', start: 'top 85%', end: 'center 45%', scrub: 0.7 },

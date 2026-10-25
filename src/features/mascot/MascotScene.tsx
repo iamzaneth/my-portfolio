@@ -19,7 +19,7 @@ export default function MascotScene() {
   return <div ref={scene} className="mascot-scene" data-running={running} data-state={mode} data-origin={origin} data-action={action} data-routine={routine ?? 'none'} data-onscreen={visible} data-tab-active={pageVisible} data-reduced-motion={reducedMotion}>
     <div className="scene-coordinate scene-tag">COMPANION_01 <span>✳</span></div>
     <div className="scene-coordinate scene-coordinate-right scene-tag">32 × 32 PX<br /><span>INFINITELY CURIOUS</span></div>
-    <div className="scene-orbit" aria-hidden="true"><i /><i /><i /></div>
+    <div className="scene-orbit-clip" aria-hidden="true"><div className="scene-orbit"><i /><i /><i /></div></div>
     <div className="pixel-stars" aria-hidden="true"><i className="star star-one">✦</i><i className="star star-two">+</i><i className="star star-three">✦</i><i className="pixel pixel-one" /><i className="pixel pixel-two" /><i className="pixel pixel-three" /><i className="pixel pixel-four" /><i className="pixel pixel-five" /></div>
     <div className="cat-bubble" aria-live={origin === 'user' ? 'polite' : 'off'}>{catAnimations[expression].message}</div>
     <div className="cat-stage">
