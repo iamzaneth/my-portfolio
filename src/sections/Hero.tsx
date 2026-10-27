@@ -22,6 +22,7 @@ export default function Hero() {
             max-tablet:tracking-[1px] max-md:ml-[17px] max-md:text-[11px] max-md:tracking-[1.5px] max-tiny:ml-[11px]
             max-tiny:text-[10px]"> / ZANETH</span></span></span></h1>
           <div className="hero-copy">
+            <p className="hero-role">AI ENGINEERING <span aria-hidden="true">/</span> DATA ENGINEERING</p>
             <p className="hero-specialty mb-[15px] text-[22px] leading-[1.55] font-medium tracking-[-.4px] max-tablet:text-[20px]
               max-md:mb-3.5 max-md:text-[21px]">Engineering intelligence.<br />Connecting the <span className="text-accent">data dots.</span></p>
             <p className="hero-description max-w-[410px] text-[16px] leading-[1.9] text-muted wide:max-w-[435px]
@@ -32,6 +33,7 @@ export default function Hero() {
             [&>.button]:max-md:px-[18px] [&>.button]:max-md:text-[13px] [&>.button]:max-tiny:gap-[9px]
             [&>.button]:max-tiny:px-[13px] [&>.button]:max-tiny:text-[12px]">
             <a className="button bg-accent text-[#151024] hover:bg-[#c6afff]" href="#projects">Explore my work <ArrowDownRight size={18} /></a>
+            <a className="button hero-contact border-line bg-surface text-foreground hover:border-accent hover:bg-surface-raised" href="#contact">Let’s connect <ArrowUpRight size={17} /></a>
             {profile.showResume && <a className="button border-line bg-surface text-foreground hover:border-accent hover:bg-surface-raised" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>}
           </div>
           <div className="hero-socials mt-3 flex items-center gap-4 text-[12px] text-faint max-tablet:gap-2.5
@@ -46,7 +48,7 @@ export default function Hero() {
           max-md:text-[10px] max-md:tracking-[.8px]"><span className="scroll-icon flex h-7 w-5 items-center justify-center rounded-[9px] border border-line text-accent"><ArrowDown size={14} /></span> A LITTLE SCROLL, A LOT TO DISCOVER</a>
         <span className="location-note flex items-center gap-2 font-mono text-[11px] text-faint max-md:hidden"><MapPin size={13} /> {profile.location}</span>
       </div>
-      <div className="discipline-strip border-y border-line bg-bg-subtle py-3.5 [&>div]:flex [&>div]:items-center
+      <div className="discipline-strip py-3.5 [&>div]:flex [&>div]:items-center
         [&>div]:justify-between [&>div]:gap-5 [&_span]:font-mono [&_span]:text-[12px] [&_span]:tracking-[1.8px]
         [&_span]:whitespace-nowrap [&_span]:text-muted [&_i]:text-[17px] [&_i]:not-italic [&_i]:text-accent
         max-tablet:[&>div]:gap-2.5 max-tablet:[&_span]:text-[10px] max-tablet:[&_span]:tracking-[1px]

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { catReducer, initialCatState } from '../src/features/mascot/catState'
+import { catReducer, initialCatState } from '../../src/features/mascot/catState'
 
 // This checks actual semantic boundaries: an uninterrupted wake ends seated,
 // and a newer intention cannot restart its clip or revive a stale intention.
@@ -41,6 +41,9 @@ test('sleep, wake, and standing clips connect through their matching end poses',
   await expect(scene).toHaveAttribute('data-state', 'sleep')
   await page.getByRole('button', { name: 'Play', exact: true }).click()
   await expect(scene).toHaveAttribute('data-state', 'wake')
+  await expect(sprite).toHaveAttribute('data-asset', 'lieDown')
+  await expect(sprite).toHaveAttribute('data-from', '7')
+  await expect(sprite).toHaveAttribute('data-to', '4')
   await page.clock.runFor(1420)
   await expect(scene).toHaveAttribute('data-state', 'standUp')
   await expect(sprite).toHaveAttribute('data-from', '4')
@@ -115,7 +118,6 @@ test('interrupting a jump lands from the current height without a ground snap', 
   await page.waitForTimeout(450)
   expect(await page.locator('.cat-character').evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42)).toBeCloseTo(0, 1)
 })
-
 
 test('mobile locomotion keeps the full running silhouette inside the stage', async ({ page }) => {
   await page.clock.install()

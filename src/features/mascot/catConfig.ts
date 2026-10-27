@@ -1,7 +1,7 @@
 import { catSprites } from './catSprites'
 
 export type CatMode = 'idle' | 'attentive' | 'walk' | 'run' | 'jump' | 'meow' | 'lieDown' | 'sleep' | 'wake' | 'groom' | 'groomPaw' | 'scratch' | 'stretch' | 'settle' | 'nuzzle' | 'purr' | 'paw' | 'pounce' | 'doubleHop' | 'prowl' | 'wiggle' | 'sitDown' | 'standUp' | 'sniff' | 'headTilt' | 'knead' | 'shake' | 'peek' | 'tailChase'
-export type CatPosture = 'standing' | 'sitting' | 'lying'
+type CatPosture = 'standing' | 'sitting' | 'lying'
 interface CatAnimation {
   asset: keyof typeof catSprites
   duration: number
@@ -23,11 +23,11 @@ export const catAnimations: Record<CatMode, CatAnimation> = {
   meow: { asset: 'meow', duration: 0.8, after: 1700, label: 'Purr-fect company', message: 'Thanks for the head pats!' },
   lieDown: { posture: 'sitting', endsIn: 'lying', frames: [4, 7], asset: 'lieDown', duration: 0.42, after: 460, loop: false, label: 'Getting comfortable', message: 'Just finding the perfect spot…' },
   sleep: { posture: 'lying', asset: 'sleep', duration: 1, label: 'Recharging the curiosity', message: 'Dreaming in Python…' },
-  wake: { posture: 'lying', endsIn: 'sitting', asset: 'wake', duration: 1.3, after: 1380, loop: false, label: 'A good stretch first', message: 'Oh, hello again!' },
+  wake: { posture: 'lying', endsIn: 'sitting', asset: 'lieDown', frames: [7, 4], duration: 1.3, after: 1380, loop: false, label: 'Back from a little daydream', message: 'Oh, hello again!' },
   groom: { posture: 'sitting', asset: 'groom', duration: 0.9, after: 1800, label: 'A little self-care', message: 'Even pixel cats need a tidy coat.' },
   groomPaw: { posture: 'sitting', asset: 'groomPaw', duration: 0.95, after: 1900, label: 'Keeping the paws polished', message: 'Clean paws. Clear thoughts.' },
   scratch: { posture: 'sitting', asset: 'scratch', duration: 0.45, after: 1800, label: 'Just a tiny itch', message: 'One moment. Important cat business.' },
-  stretch: { posture: 'lying', endsIn: 'sitting', asset: 'wake', duration: 1.3, after: 1380, loop: false, label: 'Stretching the possibilities', message: 'A little stretch goes a long way.' },
+  stretch: { asset: 'wake', duration: 1.3, after: 1380, loop: false, label: 'Stretching the possibilities', message: 'A little stretch goes a long way.' },
   settle: { asset: 'idle', duration: 1.5, after: 360, label: 'Slowing things down', message: 'A little rest sounds nice.' },
   nuzzle: { asset: 'idle', duration: 1.5, after: 1500, label: 'Leaning into the head pats', message: 'A little closer, please. ♡' },
   purr: { posture: 'sitting', asset: 'sit', duration: 1, after: 1600, label: 'A very content little cat', message: 'Prrrr. This is a good day.' },
@@ -106,8 +106,9 @@ export function planCatBehavior(previous: CatMode | null, random = Math.random) 
 }
 
 // Connect the actual end pose of one clip to the entry pose of the next.
-// In particular, stretching ends seated, and grooming cannot start standing.
-export function catPosture(mode: CatMode, end = false): CatPosture {
+// Wake reverses the actual lying-down frames into a seated pose. The artist's
+// stretching sheet begins and ends standing; grooming requires a sitting bridge.
+function catPosture(mode: CatMode, end = false): CatPosture {
   const animation = catAnimations[mode]
   return (end ? animation.endsIn : undefined) ?? animation.posture ?? 'standing'
 }

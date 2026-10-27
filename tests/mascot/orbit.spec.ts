@@ -67,7 +67,6 @@ test('orbit stays within the viewport throughout its rotation on narrow screens'
     await page.waitForTimeout(250)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
-  await page.screenshot({ path: 'artifacts/orbit-mobile-scrolled.png' })
 })
 
 test('orbit respects live changes to reduced motion', async ({ page }) => {

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { catRoutines, type CatRoutineId } from '../src/features/mascot/catConfig'
+import { catRoutines, type CatRoutineId } from '../../src/features/mascot/catConfig'
 
 for (const action of ['pet', 'play'] as const) {
   const count = Object.values(catRoutines).filter((routine) => routine.action === action).length

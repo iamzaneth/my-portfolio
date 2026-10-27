@@ -1,19 +1,37 @@
 :root {
   color-scheme: dark;
   /* Lift the navy foundations while keeping large text softly off-white. */
-  --bg: #182438;
-  --bg-subtle: #1c293d;
-  --surface: #223148;
-  --surface-raised: #2a3b53;
+  --bg: #1d2b40;
+  --bg-subtle: #223249;
+  --section-surface: #213047;
+  --surface: #293a53;
+  --surface-raised: #314560;
   --surface-accent: #34304b;
   --surface-accent-hover: #403755;
   --surface-accent-pressed: #4a3b60;
-  --text: #e4eaf3;
-  --muted: #b6c3d5;
-  --faint: #9cacc2;
-  --line: #40516b;
-  --accent: #b59af8;
-  --cyan: #83cbd1;
+  --text: #eaf0fa;
+  --muted: #bbc9dd;
+  --faint: #acbdd4;
+  --line: #4b5e78;
+  --accent: #b9a3ff;
+  --cyan: #80d8de;
+  --warm: #f4cc88;
+  --motion-fast: 180ms;
+  --motion-component: 320ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --section-space: clamp(48px, 5vw, 72px);
+  --layout-gap: clamp(24px, 4vw, 48px);
+  --module-padding: clamp(20px, 2.5vw, 32px);
+  --module-radius: 10px;
+  --module-line: #4b5e78a6;
+  --reading-size: 16px;
+  --reading-leading: 1.85;
+  --glass-top: #1d2b40bd;
+  --glass-scrolled: #1d2b40d1;
+  --glass-mobile-top: #1d2b40c7;
+  --glass-mobile-scrolled: #1d2b40db;
+  --glass-text: #dce6f4;
+  --glass-edge: #bbc9dd20;
   --font: 'Manrope', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
 }
@@ -33,6 +51,7 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-cyan: var(--cyan);
+  --color-warm: var(--warm);
   --font-sans: var(--font);
   --font-mono: var(--mono);
 }

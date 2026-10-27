@@ -1,0 +1,27 @@
+/* The opaque header is the fallback; only this small sticky surface uses blur. */
+.nav-sentinel { position: absolute; top: 0; left: 0; width: 1px; height: 24px; pointer-events: none; }
+.site-header { background-color: var(--bg); border-bottom: 1px solid var(--glass-edge); transition: background-color var(--motion-component) var(--ease-out); }
+.site-header .desktop-nav a { color: var(--glass-text); }
+.site-header .desktop-nav a:is(:hover, :focus-visible, [aria-current]) { color: var(--text); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header { background-color: var(--glass-top); -webkit-backdrop-filter: blur(6px) saturate(108%); backdrop-filter: blur(6px) saturate(108%); }
+  .site-header[data-scrolled=true] { background-color: var(--glass-scrolled); }
+  .site-header[data-menu-open=true] { background-color: var(--bg); }
+}
+@media (max-width: 767px) {
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header { background-color: var(--glass-mobile-top); -webkit-backdrop-filter: blur(4px) saturate(108%); backdrop-filter: blur(4px) saturate(108%); }
+    .site-header[data-scrolled=true] { background-color: var(--glass-mobile-scrolled); }
+    .site-header[data-menu-open=true] { background-color: var(--bg); }
+  }
+}
+
+/* Persistent mobile-menu bars morph without replacing their DOM nodes. */
+.menu-glyph { position: relative; display: block; width: 23px; height: 23px; transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
+.menu-glyph > span { position: absolute; left: 1px; top: 10.5px; width: 21px; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform .38s cubic-bezier(.22, 1, .36, 1), opacity .2s; }
+.menu-glyph > span:first-child { transform: translateY(-7px); }
+.menu-glyph > span:last-child { transform: translateY(7px); }
+.menu-toggle[aria-expanded=true] .menu-glyph { transform: rotate(180deg); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:first-child { transform: rotate(45deg); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-toggle[aria-expanded=true] .menu-glyph > span:last-child { transform: rotate(-45deg); }

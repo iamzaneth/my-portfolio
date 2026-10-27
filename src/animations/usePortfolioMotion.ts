@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from './motion'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -9,31 +10,37 @@ export function usePortfolioMotion() {
   const scope = useRef<HTMLDivElement>(null)
   useGSAP(() => {
     const media = gsap.matchMedia()
-    media.add({ allowMotion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 900px)' }, (context) => {
-      if (!context.conditions?.allowMotion) return
-      const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      intro.from('.hero-eyebrow', { y: 14, opacity: 0, duration: 0.55 })
-        .from('.name-line > span', { yPercent: 110, rotate: 3, stagger: 0.13, duration: 0.95 }, '-=0.3')
-        .from('.hero-copy, .hero-actions, .hero-socials', { y: 22, opacity: 0, stagger: 0.12, duration: 0.65 }, '-=0.6')
-        .from('.mascot-scene', { scale: 0.88, opacity: 0, rotate: -4, duration: 1.1 }, 0.25)
-        .from('.scene-note, .scene-tag', { y: 12, opacity: 0, stagger: 0.14, duration: 0.65 }, '-=0.4')
-        .from('.hero-bottom', { opacity: 0, duration: 0.5 }, '-=0.3')
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const intro = gsap.timeline({ defaults: { ease: motion.ease } })
+      intro.from('.scene-sky', { opacity: 0, duration: motion.entrance }, 0)
+        .from('.hero-eyebrow', { y: 10, opacity: 0, stagger: 0.08, duration: motion.component }, 0.08)
+        .from('.name-line > span', { yPercent: 105, rotate: 2, stagger: 0.1, duration: motion.entrance }, 0.18)
+        .from('.hero-copy', { y: 18, opacity: 0, duration: motion.reveal }, 0.45)
+        .from('.hero-actions, .hero-socials', { y: 14, opacity: 0, stagger: 0.1, duration: motion.component }, 0.65)
+        .from('.cat-stage', { y: 18, opacity: 0, duration: motion.reveal }, 0.7)
+        .from('.scene-note, .scene-tag, .cat-bubble', { y: 8, opacity: 0, stagger: 0.06, duration: motion.component }, 0.9)
+        .from('.hero-bottom', { opacity: 0, duration: motion.component }, 1.05)
 
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
+        if (element.closest('.about-grid')) return
         gsap.from(element, {
-          y: 32, opacity: 0, duration: 0.85, ease: 'power3.out',
+          y: 26, opacity: 0, duration: motion.reveal, ease: motion.ease,
           scrollTrigger: { trigger: element, start: 'top 92%', once: true },
         })
       })
+      gsap.from('.about-grid > [data-reveal]', {
+        y: 26, opacity: 0, duration: motion.reveal, stagger: 0.08,
+        scrollTrigger: { trigger: '.about-grid', start: 'top 92%', once: true },
+      })
       gsap.utils.toArray<HTMLElement>('.skill-card').forEach((element, index) => {
         gsap.from(element, {
-          y: 40, opacity: 0, duration: 0.75, delay: (index % 2) * 0.1,
+          y: 28, opacity: 0, duration: motion.reveal, delay: (index % 2) * 0.08,
           scrollTrigger: { trigger: element, start: 'top 94%', once: true },
         })
       })
-      gsap.utils.toArray<HTMLElement>('.project-visual').forEach((element) => {
+      gsap.utils.toArray<HTMLElement>('.project-card').forEach((element) => {
         gsap.from(element, {
-          clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'power3.inOut',
+          y: 22, opacity: 0, duration: motion.reveal,
           scrollTrigger: { trigger: element, start: 'top 90%', once: true },
         })
       })
@@ -45,12 +52,6 @@ export function usePortfolioMotion() {
           scrub: 0.15, invalidateOnRefresh: true,
         },
       })
-      if (context.conditions.desktop) {
-        gsap.to('.pipeline-progress', {
-          scaleX: 1, ease: 'none',
-          scrollTrigger: { trigger: '#projects', start: 'top 85%', end: 'center 45%', scrub: 0.7 },
-        })
-      }
     })
     return () => media.revert()
   }, { scope })

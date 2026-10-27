@@ -2,11 +2,29 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { navigation, profile } from '@/data/profile'
 
+const mobileLinkClass = `group/link flex min-h-12 items-center justify-between rounded px-2.5 text-[16px] text-[#d2d9e5]
+          transition-[background,color,transform,box-shadow] duration-200 ease-[ease]
+          aria-[current]:bg-surface-accent aria-[current]:text-accent hover:bg-surface-accent-hover
+          hover:text-[#d8c5ff] hover:shadow-[inset_3px_0_var(--accent)] hover:[transform:translateX(3px)]
+          focus-visible:bg-surface-accent-hover focus-visible:text-[#d8c5ff]
+          focus-visible:shadow-[inset_3px_0_var(--accent)] focus-visible:[transform:translateX(3px)]
+          active:bg-surface-accent-pressed active:text-foreground active:[transform:translateX(3px)_scale(.985)]
+          [&>svg]:text-accent [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-[ease]
+          hover:[&>svg]:[transform:translate(2px,-2px)] focus-visible:[&>svg]:[transform:translate(2px,-2px)]`
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('home')
+  const [scrolled, setScrolled] = useState(false)
+  const sentinel = useRef<HTMLSpanElement>(null)
   const toggle = useRef<HTMLButtonElement>(null)
   const container = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting))
+    if (sentinel.current) observer.observe(sentinel.current)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -37,7 +55,8 @@ export default function Navbar() {
   }, [open])
 
   return (
-    <header className="site-header sticky top-0 z-50 h-[87px] border-b border-line bg-bg max-md:h-[72px]" ref={container}>
+    <><span ref={sentinel} className="nav-sentinel" aria-hidden="true" />
+    <header className="site-header sticky top-0 z-50 h-[87px] max-md:h-[72px]" data-scrolled={scrolled} data-menu-open={open} ref={container}>
       <div className="page-container nav-inner flex h-full items-center justify-between gap-[25px]">
         <a href="#home" className="wordmark inline-flex items-center text-[25px] font-extrabold tracking-[-1px] max-md:text-[23px]
           [&>svg]:mr-3 [&>svg]:w-[22px] [&>svg]:text-accent max-md:[&>svg]:mr-2.5 max-md:[&>svg]:w-5" aria-label="Zaneth, back to home" onClick={() => setOpen(false)}>
@@ -60,25 +79,9 @@ export default function Navbar() {
       </div>
       <nav id="mobile-navigation" className="mobile-nav absolute inset-x-0 top-[71px] hidden border-b border-[#645b7a] bg-surface px-[22px] pt-4 pb-5
         shadow-[0_20px_30px_#00000025] max-md:grid" aria-label="Mobile navigation" hidden={!open}>
-        {navigation.map((link) => <a className="group/link flex min-h-12 items-center justify-between rounded px-2.5 text-[16px] text-[#d2d9e5]
-          transition-[background,color,transform,box-shadow] duration-200 ease-[ease]
-          aria-[current]:bg-surface-accent aria-[current]:text-accent hover:bg-surface-accent-hover
-          hover:text-[#d8c5ff] hover:shadow-[inset_3px_0_var(--accent)] hover:[transform:translateX(3px)]
-          focus-visible:bg-surface-accent-hover focus-visible:text-[#d8c5ff]
-          focus-visible:shadow-[inset_3px_0_var(--accent)] focus-visible:[transform:translateX(3px)]
-          active:bg-surface-accent-pressed active:text-foreground active:[transform:translateX(3px)_scale(.985)]
-          [&>svg]:text-accent [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-[ease]
-          hover:[&>svg]:[transform:translate(2px,-2px)] focus-visible:[&>svg]:[transform:translate(2px,-2px)]" key={link.id} href={`#${link.id}`} aria-current={active === link.id ? 'location' : undefined} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={17} /></a>)}
-        {profile.showResume && <a className="group/link flex min-h-12 items-center justify-between rounded px-2.5 text-[16px] text-[#d2d9e5]
-          transition-[background,color,transform,box-shadow] duration-200 ease-[ease]
-          aria-[current]:bg-surface-accent aria-[current]:text-accent hover:bg-surface-accent-hover
-          hover:text-[#d8c5ff] hover:shadow-[inset_3px_0_var(--accent)] hover:[transform:translateX(3px)]
-          focus-visible:bg-surface-accent-hover focus-visible:text-[#d8c5ff]
-          focus-visible:shadow-[inset_3px_0_var(--accent)] focus-visible:[transform:translateX(3px)]
-          active:bg-surface-accent-pressed active:text-foreground active:[transform:translateX(3px)_scale(.985)]
-          [&>svg]:text-accent [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-[ease]
-          hover:[&>svg]:[transform:translate(2px,-2px)] focus-visible:[&>svg]:[transform:translate(2px,-2px)]" href={profile.resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>View résumé<ArrowUpRight size={17} /></a>}
+        {navigation.map((link) => <a className={mobileLinkClass} key={link.id} href={`#${link.id}`} aria-current={active === link.id ? 'location' : undefined} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={17} /></a>)}
+        {profile.showResume && <a className={mobileLinkClass} href={profile.resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>View résumé<ArrowUpRight size={17} /></a>}
       </nav>
-    </header>
+    </header></>
   )
 }

@@ -19,10 +19,10 @@ export default function Contact() {
     } catch { setCopyError(true) }
   }
   return (
-    <section id="contact" aria-labelledby="contact-title" className="contact-section border-t border-line bg-bg-subtle pt-14 max-md:pt-10">
+    <section id="contact" aria-labelledby="contact-title" className="contact-section">
       <div className="page-container">
         <div className="contact-top mb-10 flex flex-wrap items-center justify-between gap-4 max-md:mb-8" data-reveal>
-          <p className="eyebrow"><span>04 /</span> LET’S CONNECT</p>
+          <p className="eyebrow"><span>04 /</span> THE NEXT CHAPTER</p>
           <span className="availability inline-flex items-center gap-2.5 text-[12px] leading-5 text-muted">
             <span className="status-dot" aria-hidden="true" /> Open to opportunities
           </span>

@@ -27,6 +27,10 @@ export default function PixelCat({ mode, running, version }: { mode: CatMode; ru
     const looping = animation.loop !== false
     const key = `${animation.asset}:${first}:${last}:${looping ? 'loop' : version}`
     const outgoing = layers[active.current]
+    const previousAsset = outgoing.dataset.asset
+    const previousPlayback = outgoing.getAnimations().find((item) => item instanceof CSSAnimation)
+    const gaitChange = (previousAsset === 'walk' || previousAsset === 'run') && (animation.asset === 'walk' || animation.asset === 'run')
+    const gaitPhase = gaitChange ? (Number(previousPlayback?.currentTime ?? 0) / (duration.current * 1000)) % 1 : 0
     if (clip.current === key) {
       // Changing gait speed must not reset the footfall to frame zero.
       const playback = outgoing.getAnimations().find((item) => item instanceof CSSAnimation)
@@ -51,6 +55,12 @@ export default function PixelCat({ mode, running, version }: { mode: CatMode; ru
     incoming.style.animationIterationCount = looping ? 'infinite' : '1'
     incoming.style.animationTimingFunction = `steps(${Math.max(1, looping ? last - first + 1 : Math.abs(last - first))})`
     incoming.style.animationName = sheet.frames === 1 ? 'none' : looping ? 'cat-frames' : 'cat-pose'
+    // Walking and running share eight aligned footfall frames. Carry the phase
+    // between their atlas rows rather than restarting the gait on each change.
+    if (gaitChange) {
+      const playback = incoming.getAnimations().find((item) => item instanceof CSSAnimation)
+      if (playback) playback.currentTime = gaitPhase * animation.duration * 1000
+    }
     incoming.dataset.asset = animation.asset
     incoming.dataset.from = String(first)
     incoming.dataset.to = String(last)

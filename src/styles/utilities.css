@@ -9,7 +9,7 @@
 }
 
 @utility section-space {
-  @apply py-14 max-tablet:py-[52px] max-md:py-10;
+  padding-block: var(--section-space);
 }
 
 @utility eyebrow {
@@ -34,3 +34,8 @@
 @utility icon-button {
   @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-[5px] border border-line bg-transparent text-muted transition-[color,border-color] duration-200 ease-[ease] hover:border-accent hover:text-accent;
 }
+
+/* Technology lists are shared by toolkit cards and project case studies. */
+.open-tech-list { display: flex; flex-wrap: wrap; gap: 8px 14px; list-style: none; padding: 0; margin-top: 18px; }
+.open-tech-list li { display: inline-flex; align-items: center; gap: 14px; font-size: 13px; line-height: 1.8; color: var(--text); }
+.open-tech-list li:not(:last-child)::after { content: ''; width: 3px; height: 3px; flex-shrink: 0; background: var(--faint); opacity: .5; }

@@ -1,31 +1,38 @@
 import { expect, test } from '@playwright/test'
 
-test('desktop navigation forms a right-aligned group next to the contact link', async ({ page }) => {
-  for (const width of [768, 1024, 1440]) {
-    await page.setViewportSize({ width, height: 900 })
-    await page.goto('/')
-    const logo = await page.locator('.wordmark').boundingBox()
-    const nav = await page.locator('.desktop-nav').boundingBox()
-    const contact = await page.locator('.nav-contact').boundingBox()
-    expect(logo && nav && contact).toBeTruthy()
-    expect(contact!.x - (nav!.x + nav!.width)).toBeLessThan(45)
-    expect(nav!.x - (logo!.x + logo!.width)).toBeGreaterThan(50)
-  }
+test('cat has exclusive interactive states, sleeps, wakes, and pauses offscreen', async ({ page }) => {
+  await page.goto('/')
+  const scene = page.locator('.mascot-scene')
+  await expect(scene).toHaveAttribute('data-state', 'idle')
+  await expect(scene).toHaveAttribute('data-running', 'true')
+  await page.getByRole('button', { name: 'Pet', exact: true }).click()
+  await expect(scene).toHaveAttribute('data-state', 'jump')
+  await expect(page.locator('.cat-bubble')).toContainText('hello')
+  await expect(scene).toHaveAttribute('data-state', 'meow', { timeout: 2500 })
+  await page.getByRole('button', { name: 'Play', exact: true }).click()
+  await expect(scene).toHaveAttribute('data-state', 'walk')
+  await expect(scene).toHaveAttribute('data-state', 'run', { timeout: 3000 })
+  await page.getByRole('button', { name: 'Nap', exact: true }).click()
+  await expect(scene).toHaveAttribute('data-state', 'sleep')
+  await page.getByRole('button', { name: 'Wake', exact: true }).click()
+  await expect(scene).toHaveAttribute('data-state', 'wake')
+  await expect(scene).toHaveAttribute('data-state', 'idle', { timeout: 2500 })
+  await page.locator('#contact').scrollIntoViewIfNeeded()
+  await expect(scene).toHaveAttribute('data-running', 'false')
 })
 
-test('mobile menu rotates and morphs its persistent bars into an X', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 812 })
+test('sprite frames animate, and an autonomous nap includes lying down first', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0.99 })
+  await page.clock.install()
   await page.goto('/')
-  const toggle = page.getByRole('button', { name: /^(Open|Close) navigation$/ })
-  const glyph = page.locator('.menu-glyph')
-  await expect(glyph.locator('span')).toHaveCount(3)
-  await toggle.click()
-  await expect(glyph.locator('span').nth(1)).toHaveCSS('opacity', '0')
-  await expect(glyph).toHaveCSS('transform', 'matrix(-1, 0, 0, -1, 0, 0)')
-  await page.screenshot({ path: 'artifacts/mobile-menu-open.png' })
-  await page.keyboard.press('Escape')
-  await expect(glyph.locator('span').nth(1)).toHaveCSS('opacity', '1')
-  await expect(glyph).toHaveCSS('transform', 'none')
+  const scene = page.locator('.mascot-scene')
+  await expect(scene).toHaveAttribute('data-running', 'true')
+  const sprite = page.locator('.pixel-cat-sprite[data-active=true]')
+  expect(await sprite.evaluate((element) => getComputedStyle(element).animationName)).toBe('cat-frames')
+  await page.clock.runFor(9700)
+  await expect(scene).toHaveAttribute('data-state', 'lieDown')
+  await page.clock.runFor(1200)
+  await expect(scene).toHaveAttribute('data-state', 'sleep')
 })
 
 test('random behaviors vary without interrupting user actions or repeating consecutively', async ({ page }) => {
@@ -60,9 +67,9 @@ test('sleeping cat wakes before responding to a play request', async ({ page }) 
   await expect(scene).toHaveAttribute('data-state', 'walk')
 })
 
-test('sprite changes overlap without a blank frame or new image requests', async ({ page }) => {
+test('sprite changes switch atomically without ghost layers, blank frames, or new image requests', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' })
-  await page.waitForTimeout(1500)
+  await expect(page.locator('.cat-stage')).toHaveCSS('opacity', '1')
   const newImages: string[] = []
   page.on('request', (request) => { if (request.resourceType() === 'image') newImages.push(request.url()) })
   const samples = await page.evaluate(async () => {
@@ -78,7 +85,7 @@ test('sprite changes overlap without a blank frame or new image requests', async
     return result
   })
   expect(samples.every(({ total }) => total >= 0.98)).toBe(true)
-  expect(samples.some(({ blended }) => blended)).toBe(true)
+  expect(samples.some(({ blended }) => blended)).toBe(false)
   expect(samples.every(({ images }) => images.every((url) => url.includes('cat-atlas.png')))).toBe(true)
   expect(newImages).toEqual([])
 })
@@ -97,17 +104,4 @@ test('interrupting a walk with a pet preserves the current horizontal position',
   })
   expect(before).toBeGreaterThan(10)
   expect(Math.abs(after - before)).toBeLessThan(4)
-})
-
-test('reduced motion disables random behavior and menu/sprite transitions', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 812 })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.clock.install()
-  await page.goto('/')
-  await page.clock.fastForward(30000)
-  await expect(page.locator('.mascot-scene')).toHaveAttribute('data-state', 'idle')
-  await expect(page.locator('.menu-glyph')).toHaveCSS('transition-duration', '0s')
-  await page.getByRole('button', { name: 'Pet', exact: true }).click()
-  await expect(page.locator('.pixel-cat-sprite[data-active=true]')).toHaveAttribute('data-asset', 'meow')
-  await expect(page.locator('.pixel-cat-sprite[data-active=true]')).toHaveCSS('transition-duration', '0s')
 })

@@ -1,7 +1,7 @@
 import { autonomousCatSteps, catBridges, catRoutines, connectCatSteps, type CatMode, type CatRoutineId } from './catConfig'
 
 type CatIntent = CatRoutineId | 'nap' | 'idle'
-export interface CatState {
+interface CatState {
   mode: CatMode
   expression: CatMode
   origin: 'user' | 'auto'
@@ -12,7 +12,7 @@ export interface CatState {
   previousAuto: CatMode | null
   version: number
 }
-export type CatEvent =
+type CatEvent =
   | { type: 'pet' | 'play'; routine: CatRoutineId }
   | { type: 'nap' | 'approach' | 'leave' }
   | { type: 'auto'; mode: CatMode; version: number }

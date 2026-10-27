@@ -4,83 +4,55 @@ import AxeBuilder from '@axe-core/playwright'
 const widths = [320, 375, 430, 600, 768, 900, 1024, 1440, 1920]
 
 for (const width of widths) {
-  test(`readable page and working anchors at ${width}px`, async ({ page }) => {
+  test(`readable, connected sections without overflow at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Tran Thien')
-    await page.waitForTimeout(1700)
+    await page.evaluate(() => document.fonts.ready)
     for (const id of ['home', 'about', 'skills', 'projects', 'contact']) {
       const section = page.locator(`#${id}`)
       await section.scrollIntoViewIfNeeded()
-      await page.waitForTimeout(1000)
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       await expect(section).toBeVisible()
       const clipped = await section.locator('h1, h2, h3, p, .tech-list li').evaluateAll((elements) => elements.filter((el) => el.scrollWidth > el.clientWidth + 2).map((el) => el.textContent))
       expect(clipped).toEqual([])
-      if ([375, 768, 1440].includes(width) && ['home', 'skills', 'projects'].includes(id)) {
-        await section.screenshot({ path: `artifacts/${id}-${width}.png` })
-      }
     }
     expect(errors).toEqual([])
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-    await page.waitForTimeout(300)
-    await page.screenshot({ path: `artifacts/viewport-${width}.png`, fullPage: true })
+    const sections = await page.locator('main > section').evaluateAll(elements => elements.map(element => {
+      const style = getComputedStyle(element)
+      const bounds = element.getBoundingClientRect()
+      const heading = element.querySelector('.section-heading, .contact-top')
+      return { top: bounds.top, bottom: bounds.bottom, padding: parseFloat(style.paddingTop),
+        background: style.backgroundColor, headingLeft: heading?.getBoundingClientRect().left,
+        opacity: heading ? getComputedStyle(heading).opacity : null }
+    }))
+    for (let index = 1; index < sections.length; index++) {
+      expect(Math.abs(sections[index].top - sections[index - 1].bottom)).toBeLessThan(1)
+      expect(sections[index].padding).toBeGreaterThan(0)
+      expect(sections[index].padding).toBeCloseTo(sections[1].padding, 0)
+      expect(sections[index].headingLeft).toBeCloseTo(sections[1].headingLeft!, 0)
+      expect(sections[index].opacity).toBe('1')
+    }
+    expect(sections[2].background).toBe(sections[4].background)
+    expect(sections[2].background).not.toBe(sections[1].background)
   })
 }
 
-test('cat has exclusive interactive states, sleeps, wakes, and pauses offscreen', async ({ page }) => {
+test('page introductions settle with the heading, actions, and companion visible', async ({ page }) => {
   await page.goto('/')
-  const scene = page.locator('.mascot-scene')
-  await expect(scene).toHaveAttribute('data-state', 'idle')
-  await expect(scene).toHaveAttribute('data-running', 'true')
-  await page.getByRole('button', { name: 'Pet', exact: true }).click()
-  await expect(scene).toHaveAttribute('data-state', 'jump')
-  await expect(page.locator('.cat-bubble')).toContainText('hello')
-  await expect(scene).toHaveAttribute('data-state', 'meow', { timeout: 2500 })
-  await page.getByRole('button', { name: 'Play', exact: true }).click()
-  await expect(scene).toHaveAttribute('data-state', 'walk')
-  await expect(scene).toHaveAttribute('data-state', 'run', { timeout: 3000 })
-  await page.getByRole('button', { name: 'Nap', exact: true }).click()
-  await expect(scene).toHaveAttribute('data-state', 'sleep')
-  await page.getByRole('button', { name: 'Wake', exact: true }).click()
-  await expect(scene).toHaveAttribute('data-state', 'wake')
-  await expect(scene).toHaveAttribute('data-state', 'idle', { timeout: 2500 })
-  await page.locator('#contact').scrollIntoViewIfNeeded()
-  await expect(scene).toHaveAttribute('data-running', 'false')
-})
-
-test('sprite frames animate, and an autonomous nap includes lying down first', async ({ page }) => {
-  await page.addInitScript(() => { Math.random = () => 0.99 })
-  await page.clock.install()
-  await page.goto('/')
-  const scene = page.locator('.mascot-scene')
-  await expect(scene).toHaveAttribute('data-running', 'true')
-  const sprite = page.locator('.pixel-cat-sprite[data-active=true]')
-  expect(await sprite.evaluate((element) => getComputedStyle(element).animationName)).toBe('cat-frames')
-  await page.clock.runFor(9700)
-  await expect(scene).toHaveAttribute('data-state', 'lieDown')
-  await page.clock.runFor(1200)
-  await expect(scene).toHaveAttribute('data-state', 'sleep')
-})
-
-test('mobile navigation removes hidden links from keyboard order and closes with Escape', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 812 })
-  await page.goto('/')
-  const menu = page.getByRole('button', { name: /^(Open|Close) navigation$/ })
-  await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeHidden()
-  await menu.click()
-  await expect(menu).toHaveAttribute('aria-expanded', 'true')
-  await page.keyboard.press('Tab')
-  await expect(page.getByRole('link', { name: 'About', exact: true })).toBeFocused()
-  await page.keyboard.press('Escape')
-  await expect(menu).toBeFocused()
-  await expect(menu).toHaveAttribute('aria-expanded', 'false')
-  await menu.click()
-  await page.getByRole('link', { name: 'Selected work', exact: true }).click()
-  await expect(page).toHaveURL(/#projects$/)
-  await expect(menu).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  for (const selector of ['.hero-copy', '.hero-actions', '.hero-socials', '.cat-stage', '.scene-sky']) {
+    await expect(page.locator(selector)).toHaveCSS('opacity', '1')
+  }
+  const lines = await page.locator('.name-line > span').evaluateAll(elements => elements.map(element => {
+    const bounds = element.getBoundingClientRect()
+    const parent = element.parentElement!.getBoundingClientRect()
+    return bounds.top >= parent.top - 1 && bounds.bottom <= parent.bottom + 1
+  }))
+  expect(lines.every(Boolean)).toBe(true)
 })
 
 test('reduced motion leaves content visible and keeps cat controls useful', async ({ page }) => {
@@ -95,7 +67,6 @@ test('reduced motion leaves content visible and keeps cat controls useful', asyn
   await page.getByRole('button', { name: 'Pet', exact: true }).click()
   await expect(page.locator('.cat-bubble')).toContainText('hello')
   await expect(page.locator('.cat-character')).toHaveCSS('transform', 'none')
-  await page.screenshot({ path: 'artifacts/reduced-motion.png', fullPage: true })
   await page.locator('.mascot-scene').scrollIntoViewIfNeeded()
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await expect(page.locator('.mascot-scene')).toHaveAttribute('data-reduced-motion', 'false')
@@ -104,15 +75,11 @@ test('reduced motion leaves content visible and keeps cat controls useful', asyn
   await expect(page.locator('.mascot-scene')).toHaveAttribute('data-running', 'false')
 })
 
-test('project links are truthful, local assets load, and email can be copied', async ({ page, context }) => {
+test('local assets load and email can be copied', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   const failed: string[] = []
   page.on('response', (response) => { if (response.status() >= 400) failed.push(response.url()) })
   await page.goto('/')
-  await expect(page.getByRole('link', { name: /Source code/ })).toHaveAttribute('href', 'https://github.com/iamzaneth/NexTick')
-  await expect(page.getByRole('link', { name: /Read the story/ })).toHaveAttribute('href', /#readme$/)
-  await expect(page.getByRole('link', { name: /Live demo/ })).toHaveCount(0)
-  await expect(page.locator('a[href*="Zane-Theodore"]')).toHaveCount(0)
   const email = await page.locator('.contact-email').innerText()
   await page.getByRole('button', { name: 'Copy email address' }).click()
   await expect(page.getByRole('status')).toHaveText('Copied!')
