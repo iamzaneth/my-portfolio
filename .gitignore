@@ -12,6 +12,9 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+.vite/
+.cache/
 
 # Editor directories and files
 .vscode/*
@@ -33,3 +36,5 @@ dist-ssr
 artifacts/
 playwright-report/
 test-results/
+coverage/
+blob-report/

@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test:e2e": "playwright test",
     "test:fixtures": "vite build --config tests/fixtures/vite.config.mjs",
-    "assets:prepare": "node scripts/prepare-assets.mjs"
+    "assets:prepare": "node scripts/prepare-assets.mjs",
+    "capture": "node scripts/capture-portfolio.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
