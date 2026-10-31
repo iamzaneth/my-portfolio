@@ -96,3 +96,28 @@ test('orbit still responds after resizing from desktop to mobile', async ({ page
   await page.evaluate(() => window.scrollBy({ top: 100, behavior: 'instant' }))
   await expect.poll(async () => angleDelta(await rotation(page), before), { timeout: 500, intervals: [16] }).toBeGreaterThan(15)
 })
+
+test('orbital geometry stays between atmosphere and character, clear of scene controls', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 })
+    const layers = await page.locator('.mascot-scene').evaluate(element => {
+      const layer = (selector: string) => Number(getComputedStyle(element.querySelector(selector)!).zIndex)
+      const orbit = element.querySelector('.scene-orbit-clip')!
+      const footer = element.querySelector('.scene-footer')!
+      return { sky: layer('.scene-sky'), orbit: layer('.scene-orbit-clip'), world: layer('.scene-world'),
+        footer: layer('.scene-footer'), pointer: getComputedStyle(orbit).pointerEvents,
+        orbitBottom: orbit.getBoundingClientRect().bottom, footerTop: footer.getBoundingClientRect().top }
+    })
+    expect(layers.sky).toBeGreaterThanOrEqual(0)
+    expect(layers.orbit).toBeGreaterThan(layers.sky)
+    expect(layers.world).toBeGreaterThan(layers.orbit)
+    expect(layers.footer).toBeGreaterThan(layers.orbit)
+    expect(layers.pointer).toBe('none')
+    expect(layers.orbitBottom).toBeLessThanOrEqual(layers.footerTop)
+    await page.getByRole('button', { name: 'Pet', exact: true }).click()
+    await expect(page.locator('.mascot-scene')).toHaveAttribute('data-origin', 'user')
+    await expect(page.locator('.cat-bubble')).toBeVisible()
+  }
+})

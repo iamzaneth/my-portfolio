@@ -13,12 +13,12 @@
 }
 
 @utility eyebrow {
-  @apply flex items-center gap-3.5 font-mono text-[13px] leading-[1.7] tracking-[1.7px] text-muted max-md:gap-2.5 max-md:text-[11px] max-md:tracking-[1.1px];
+  @apply flex items-center gap-3.5 font-mono text-[13px] leading-[1.7] tracking-[1.1px] text-muted max-md:gap-2.5 max-md:text-[11px] max-md:tracking-[.7px];
   & > span { @apply text-accent; }
 }
 
 @utility status-dot {
-  @apply inline-block size-1.5 shrink-0 rounded-full bg-cyan shadow-[0_0_0_4px_#83cbd110];
+  @apply inline-block size-1.5 shrink-0 rounded-full bg-cyan shadow-[0_0_0_4px_#6ec8d412];
 }
 
 @utility button {
@@ -39,3 +39,7 @@
 .open-tech-list { display: flex; flex-wrap: wrap; gap: 8px 14px; list-style: none; padding: 0; margin-top: 18px; }
 .open-tech-list li { display: inline-flex; align-items: center; gap: 14px; font-size: 13px; line-height: 1.8; color: var(--text); }
 .open-tech-list li:not(:last-child)::after { content: ''; width: 3px; height: 3px; flex-shrink: 0; background: var(--faint); opacity: .5; }
+
+@media (prefers-reduced-motion: reduce) {
+  .text-link:hover svg { transform: none; }
+}

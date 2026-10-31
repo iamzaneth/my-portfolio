@@ -27,7 +27,7 @@ export default function PipelineVisual({ project, initialStageId, onStageChange 
         return <button type="button" className="pipeline-stage" key={item.id} aria-pressed={selected === index}
           aria-controls={`${id}-detail`}
           onClick={() => { setSelected(index); onStageChange?.(item.id); discover(item.companion ?? `Exploring ${project.title}, one connection at a time.`) }}>
-          <span className="stage-icon"><Icon size={22} strokeWidth={1.5} /></span>
+          <span className="stage-icon"><Icon size={22} strokeWidth={1.5} aria-hidden="true" /></span>
           <span className="sr-only">Inspect </span><b>{item.name}</b>{' '}<span className="stage-detail">{item.detail}</span>
         </button>
       })}

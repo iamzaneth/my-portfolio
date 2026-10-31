@@ -18,7 +18,7 @@ export default function ProjectVisual({ project, number, compact = false, initia
       const preview = stages.length > 5 ? [stages[0], stages[1], null, stages.at(-2)!, stages.at(-1)!] : stages
       return <div className="project-visual project-pipeline-preview" data-visual="pipeline-preview" role="img" aria-label={`${project.title} architecture overview: ${stages.map(stage => stage.name).join(' → ')}`}>
         <div className="preview-stages" style={{ '--preview-count': preview.length } as CSSProperties} aria-hidden="true">
-          {preview.map((stage, index) => <div className="preview-stage" key={stage?.id ?? 'more'}><span className={`preview-pixel${index === 0 ? ' preview-source' : ''}`} /><span>{stage?.name ?? '…'}</span></div>)}
+          {preview.map((stage, index) => <div className="preview-stage" key={stage?.id ?? 'more'}><span className={`preview-node${index === 0 ? ' preview-source' : ''}`} /><span>{stage?.name ?? '…'}</span></div>)}
         </div>
       </div>
     }

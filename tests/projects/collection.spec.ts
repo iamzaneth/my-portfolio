@@ -115,12 +115,27 @@ test('pipeline geometry follows configured stage counts inside a mobile dialog',
   await page.emulateMedia({ reducedMotion: 'reduce' })
   for (const [mode, count] of [['short-pipeline', 3], ['long-pipeline', 8]] as const) {
     await page.goto(fixture(1, mode))
+    const previewNodes = page.locator('.preview-node')
+    await expect(previewNodes).toHaveCount(Math.min(count, 5))
+    const circles = await previewNodes.evaluateAll(elements => elements.every(element =>
+      element.clientWidth === element.clientHeight && getComputedStyle(element).borderRadius === '50%'))
+    expect(circles).toBe(true)
     await page.getByRole('button', { name: /View details/ }).click()
     const stages = page.getByRole('group', { name: /architecture stages/ }).getByRole('button')
     await expect(stages).toHaveCount(count)
     await stages.last().focus()
     await page.keyboard.press('Enter')
     await expect(stages.last()).toHaveAttribute('aria-pressed', 'true')
+    expect(await stages.locator('.stage-icon').evaluateAll(elements => elements.every(element =>
+      element.clientWidth === element.clientHeight && getComputedStyle(element).borderRadius === '50%'))).toBe(true)
+    const aligned = await page.locator('.pipeline-stages').evaluate(element => {
+      const line = element.querySelector('.pipeline-progress')!.getBoundingClientRect()
+      const nodes = [...element.querySelectorAll('.stage-icon')].map(node => node.getBoundingClientRect())
+      return Math.abs(line.left - (nodes[0].x + nodes[0].width / 2)) < .75
+        && Math.abs(line.right - (nodes.at(-1)!.x + nodes.at(-1)!.width / 2)) < .75
+        && nodes.every(node => Math.abs(line.y + line.height / 2 - (node.y + node.height / 2)) < .75)
+    })
+    expect(aligned).toBe(true)
     const last = await stages.last().boundingBox()
     expect(last!.x).toBeGreaterThanOrEqual(0)
     expect(last!.x + last!.width).toBeLessThanOrEqual(320)

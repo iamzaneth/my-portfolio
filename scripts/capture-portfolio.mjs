@@ -22,6 +22,13 @@ try {
     for (const id of ['home', 'about', 'skills', 'projects', 'contact']) {
       await page.locator(`#${id}`).screenshot({ path: `${directory}/${id}-${width}.png`, style: '.site-header { visibility: hidden; }' })
     }
+    await page.locator('.hero-bottom').evaluate(element => window.scrollTo({ top: element.getBoundingClientRect().top + scrollY - 72, behavior: 'instant' }))
+    await page.screenshot({ path: `${directory}/hero-about-${width}.png`, style: '.site-header { visibility: hidden; }' })
+    for (const [previous, next] of [['about', 'skills'], ['skills', 'projects'], ['projects', 'contact']]) {
+      await page.locator(`#${next}`).evaluate(element => window.scrollTo({ top: element.getBoundingClientRect().top + scrollY - 190, behavior: 'instant' }))
+      await page.screenshot({ path: `${directory}/${previous}-${next}-${width}.png`, style: '.site-header { visibility: hidden; }' })
+    }
+    await page.locator('.project-pipeline-preview').first().screenshot({ path: `${directory}/pipeline-preview-${width}.png`, style: '.site-header { visibility: hidden; }' })
     await page.evaluate(async () => {
       window.scrollTo({ top: 0, behavior: 'instant' })
       await new Promise(requestAnimationFrame)
@@ -63,13 +70,39 @@ try {
     report.push({ width, errors, overflow: await page.evaluate(() => document.documentElement.scrollWidth > innerWidth) })
     await page.close()
   }
+  // Capture real scroll-linked transforms separately from the static,
+  // reduced-motion section evidence. Save the return scroll as well.
+  for (const width of [320, 375, 768, 1440]) {
+    const page = await browser.newPage({ viewport: { width, height: 900 } })
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1700)
+    const scene = page.locator('.mascot-scene')
+    const top = await scene.evaluate(element => Math.max(0, element.getBoundingClientRect().top + scrollY - 140))
+    const states = []
+    for (const [index, offset] of [0, 100, 200, 0].entries()) {
+      await page.evaluate(top => window.scrollTo({ top, behavior: 'instant' }), top + offset)
+      await page.waitForTimeout(350)
+      // Page clipping preserves the chosen scroll position; locator screenshots
+      // can scroll the scene into view and inadvertently change its rotation.
+      const clip = await scene.boundingBox()
+      if (!clip) throw new Error('Companion scene has no bounds')
+      await page.screenshot({ path: `${directory}/orbit-${width}-${index}.png`,
+        clip: { x: clip.x, y: Math.max(0, clip.y), width: clip.width, height: clip.height + Math.min(0, clip.y) },
+        style: '.site-header { visibility: hidden; }' })
+      states.push(await page.locator('.scene-orbit').evaluate(element => ({ scroll: scrollY, transform: getComputedStyle(element).transform })))
+    }
+    await writeFile(`${directory}/orbit-${width}.json`, JSON.stringify(states, null, 2))
+    await page.close()
+  }
 } finally { await browser.close() }
 await writeFile(`${directory}/audit.json`, JSON.stringify(report, null, 2))
 if (report.some(item => item.errors.length || item.overflow)) throw new Error(`Capture failed: see ${directory}/audit.json`)
 if (compare) {
   const differences = []
   const channelTolerance = 2
-  const files = (await readdir(directory)).filter(file => file.endsWith('.png'))
+  // Live orbit evidence intentionally includes the browser-clock sprite and
+  // is reviewed separately; only deterministic captures use exact comparison.
+  const files = (await readdir(directory)).filter(file => file.endsWith('.png') && !file.startsWith('orbit-'))
   for (const file of files) {
     const before = await sharp(await readFile(resolve(output, compare, file))).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
     const after = await sharp(await readFile(resolve(directory, file))).ensureAlpha().raw().toBuffer({ resolveWithObject: true })

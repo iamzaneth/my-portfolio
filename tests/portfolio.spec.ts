@@ -25,19 +25,23 @@ for (const width of widths) {
       const style = getComputedStyle(element)
       const bounds = element.getBoundingClientRect()
       const heading = element.querySelector('.section-heading, .contact-top')
-      return { top: bounds.top, bottom: bounds.bottom, padding: parseFloat(style.paddingTop),
+      return { top: bounds.top, bottom: bounds.bottom, left: bounds.left, width: bounds.width, padding: parseFloat(style.paddingTop),
         background: style.backgroundColor, headingLeft: heading?.getBoundingClientRect().left,
         opacity: heading ? getComputedStyle(heading).opacity : null }
     }))
+    for (const section of sections) {
+      expect(section.left).toBeCloseTo(0, 0)
+      expect(section.width).toBeCloseTo(width, 0)
+      expect(section.background).not.toBe('rgba(0, 0, 0, 0)')
+    }
     for (let index = 1; index < sections.length; index++) {
       expect(Math.abs(sections[index].top - sections[index - 1].bottom)).toBeLessThan(1)
       expect(sections[index].padding).toBeGreaterThan(0)
       expect(sections[index].padding).toBeCloseTo(sections[1].padding, 0)
       expect(sections[index].headingLeft).toBeCloseTo(sections[1].headingLeft!, 0)
       expect(sections[index].opacity).toBe('1')
+      expect(sections[index].background).not.toBe(sections[index - 1].background)
     }
-    expect(sections[2].background).toBe(sections[4].background)
-    expect(sections[2].background).not.toBe(sections[1].background)
   })
 }
 
@@ -53,6 +57,27 @@ test('page introductions settle with the heading, actions, and companion visible
     return bounds.top >= parent.top - 1 && bounds.bottom <= parent.bottom + 1
   }))
   expect(lines.every(Boolean)).toBe(true)
+})
+
+test('interrupted entrances and rapid scroll reveals leave content fully visible', async ({ page }) => {
+  await page.goto('/')
+  await page.waitForTimeout(120)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('.hero-copy')).toHaveCSS('opacity', '1')
+  await expect(page.locator('.name-line > span').first()).toHaveCSS('transform', 'none')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.evaluate(async () => {
+    for (const element of document.querySelectorAll('[data-reveal], .skill-card, .project-card')) {
+      element.scrollIntoView({ block: 'center', behavior: 'instant' })
+      await new Promise(requestAnimationFrame)
+      await new Promise(requestAnimationFrame)
+    }
+  })
+  await expect.poll(() => page.locator('[data-reveal], .skill-card, .project-card').evaluateAll(elements =>
+    elements.every(element => getComputedStyle(element).opacity === '1'))).toBe(true)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  expect(await page.locator('[data-reveal], .skill-card, .project-card').evaluateAll(elements =>
+    elements.every(element => getComputedStyle(element).opacity === '1'))).toBe(true)
 })
 
 test('reduced motion leaves content visible and keeps cat controls useful', async ({ page }) => {

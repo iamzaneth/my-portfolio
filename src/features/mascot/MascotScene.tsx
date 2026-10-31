@@ -6,24 +6,23 @@ import { useCatController } from './useCatController'
 import { useCatMotion } from './useCatMotion'
 import { useCompanion } from './companionContext'
 
-// Keep most stars around the edges so the cat has a quiet silhouette.
+// Keep stars within the circular celestial dome, framing the cat cleanly.
 const skyStars = [
-  [12, 12], [26, 8], [42, 13], [63, 7], [79, 13], [90, 24],
-  [6, 29], [18, 24], [32, 19], [56, 21], [72, 26], [84, 33],
-  [10, 43], [22, 38], [77, 43], [94, 47], [5, 59], [16, 54],
-  [26, 49], [83, 57], [90, 65], [12, 71], [23, 65], [74, 67],
-  [80, 78], [94, 81], [7, 85], [19, 88], [31, 77], [65, 84],
-  [38, 5], [87, 8], [4, 17], [96, 35], [45, 89], [57, 78],
-  [44, 12], [56, 10], [65, 16], [73, 20], [82, 28], [86, 39],
-  [36, 14], [25, 23], [17, 32], [12, 46], [14, 61], [21, 73],
-  [28, 80], [40, 86], [52, 87], [64, 81], [73, 74], [83, 65],
-  [34, 24], [45, 22], [54, 27], [65, 29], [74, 35], [79, 48],
-  [23, 42], [19, 50], [25, 58], [30, 69], [39, 78], [54, 81],
-  [69, 76], [77, 64], [84, 52], [72, 49], [31, 34], [40, 31],
-  [49, 16], [60, 20], [69, 23], [79, 31], [88, 44], [87, 59],
-  [30, 17], [21, 29], [15, 40], [17, 64], [26, 75], [36, 83],
-  [46, 84], [61, 85], [70, 79], [80, 70], [83, 42], [75, 54],
-  [29, 46], [20, 60], [34, 73], [62, 75], [68, 34], [38, 39],
+  // Upper celestial arch
+  [14, 33], [24, 35], [21, 26], [30, 31], [28, 18], [36, 25],
+  [37, 14], [43, 23], [47, 12], [50, 24], [57, 10], [58, 20],
+  [66, 15], [64, 26], [74, 21], [70, 29], [81, 28], [73, 36],
+  [88, 36], [80, 42],
+  // Left flank & mid
+  [13, 50], [20, 50], [11, 60], [22, 57], [17, 69], [24, 65],
+  [25, 75], [32, 68],
+  // Right flank & mid
+  [86, 50], [78, 50], [87, 60], [77, 57], [85, 70], [76, 65],
+  [77, 77], [68, 68],
+  // Lower perimeter
+  [26, 80], [33, 84], [67, 84], [74, 80],
+  // Deep space twinklers
+  [33, 19], [48, 16], [54, 15], [67, 21]
 ]
 
 export default function MascotScene() {
@@ -73,17 +72,17 @@ export default function MascotScene() {
     <div className="scene-caption scene-note"><span className="status-dot" /> {animation.label}<span className="caption-id">/ curiosity online</span></div>
     <div className="cat-controls scene-note flex w-full justify-center gap-1.5" role="group" aria-label="Pixel cat interactions">
       <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
-        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
-        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
-        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'pet' })}><Heart size={13} /> Pet</button>
+        text-[12px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-accent hover:bg-surface-accent hover:text-accent aria-pressed:border-accent
+        aria-pressed:bg-surface-accent aria-pressed:text-accent max-md:px-[15px]" onClick={() => dispatch({ type: 'pet' })}><Heart size={13} /> Pet</button>
       <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
-        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
-        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
-        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'play' })}><Play size={13} /> Play</button>
+        text-[12px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-accent hover:bg-surface-accent hover:text-accent aria-pressed:border-accent
+        aria-pressed:bg-surface-accent aria-pressed:text-accent max-md:px-[15px]" onClick={() => dispatch({ type: 'play' })}><Play size={13} /> Play</button>
       <button type="button" className="flex min-h-11 items-center gap-[7px] rounded border border-line bg-surface px-[13px] py-0 font-mono
-        text-[11px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
-        hover:border-[#86739d] hover:bg-surface-accent hover:text-[#d2bfff] aria-pressed:border-[#86739d]
-        aria-pressed:bg-surface-accent aria-pressed:text-[#d2bfff] max-md:px-[15px]" onClick={() => dispatch({ type: 'nap' })} aria-pressed={resting}>{resting ? <Sparkles size={13} /> : <Moon size={13} />}{resting ? 'Wake' : 'Nap'}</button>
+        text-[12px] text-muted transition-[background,color,border-color] duration-200 ease-[ease]
+        hover:border-accent hover:bg-surface-accent hover:text-accent aria-pressed:border-accent
+        aria-pressed:bg-surface-accent aria-pressed:text-accent max-md:px-[15px]" onClick={() => dispatch({ type: 'nap' })} aria-pressed={resting}>{resting ? <Sparkles size={13} /> : <Moon size={13} />}{resting ? 'Wake' : 'Nap'}</button>
     </div>
     <span className="cat-hint scene-note">A tiny companion. Go on, say hello.</span>
     </div>

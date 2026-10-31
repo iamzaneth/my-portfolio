@@ -1,21 +1,37 @@
 :root {
   color-scheme: dark;
-  /* Lift the navy foundations while keeping large text softly off-white. */
-  --bg: #1d2b40;
-  --bg-subtle: #223249;
-  --section-surface: #213047;
-  --surface: #293a53;
-  --surface-raised: #314560;
-  --surface-accent: #34304b;
-  --surface-accent-hover: #403755;
-  --surface-accent-pressed: #4a3b60;
-  --text: #eaf0fa;
-  --muted: #bbc9dd;
-  --faint: #acbdd4;
-  --line: #4b5e78;
-  --accent: #b9a3ff;
-  --cyan: #80d8de;
-  --warm: #f4cc88;
+  /* Foundations → section plane → content → interactive elevation. */
+  --bg: #151d2e;
+  --bg-subtle: #1a2640;
+  /* Chapter planes vary in tone and temperature, independently of cards. */
+  --section-profile: #1e2c44;
+  --section-surface: #19253a;
+  --section-work: #1c2a42;
+  --section-contact: #1b2740;
+  --surface: #243450;
+  --surface-raised: #2c3d5a;
+  --surface-identity: #2a3752;
+  --surface-inset: #162137;
+  --surface-accent: #302c48;
+  --surface-accent-hover: #3d3558;
+  --surface-accent-pressed: #483c62;
+  --text: #e8eff8;
+  --muted: #a8b9d0;
+  --faint: #8a9db8;
+  /* Control boundaries are stronger than decorative module edges. */
+  --line: #5e7494;
+  --accent: #b49dff;
+  --cyan: #6ec8d4;
+  --warm: #e8c088;
+  --accent-ink: #150f24;
+  --accent-hover: #c4b4ff;
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --cyan-soft: color-mix(in srgb, var(--cyan) 10%, transparent);
+  --accent-edge: color-mix(in srgb, var(--accent) 45%, transparent);
+  --orbit-stroke: #94a9cc;
+  --orbit-inner: #6db4cc;
+  --orbit-guide: #506b8c;
+  --diagram-line: #5a7a92;
   --motion-fast: 180ms;
   --motion-component: 320ms;
   --ease-out: cubic-bezier(.22, 1, .36, 1);
@@ -23,15 +39,15 @@
   --layout-gap: clamp(24px, 4vw, 48px);
   --module-padding: clamp(20px, 2.5vw, 32px);
   --module-radius: 10px;
-  --module-line: #4b5e78a6;
+  --module-line: #8a9db825;
   --reading-size: 16px;
   --reading-leading: 1.85;
-  --glass-top: #1d2b40bd;
-  --glass-scrolled: #1d2b40d1;
-  --glass-mobile-top: #1d2b40c7;
-  --glass-mobile-scrolled: #1d2b40db;
-  --glass-text: #dce6f4;
-  --glass-edge: #bbc9dd20;
+  --glass-top: #151d2ebb;
+  --glass-scrolled: #151d2ed4;
+  --glass-mobile-top: #151d2ec7;
+  --glass-mobile-scrolled: #151d2edb;
+  --glass-text: #d0dbed;
+  --glass-edge: #8a9db81a;
   --font: 'Manrope', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
 }
@@ -52,6 +68,8 @@
   --color-accent: var(--accent);
   --color-cyan: var(--cyan);
   --color-warm: var(--warm);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-hover: var(--accent-hover);
   --font-sans: var(--font);
   --font-mono: var(--mono);
 }

@@ -1,35 +1,39 @@
-/* Equal core disciplines, followed by two lighter supporting modules. */
-.skills-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
-.skill-card { display: flex; flex-direction: column; min-width: 0; padding: 24px 0; border-top: 1px solid var(--module-line); }
-.skill-ai, .skill-data { padding: var(--module-padding); background: var(--surface); border: 0; border-radius: var(--module-radius); }
-.skill-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.skill-emblem { display: grid; place-items: center; width: 44px; height: 44px; color: var(--accent); }
-.skill-data .skill-emblem, .skill-analysis .skill-emblem { color: var(--cyan); }
-.skill-kind { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 10px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+/* One module family. Focus is metadata; disciplines share all geometry. */
+.skills-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.skill-card { --skill-accent: var(--accent); --skill-tint: var(--accent-soft); position: relative; display: flex; flex-direction: column; min-width: 0; padding: var(--module-padding); border: 1px solid var(--module-line); border-radius: var(--module-radius); background: var(--surface); transition: border-color var(--motion-fast); }
+.skill-data, .skill-analysis { --skill-accent: var(--cyan); --skill-tint: var(--cyan-soft); }
+.skill-card:focus-within { border-color: var(--skill-accent); }
+.skill-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.skill-emblem { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px; color: var(--skill-accent); background: var(--skill-tint); }
+.skill-kind { display: inline-flex; align-items: center; justify-content: flex-end; gap: 12px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.skill-focus { display: inline-flex; align-items: center; gap: 8px; }
+.skill-card[data-focus=core] .skill-focus { color: var(--skill-accent); }
+.skill-card[data-focus=core] .skill-focus::before { content: ''; width: 4px; height: 4px; flex-shrink: 0; background: currentColor; }
 .skill-number { font: 12px/1.7 var(--mono); color: var(--faint); }
-.skill-body { display: flex; flex-direction: column; flex: 1; margin-top: 18px; min-width: 0; }
-.skill-body h3 { font-size: 23px; font-weight: 600; line-height: 1.4; letter-spacing: -.6px; }
-.skill-ai h3, .skill-data h3 { font-size: 28px; letter-spacing: -.8px; }
-.skill-description { margin-top: 12px; color: var(--muted); font-size: var(--reading-size); line-height: var(--reading-leading); }
-.skill-practice { padding-top: 18px; margin-top: 0; }
-.skill-practice summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px; margin-inline: -8px; color: var(--accent); font-size: 14px; font-weight: 500; list-style: none; cursor: pointer; border-radius: 4px; transition: background var(--motion-fast), color var(--motion-fast); }
+.skill-body { display: flex; flex-direction: column; margin-top: 22px; min-width: 0; }
+.skill-body h3 { font-size: clamp(23px, 2.1vw, 28px); font-weight: 600; line-height: 1.4; letter-spacing: -.7px; }
+.skill-description { margin-top: 10px; color: var(--muted); font-size: var(--reading-size); line-height: var(--reading-leading); }
+.skill-card .open-tech-list { margin-top: 18px; min-height: 59px; align-content: start; }
+.skill-card .open-tech-list li { font-size: 14px; }
+.skill-practice { padding-top: 18px; margin-top: 16px; border-top: 1px solid var(--module-line); }
+.skill-practice summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px 10px; margin-inline: -10px; color: var(--text); font-size: 14px; font-weight: 550; list-style: none; cursor: pointer; border-radius: 5px; transition: background var(--motion-fast), color var(--motion-fast); }
 .skill-practice summary::-webkit-details-marker { display: none; }
-.skill-practice summary:hover, .skill-practice summary:focus-visible { background: #b9a3ff10; color: var(--text); }
-.skill-practice summary[aria-expanded=true] { color: var(--accent); background: #b9a3ff10; }
-.skill-practice summary svg { transition: transform var(--motion-component) var(--ease-out); }
+.skill-practice summary:hover, .skill-practice summary:focus-visible, .skill-practice summary[aria-expanded=true] { background: var(--skill-tint); color: var(--skill-accent); }
+.skill-practice summary svg { color: var(--skill-accent); transition: transform var(--motion-component) var(--ease-out); }
 .skill-practice summary[aria-expanded=true] svg { transform: rotate(180deg); }
 .skill-practice-body { display: flow-root; overflow: clip; }
-.skill-practice p { margin-top: 10px; font-size: 15px; line-height: 1.9; color: var(--muted); }
-.toolkit-footnote { display: flex; align-items: center; gap: 12px; margin-top: 24px; color: var(--faint); font: 12px/1.9 var(--mono); }
+.skill-practice p { margin-top: 12px; font-size: 15px; line-height: 1.9; color: var(--muted); }
+.toolkit-footnote { display: flex; align-items: center; gap: 12px; margin-top: 28px; color: var(--faint); font-size: 13px; line-height: 1.9; }
 .toolkit-footnote .status-dot { width: 4px; height: 4px; background: var(--accent); box-shadow: none; }
 
 @media (max-width: 767px) {
-  .skills-grid { grid-template-columns: 1fr; gap: 20px; }
-  .skill-card { padding: 22px 0; }
-  .skill-ai, .skill-data { padding: var(--module-padding); }
-  .skill-ai h3, .skill-data h3 { font-size: 26px; }
-  .skill-body h3 { font-size: 23px; }
+  .skills-grid { grid-template-columns: 1fr; gap: 16px; }
+  .skill-body { margin-top: 20px; }
+  .skill-body h3 { font-size: 24px; }
+  .skill-card .open-tech-list { min-height: 0; }
 }
 @media (max-width: 359px) {
-  .skill-kind { font-size: 11px; }
+  .skill-kind { gap: 8px; font-size: 11px; }
+  .skill-number { font-size: 11px; }
+  .skill-focus { gap: 6px; }
 }

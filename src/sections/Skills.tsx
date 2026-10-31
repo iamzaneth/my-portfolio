@@ -13,8 +13,8 @@ export default function Skills() {
         <div className="skills-grid">
           {skills.map((skill) => {
             const Icon = icons[skill.icon]
-            return <article className={`skill-card skill-${skill.id}`} key={skill.id}>
-              <div className="skill-top"><span className="skill-emblem"><Icon size={28} strokeWidth={1.4} aria-hidden="true" /></span><span className="skill-kind">{skill.id === 'ai' || skill.id === 'data' ? 'Core focus' : 'Supporting discipline'}<span className="skill-number">/{skill.number}</span></span></div>
+            return <article className={`skill-card skill-${skill.id}`} data-focus={skill.focus} key={skill.id}>
+              <div className="skill-top"><span className="skill-emblem"><Icon size={26} strokeWidth={1.5} aria-hidden="true" /></span><span className="skill-kind"><span className="skill-focus">{skill.focus === 'core' ? 'Core focus' : 'Supporting discipline'}</span><span className="skill-number">/{skill.number}</span></span></div>
               <div className="skill-body">
                 <h3>{skill.title}</h3><p className="skill-description">{skill.description}</p>
                 <ul className="tech-list open-tech-list">{skill.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>

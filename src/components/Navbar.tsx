@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { navigation, profile } from '@/data/profile'
 
-const mobileLinkClass = `group/link flex min-h-12 items-center justify-between rounded px-2.5 text-[16px] text-[#d2d9e5]
+const mobileLinkClass = `group/link flex min-h-12 items-center justify-between rounded px-2.5 text-[16px] text-muted
           transition-[background,color,transform,box-shadow] duration-200 ease-[ease]
           aria-[current]:bg-surface-accent aria-[current]:text-accent hover:bg-surface-accent-hover
-          hover:text-[#d8c5ff] hover:shadow-[inset_3px_0_var(--accent)] hover:[transform:translateX(3px)]
-          focus-visible:bg-surface-accent-hover focus-visible:text-[#d8c5ff]
+          hover:text-accent hover:shadow-[inset_3px_0_var(--accent)] hover:[transform:translateX(3px)]
+          focus-visible:bg-surface-accent-hover focus-visible:text-accent
           focus-visible:shadow-[inset_3px_0_var(--accent)] focus-visible:[transform:translateX(3px)]
           active:bg-surface-accent-pressed active:text-foreground active:[transform:translateX(3px)_scale(.985)]
           [&>svg]:text-accent [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:ease-[ease]
@@ -77,7 +77,7 @@ export default function Navbar() {
           <span className="menu-glyph" aria-hidden="true"><span /><span /><span /></span>
         </button>
       </div>
-      <nav id="mobile-navigation" className="mobile-nav absolute inset-x-0 top-[71px] hidden border-b border-[#645b7a] bg-surface px-[22px] pt-4 pb-5
+      <nav id="mobile-navigation" className="mobile-nav absolute inset-x-0 top-[71px] hidden border-b border-line bg-surface px-[22px] pt-4 pb-5
         shadow-[0_20px_30px_#00000025] max-md:grid" aria-label="Mobile navigation" hidden={!open}>
         {navigation.map((link) => <a className={mobileLinkClass} key={link.id} href={`#${link.id}`} aria-current={active === link.id ? 'location' : undefined} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={17} /></a>)}
         {profile.showResume && <a className={mobileLinkClass} href={profile.resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>View résumé<ArrowUpRight size={17} /></a>}

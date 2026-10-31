@@ -104,7 +104,8 @@ test('opaque navigation fallback works without the backdrop-filter support branc
     }
     for (const sheet of document.styleSheets) removeGlassSupport(sheet)
   })
-  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(29, 43, 64)')
+  const foundation = await page.locator('body').evaluate(element => getComputedStyle(element).backgroundColor)
+  await expect(page.locator('.site-header')).toHaveCSS('background-color', foundation)
   await expect(page.locator('.site-header')).toHaveCSS('backdrop-filter', 'none')
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Selected work', exact: true }).click()
   await expect(page).toHaveURL(/#projects$/)

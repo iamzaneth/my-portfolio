@@ -82,6 +82,9 @@ test('changing walking speed retains footfall phase and world position', async (
   await page.getByRole('button', { name: 'Play', exact: true }).click()
   await page.waitForTimeout(950)
   const continuity = await page.evaluate(async () => {
+    // Freeze only the sprite clock while measuring the speed-change boundary.
+    // A live animation can naturally cross a frame during the awaited paint.
+    document.querySelector('.pixel-cat-sprite[data-active=true]')!.getAnimations().forEach(animation => animation.pause())
     const read = () => {
       const sprite = document.querySelector('.pixel-cat-sprite[data-active=true]')!
       return {
