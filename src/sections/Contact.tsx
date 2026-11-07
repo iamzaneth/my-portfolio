@@ -22,7 +22,7 @@ export default function Contact() {
     <section id="contact" aria-labelledby="contact-title" className="contact-section">
       <div className="page-container">
         <div className="contact-top mb-10 flex flex-wrap items-center justify-between gap-4 max-md:mb-8" data-reveal>
-          <p className="eyebrow"><span>04 /</span> THE NEXT CHAPTER</p>
+          <p className="eyebrow"><span>05 /</span> THE NEXT CHAPTER</p>
           <span className="availability inline-flex items-center gap-2.5 text-[12px] leading-5 text-muted">
             <span className="status-dot" aria-hidden="true" /> Open to opportunities
           </span>
@@ -47,7 +47,7 @@ export default function Contact() {
               <span>{profile.location}</span>
             </div>
           </div>
-          <div className="contact-details min-w-0">
+          <div className="contact-details glass-standard min-w-0">
             <div className="contact-email-row flex min-w-0 items-center gap-4 border-b border-line py-5 max-tiny:gap-3">
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent/10 text-accent" aria-hidden="true"><Mail size={20} strokeWidth={1.5} /></span>
               <div className="min-w-0 flex-1">

@@ -90,3 +90,22 @@
   --breakpoint-desktop: 1101px;
   --breakpoint-wide: 1600px;
 }
+
+/* V3: shared navigation geometry and material hierarchy. */
+:root {
+  --nav-height: 87px;
+  --chapter-space: clamp(32px, 4vh, 56px);
+  --bg: #0d1527;
+  --muted: #bac8df;
+  --faint: #9eafcb;
+  --glass-subtle: #18243e80;
+  --glass-base: #1d2c48ad;
+  --glass-elevated: #243551b8;
+  --glass-border: #c3d3ff30;
+  --glass-border-highlight: #dae2ff59;
+  --glass-lavender: #b49dff1f;
+  --glass-cyan: #6ec8d41a;
+  --glass-shadow: 0 22px 60px #02081945, 0 4px 12px #02081924;
+  --glass-inner-highlight: inset 0 1px 0 #ffffff24, inset 0 -1px 0 #070e2430;
+}
+@media (max-width: 767px) { :root { --nav-height: 72px; --chapter-space: 48px; } }

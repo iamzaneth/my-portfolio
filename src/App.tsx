@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Navbar from '@/components/Navbar'
+import { useChapterNavigation } from '@/features/chapters/useChapterNavigation'
 import CometCursor from '@/features/cursor/CometCursor'
 import Hero from '@/sections/Hero'
 import About from '@/sections/About'
@@ -10,6 +11,7 @@ import { usePortfolioMotion } from '@/animations/usePortfolioMotion'
 import { CompanionContext } from '@/features/mascot/companionContext'
 
 export default function App() {
+  const activeChapter = useChapterNavigation()
   const scope = usePortfolioMotion()
   const [discovery, discover] = useState('')
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function App() {
       <div ref={scope} className="portfolio">
         <a className="skip-link fixed top-3 left-4 z-100 -translate-y-[160%] bg-accent px-[18px] py-3 text-bg
           [clip-path:inset(100%)] focus:translate-y-0 focus:[clip-path:none]" href="#main">Skip to content</a>
-        <Navbar />
+        <Navbar active={activeChapter} />
         <CometCursor />
         <main id="main" tabIndex={-1}>
           <Hero />

@@ -6,9 +6,9 @@ export default function About() {
   return (
     <section id="about" className="section-space about-section">
       <div className="page-container">
-        <SectionHeading number="01" label="THE PERSON BEHIND THE PIXELS">Curiosity is my<br /><span className="text-faint">starting point.</span></SectionHeading>
+        <SectionHeading number="02" label="THE PERSON BEHIND THE PIXELS">Curiosity is my<br /><span className="text-faint">starting point.</span></SectionHeading>
         <div className="about-grid">
-          <div className="profile-card" data-reveal>
+          <div className="profile-card glass-standard" data-reveal>
             <div className="profile-card-top"><span>Developer field card</span>
               <svg className="profile-spark" width="36" height="36" viewBox="0 0 36 36" fill="currentColor" aria-hidden="true">
                 <path d="M16 4h4v8h4v4h8v4h-8v4h-4v8h-4v-8h-4v-4H4v-4h8v-4h4V4Z" />

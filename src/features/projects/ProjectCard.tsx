@@ -15,7 +15,7 @@ export default function ProjectCard({ project, number, onDetails }: ProjectCardP
   const titleId = useId()
   const technologies = project.technologies ?? []
 
-  return <article className={`project-card${project.featured ? ' project-featured' : ''}`} id={project.slug} aria-labelledby={titleId}>
+  return <article className={`project-card glass-elevated${project.featured ? ' project-featured' : ''}`} id={project.slug} aria-labelledby={titleId}>
     <header className="project-header">
       <div className="project-meta"><span>{project.category}</span>
         {project.featured && <span className="featured-label"><Sparkle size={12} aria-hidden="true" /> Featured</span>}

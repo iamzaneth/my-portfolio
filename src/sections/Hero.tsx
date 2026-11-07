@@ -23,6 +23,6 @@ export default function Hero() {
       </div>
       <MascotScene />
     </div>
-    <div className="page-container hero-bottom"><a href="#about" className="scroll-cue"><ArrowDown size={16} /> SCROLL TO EXPLORE</a><span className="hero-index">A PERSONAL UNIVERSE <span aria-hidden="true">✳</span> EST. IN CURIOSITY</span></div>
+    <div className="page-container hero-bottom"><a href="#about" className="scroll-cue"><ArrowDown size={16} /> SCROLL TO EXPLORE</a><span className="hero-index">01 / HOME <span aria-hidden="true">✳</span> EST. IN CURIOSITY</span></div>
   </section>
 }

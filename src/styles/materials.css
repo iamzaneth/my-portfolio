@@ -1,0 +1,53 @@
+/* Opaque, readable fallbacks. Material blur is static, local, never animated. */
+.glass-subtle, .glass-standard, .glass-elevated {
+  border: 1px solid var(--glass-border);
+  background-color: #1b2b44;
+  background-image: linear-gradient(135deg, #e8eff80c, transparent 45%, #6ec8d405);
+  box-shadow: var(--glass-inner-highlight), var(--glass-shadow);
+}
+.glass-subtle { box-shadow: var(--glass-inner-highlight); }
+.glass-elevated { border-top-color: var(--glass-border-highlight); }
+@supports (backdrop-filter: blur(1px)) {
+  .glass-subtle { background-color: var(--glass-subtle); backdrop-filter: blur(6px); }
+  .glass-standard { background-color: var(--glass-base); backdrop-filter: blur(10px) saturate(115%); }
+  .glass-elevated { background-color: var(--glass-elevated); backdrop-filter: blur(14px) saturate(115%); }
+}
+/* Specificity follows each existing feature's own geometry. */
+.profile-card.glass-standard { background-color: #1d2c48; background-image: linear-gradient(140deg, #b49dff18, transparent 45%, #6ec8d40a); box-shadow: var(--glass-inner-highlight), var(--glass-shadow); border-radius: 24px; }
+.skill-card.glass-standard { border: 1px solid var(--glass-border); border-radius: 14px; padding: 22px 24px; background-color: #1b2b44; transition: border-color var(--motion-component), box-shadow var(--motion-component); }
+.project-collection .project-card.glass-elevated { background-color: #243551; background-image: linear-gradient(120deg, #b49dff10, transparent 40%, #6ec8d408); box-shadow: var(--glass-inner-highlight), var(--glass-shadow); border-color: var(--glass-border); border-top-color: var(--glass-border-highlight); }
+.contact-details.glass-standard { padding: 24px 28px; border-radius: 20px; }
+@supports (backdrop-filter: blur(1px)) {
+  .profile-card.glass-standard, .skill-card.glass-standard { background-color: var(--glass-base); }
+  .project-collection .project-card.glass-elevated { background-color: var(--glass-elevated); }
+}
+@media (hover: hover) {
+  .skill-card.glass-standard:hover, .profile-card.glass-standard:hover, .project-card.glass-elevated:hover { border-top-color: var(--glass-border-highlight); box-shadow: inset 0 1px 0 #ffffff30, var(--glass-shadow); }
+}
+/* The habitat shell reflects light; the sprite and garden retain crisp pixels.
+   No backdrop filter inside the already layered character world. */
+.mascot-scene { background: linear-gradient(145deg, #b49dff0a, #17263b80 55%, #6ec8d410); border-color: var(--glass-border); box-shadow: var(--glass-inner-highlight), 0 30px 80px #02081940; }
+.scene-footer { background: #172338cf; box-shadow: inset 0 1px 0 #e8eff811; }
+.scene-sky { background: radial-gradient(ellipse at 50% 62%, #b49dff14, transparent 65%); }
+.site-header { height: var(--nav-height); background-color: var(--bg); border-bottom-color: var(--glass-border); box-shadow: 0 8px 30px #02081926, inset 0 1px 0 #ffffff10; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header { background-color: #111d31bc; backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%); }
+  .site-header[data-scrolled=true] { background-color: #111d31d4; }
+  .site-header[data-menu-open=true] { background-color: #111d31f5; }
+}
+.nav-contact { border-radius: 24px; background: linear-gradient(120deg, #b49dff1a, #6ec8d40b); border-color: var(--line); }
+.site-header .desktop-nav a[aria-current] { color: var(--accent); }
+@media (max-width: 767px) {
+  .contact-details.glass-standard { padding: 18px; }
+  .skill-card.glass-standard { padding: 22px; }
+  @supports (backdrop-filter: blur(1px)) { .glass-standard { backdrop-filter: blur(6px); } }
+}
+/* Four simultaneous capability panels use thinner frosting than focal glass. */
+@supports (backdrop-filter: blur(1px)) { .skill-card.glass-standard { backdrop-filter: blur(4px); } }
+@media (max-width: 767px) {
+  /* The email is the primary content; reclaim its decorative icon's column so
+     the address stays readable even in a narrow glass panel. */
+  .contact-email-row { gap: 8px; }
+  .contact-email-row > span { display: none; }
+  .contact-email { font-size: 14px; }
+}
