@@ -41,7 +41,7 @@ try {
       await page.keyboard.press('Escape')
     }
     if ([375, 1440].includes(width)) {
-      const disclosure = page.locator('.skill-practice summary').first()
+      const disclosure = page.locator('.skill-practice-toggle').first()
       await disclosure.click()
       await page.locator('#skills').screenshot({ path: `${directory}/skills-expanded-${width}.png`, style: '.site-header { visibility: hidden; }' })
       await disclosure.click()
@@ -70,7 +70,7 @@ try {
     report.push({ width, errors, overflow: await page.evaluate(() => document.documentElement.scrollWidth > innerWidth) })
     await page.close()
   }
-  // Capture real scroll-linked transforms separately from the static,
+  // Capture live desktop rotation/mobile scroll transforms separately from static,
   // reduced-motion section evidence. Save the return scroll as well.
   for (const width of [320, 375, 768, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } })

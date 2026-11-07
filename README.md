@@ -8,10 +8,11 @@ The personal website of **Tran Thien Phuc**, a Data Engineering student explorin
 
 - Responsive navy/lavender design, self-hosted fonts, and frosted navigation.
 - An interactive pixel cat with varied Pet/Play routines, sleep/wake controls, continuous sprite transitions, and contextual project discoveries.
-- Keyboard-accessible skill disclosures.
+- Keyboard-accessible, fixed-layout skill practice views.
 - Compact project cards, category filters, and in-page case-study dialogs with focus and scroll restoration.
 - A data-driven NexTick architecture explorer; Source and Demo links appear only when valid URLs are configured.
-- Scroll reveals, reduced-motion support, visible keyboard focus, and a skip link.
+- Full-screen chapter navigation, a fast animated return to top, reduced-motion support, visible keyboard focus, and a skip link.
+- Static cosmic constellations with independent orbits; the mascot orbit rotates automatically on PC and follows scrolling on mobile/tablet.
 - Direct contact links and copy-email feedback.
 
 ## Stack
@@ -37,7 +38,7 @@ pnpm run build
 pnpm run preview
 ```
 
-Check dependency advisories with `pnpm run audit` (all packages) or `pnpm run audit:prod` (runtime packages). Dependency decisions and validation are recorded in [the dependency maintenance notes](docs/dependencies.md).
+Check dependency advisories with `pnpm run audit` (all packages) or `pnpm run audit:prod` (runtime packages).
 
 The build checks TypeScript and creates the static site in `dist/`.
 
@@ -84,7 +85,10 @@ src/
   features/
     mascot/          Sprite definitions, state, motion, rendering, scene, and styles
     projects/        Collection, cards, dialog, previews, architecture, and styles
-    skills/          Animated skill disclosure and styles
+    skills/          Fixed-layout practice views and styles
+    cosmic/          Static celestial scenes and SVG primitives
+    cursor/          Immutable historical comet trail
+    chapters/        Chapter navigation and bounded return-to-top action
   data/              Profile, skills, and project configuration
   hooks/             Visibility/activity and reduced-motion subscriptions
   styles/            Global tokens, shared primitives, sections, and navigation
@@ -95,7 +99,7 @@ tests/
   mascot/            State, routines, rendering, continuity, and orbit checks
   projects/          Collections, dialogs, and architecture checks
   *.spec.ts          Portfolio, navigation, and skill checks
-docs/                Cleanup record and validation evidence
+docs/                Current architecture and maintenance guide
 ```
 
 ## Update content
@@ -120,4 +124,4 @@ pnpm run assets:prepare "<extracted Pet Cats Pack directory>"
 
 The script uses the retained avatar source and Fontsource packages to prepare the served avatar/fonts. The optional pack argument rebuilds the atlas and generated sprite catalog. It does not download or hotlink runtime assets.
 
-The [cleanup record](docs/cleanup.md) lists reorganized and removed files, preserved assets/dependencies, test consolidation, and before/after validation.
+See the [maintenance guide](docs/architecture.md) for animation boundaries, cosmic composition, keyboard behavior, validation and repository hygiene.
