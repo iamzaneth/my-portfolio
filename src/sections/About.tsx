@@ -1,3 +1,4 @@
+import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowDownRight, MapPin } from 'lucide-react'
 import SectionHeading from '@/components/SectionHeading'
 import { profile } from '@/data/profile'
@@ -5,6 +6,7 @@ import { profile } from '@/data/profile'
 export default function About() {
   return (
     <section id="about" className="section-space about-section">
+      <CosmicBackground world="about" />
       <div className="page-container">
         <SectionHeading number="02" label="THE PERSON BEHIND THE PIXELS">Curiosity is my<br /><span className="text-faint">starting point.</span></SectionHeading>
         <div className="about-grid">

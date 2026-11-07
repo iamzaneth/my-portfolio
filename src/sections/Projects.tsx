@@ -1,3 +1,4 @@
+import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowUpRight } from 'lucide-react'
 import { projects } from '@/data/projects'
 import { profile } from '@/data/profile'
@@ -7,6 +8,7 @@ import SectionHeading from '@/components/SectionHeading'
 export default function Projects() {
   return (
     <section id="projects" className="section-space projects-section">
+      <CosmicBackground world="projects" />
       <div className="page-container">
         <SectionHeading number="04" label="SELECTED WORK" aside="Learning by building. A closer look at the systems I’m bringing to life.">Less theory.<br /><span className="text-faint">More building.</span></SectionHeading>
         <ProjectCollection projects={projects} />

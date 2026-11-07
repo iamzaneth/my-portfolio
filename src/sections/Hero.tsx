@@ -1,9 +1,11 @@
+import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Github } from 'lucide-react'
 import { profile } from '@/data/profile'
 import MascotScene from '@/features/mascot/MascotScene'
 
 export default function Hero() {
   return <section id="home" className="hero relative">
+      <CosmicBackground world="home" />
     <div className="page-container hero-grid">
       <div className="hero-text">
         <div className="hero-eyebrow"><span className="status-dot" /> Open to opportunities <span className="eyebrow-divider" /> Based in Vietnam</div>

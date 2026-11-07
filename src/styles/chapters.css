@@ -3,15 +3,12 @@ html { scroll-padding-top: var(--nav-height); scroll-behavior: smooth; scroll-sn
 html[data-chapter-moving=true] { scroll-snap-type: none; }
 main > section { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); scroll-margin: 0; scroll-snap-align: none; position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; padding-block: var(--chapter-space); background-color: #0f192c; }
 main > section[data-compact=true] { scroll-snap-align: start; scroll-snap-stop: always; }
-/* Broad static light and sparse repeating stars share one painting plane per
-   chapter. No fixed full-page filter or extra background animation loop. */
-main > section[id]::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 80% 35%, var(--chapter-light, #b49dff22), transparent 65%), radial-gradient(ellipse at 8% 85%, #6ec8d414, transparent 60%), radial-gradient(1px 1px at 20px 40px, #c3d3ff80 80%, transparent), radial-gradient(1px 1px at 140px 170px, #6ec8d460 80%, transparent); background-size: auto, auto, 263px 293px, 397px 317px; }
-main > section[id]::after { content: ''; position: absolute; width: min(46vw, 600px); height: min(46vw, 600px); right: 6%; top: 8%; z-index: -1; border: 1px solid #b49dff0e; border-radius: 50%; box-shadow: 0 0 0 48px #b49dff03, 0 0 0 130px #6ec8d403; pointer-events: none; }
-main > .hero { --chapter-light: #b49dff30; padding-block: 0; background-color: #0e172a; overflow: clip; }
-main > .about-section { --chapter-light: #8c8fe826; background-color: #101a2e; }
-main > .skills-section { --chapter-light: #6ec8d425; background-color: #0d192c; }
-main > .projects-section { --chapter-light: #b49dff2a; background-color: #111a30; }
-main > .contact-section { --chapter-light: #6ec8d41c; background-color: #0e1729; }
+/* Chapter atmosphere is owned by features/cosmic; layout remains independent. */
+main > .hero { padding-block: 0; background-color: #0e172a; overflow: clip; }
+main > .about-section { background-color: #101a2e; }
+main > .skills-section { background-color: #0d192c; }
+main > .projects-section { background-color: #111a30; }
+main > .contact-section { background-color: #0e1729; }
 .hero-grid { flex: 1; padding-block: 32px 24px; }
 .hero h1 { font-size: clamp(48px, 5.3vw, 80px); }
 .hero-intro { margin-top: 28px; }
@@ -51,7 +48,6 @@ main > .contact-section { --chapter-light: #6ec8d41c; background-color: #0e1729;
   .section-heading h2 { font-size: 36px; }
   .skills-grid { gap: 18px; }
   .contact-panel { margin-bottom: 24px; }
-  main > section[id]::after { right: 12%; top: 16%; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; scroll-snap-type: none; } }
 /* On fine-pointer desktop, the wheel enhancement owns compact transitions;

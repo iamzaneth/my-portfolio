@@ -1,3 +1,4 @@
+import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUp, ArrowUpRight, Check, Copy, Facebook, FileText, Github, Mail, MapPin, Phone } from 'lucide-react'
 import { profile } from '@/data/profile'
@@ -20,6 +21,7 @@ export default function Contact() {
   }
   return (
     <section id="contact" aria-labelledby="contact-title" className="contact-section">
+      <CosmicBackground world="contact" />
       <div className="page-container">
         <div className="contact-top mb-10 flex flex-wrap items-center justify-between gap-4 max-md:mb-8" data-reveal>
           <p className="eyebrow"><span>05 /</span> THE NEXT CHAPTER</p>

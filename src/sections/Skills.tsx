@@ -1,3 +1,4 @@
+import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { BrainCircuit, ChartNoAxesCombined, Database, Terminal } from 'lucide-react'
 import { skills } from '@/data/skills'
 import SectionHeading from '@/components/SectionHeading'
@@ -8,6 +9,7 @@ const icons = { brain: BrainCircuit, database: Database, chart: ChartNoAxesCombi
 export default function Skills() {
   return (
     <section id="skills" className="section-space skills-section">
+      <CosmicBackground world="toolkit" />
       <div className="page-container">
         <SectionHeading number="03" label="TOOLS FOR THE THOUGHTFUL BUILDER" aside="Different tools. Connected ideas. A toolkit that grows with every problem.">A practical toolkit.<br /><span className="text-faint">An open mindset.</span></SectionHeading>
         <div className="skills-grid">
