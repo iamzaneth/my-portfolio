@@ -6,7 +6,7 @@ import { projectFixture as fixture } from '../fixtures/urls'
 
 for (const count of [1, 2, 3, 6, 12]) {
   const widths = [1, 12].includes(count) ? [320, 375, 430, 768, 1024, 1440, 1920] : [375, 1024, 1440, 1920]
-  for (const width of widths) test(`${count} compact projects remain coherent at ${width}px`, async ({ page }) => {
+  for (const width of widths) test(`${count} projects remain coherent at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const errors: string[] = []
@@ -24,9 +24,15 @@ for (const count of [1, 2, 3, 6, 12]) {
       const actions = element.querySelector('.project-actions')!.getBoundingClientRect()
       return { x: bounds.x, y: bounds.y, height: bounds.height, width: bounds.width, actionBottom: actions.bottom }
     }))
-    if (count === 1) expect(boxes[0].width).toBeLessThanOrEqual(580)
+    if (count === 1) {
+      const container = await page.locator('.projects-grid').boundingBox()
+      expect(boxes[0].width).toBeCloseTo(container!.width, 0)
+      // A single project has room for a legible architecture preview.
+      const preview = await page.locator('.project-visual').boundingBox()
+      expect(preview!.height).toBeGreaterThanOrEqual(width < 768 ? 140 : 190)
+    }
     if (width >= 1024) {
-      expect(boxes[0].height).toBeLessThan(380)
+      expect(boxes[0].height).toBeLessThan(count === 1 ? 560 : 380)
       for (const box of boxes) {
         const row = boxes.filter(item => Math.abs(item.y - box.y) < 1)
         expect(Math.max(...row.map(item => item.height)) - Math.min(...row.map(item => item.height))).toBeLessThan(1)
@@ -117,9 +123,9 @@ test('pipeline geometry follows configured stage counts inside a mobile dialog',
     await page.goto(fixture(1, mode))
     const previewNodes = page.locator('.preview-node')
     await expect(previewNodes).toHaveCount(Math.min(count, 5))
-    const circles = await previewNodes.evaluateAll(elements => elements.every(element =>
-      element.clientWidth === element.clientHeight && getComputedStyle(element).borderRadius === '50%'))
-    expect(circles).toBe(true)
+    const pixels = await previewNodes.evaluateAll(elements => elements.every(element =>
+      element.clientWidth === element.clientHeight && getComputedStyle(element).borderRadius === '3px'))
+    expect(pixels).toBe(true)
     await page.getByRole('button', { name: /View details/ }).click()
     const stages = page.getByRole('group', { name: /architecture stages/ }).getByRole('button')
     await expect(stages).toHaveCount(count)

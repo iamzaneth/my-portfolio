@@ -40,6 +40,11 @@ test('visibility events preserve the current sprite, world pose, and pending act
       mode: document.querySelector('.mascot-scene')!.getAttribute('data-state'),
     }
   })
+  // CSSAnimation.pause is committed on the next animation sampling boundary.
+  // Wait for that boundary before asserting an exact frozen browser clock.
+  await page.locator('.pixel-cat-sprite[data-active=true]').evaluate(async element => {
+    await Promise.all(element.getAnimations().map(animation => animation.ready))
+  })
   const paused = await read()
   await page.clock.runFor(20000)
   expect(await read()).toEqual(paused)

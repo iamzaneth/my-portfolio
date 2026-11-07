@@ -168,3 +168,28 @@
 @media (max-width: 359px) {
   .preview-stage { font-size: 10px; }
 }
+
+/* V2 editorial composition. */
+.project-collection[data-count="1"] .projects-grid { grid-template-columns: minmax(0, 1fr); }
+.project-collection[data-count="1"] + .github-more { max-width: none; justify-content: flex-end; }
+.project-collection[data-count="1"] .project-card { display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px 48px; padding: clamp(24px, 4vw, 48px); background: var(--surface-inset); border-radius: 16px; }
+.project-collection[data-count="1"] .project-header { grid-row: span 2; }
+.project-collection[data-count="1"] .project-header h3 { font-size: clamp(38px, 4vw, 56px); margin-top: 22px; letter-spacing: -2px; }
+.project-collection[data-count="1"] .project-summary { margin-top: 18px; font-size: 18px; line-height: 1.8; max-width: 390px; }
+.project-highlights-preview { margin-top: 24px; padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 2.1; }
+.project-highlights-preview li::marker { color: var(--cyan); }
+.project-collection[data-count="1"] .project-visual { height: 190px; margin: 0; border: 1px solid var(--module-line); background: var(--bg); background-image: radial-gradient(#8a9db824 1px, transparent 1px); background-size: 16px 16px; }
+.project-collection[data-count="1"] .preview-stages { --preview-node-size: 24px; }
+.project-collection[data-count="1"] .project-card-stack { margin: 0; align-content: start; }
+.project-collection[data-count="1"] .project-actions { grid-column: 1 / -1; border-top: 1px solid var(--module-line); padding-top: 24px; margin-top: 0; }
+.preview-node { border-radius: 3px; }
+.preview-stages::before { height: 2px; top: calc(var(--preview-node-size) / 2 - 1px); }
+@media(max-width: 767px) {
+.project-collection[data-count="1"] .project-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
+.project-collection[data-count="1"] .project-header { grid-row: auto; }
+.project-collection[data-count="1"] .project-summary { font-size: 16px; }
+.project-collection[data-count="1"] .project-visual { height: 142px; }
+.project-collection[data-count="1"] .preview-stages { --preview-node-size: 16px; }
+.project-collection[data-count="1"] .preview-stage { font-size: 9px; }
+.project-collection[data-count="1"] + .github-more { justify-content: flex-start; }
+}

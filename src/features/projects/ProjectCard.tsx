@@ -22,6 +22,7 @@ export default function ProjectCard({ project, number, onDetails }: ProjectCardP
       </div>
       <h3 id={titleId}>{project.title}</h3>
       <p className="project-summary">{project.summary}</p>
+    {project.featured && project.highlights && <ul className="project-highlights-preview">{project.highlights.map(item => <li key={item}>{item}</li>)}</ul>}
     </header>
     <ProjectVisual project={project} number={number} compact />
     {technologies.length > 0 && <ul className="tech-list open-tech-list project-card-stack" aria-label="Selected technologies">

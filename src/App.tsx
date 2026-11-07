@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Navbar from '@/components/Navbar'
+import CometCursor from '@/features/cursor/CometCursor'
 import Hero from '@/sections/Hero'
 import About from '@/sections/About'
 import Skills from '@/sections/Skills'
@@ -11,6 +12,11 @@ import { CompanionContext } from '@/features/mascot/companionContext'
 export default function App() {
   const scope = usePortfolioMotion()
   const [discovery, discover] = useState('')
+  useEffect(() => {
+    if (!discovery) return
+    const timer = window.setTimeout(() => discover(''), 12000)
+    return () => window.clearTimeout(timer)
+  }, [discovery])
   const companion = useMemo(() => ({ discovery, discover }), [discovery])
   return (
     <CompanionContext value={companion}>
@@ -18,6 +24,7 @@ export default function App() {
         <a className="skip-link fixed top-3 left-4 z-100 -translate-y-[160%] bg-accent px-[18px] py-3 text-bg
           [clip-path:inset(100%)] focus:translate-y-0 focus:[clip-path:none]" href="#main">Skip to content</a>
         <Navbar />
+        <CometCursor />
         <main id="main" tabIndex={-1}>
           <Hero />
           <About />

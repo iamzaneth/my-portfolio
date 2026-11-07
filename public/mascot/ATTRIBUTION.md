@@ -17,3 +17,8 @@ Sitting down and standing up reuse forward/reverse ranges of the Laying sheet. A
 Waking now reverses Laying frames 7–4 so the sleeping silhouette rises into the same seated pose used by the standing bridge. The Stretching sheet is reserved for standing stretches; it is not used as a lying-to-sitting transition. Sprite placement anchors the artwork's ground row (22 of 32 pixels) to the scene floor at every responsive size.
 
 Regenerate with `node scripts/prepare-assets.mjs "<extracted Pet Cats Pack directory>"` after downloading the pack from the author. No critical art is hotlinked. The interface’s pixel face mark and architecture illustration are original code-native graphics.
+
+V2 Moon Garden: the moon, crater shapes, mountain layers and plants in
+`MoonGarden.tsx`, plus the Play star toy and habitat frame, are original code-native
+artwork. The CC0 cat atlas and palette mapping are unchanged. The scene uses
+integer sprite sizes of 256, 288, 320 and 384 pixels to keep atlas pixels crisp.

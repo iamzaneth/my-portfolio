@@ -10,7 +10,8 @@ for (const width of widths) {
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.goto('/')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Tran Thien')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Engineering intelligence.')
+    await expect(page.locator('.hero-intro')).toContainText('TRAN THIEN PHUC')
     await page.evaluate(() => document.fonts.ready)
     for (const id of ['home', 'about', 'skills', 'projects', 'contact']) {
       const section = page.locator(`#${id}`)

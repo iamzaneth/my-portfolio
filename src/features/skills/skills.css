@@ -37,3 +37,14 @@
   .skill-number { font-size: 11px; }
   .skill-focus { gap: 6px; }
 }
+
+/* V2 editorial composition. */
+.skills-grid { gap: 0 40px; }
+.skill-card { border-radius: 0; background: transparent; border-width: 1px 0 0; padding: 30px 0; }
+.skill-card:focus-within { border-color: var(--skill-accent); }
+.skill-emblem { border-radius: 2px 10px 2px 2px; }
+.skill-body { margin-top: 18px; }
+@media(max-width: 767px) {
+.skills-grid { grid-template-columns: 1fr; row-gap: 12px; }
+.skill-card { padding-block: 26px; }
+}

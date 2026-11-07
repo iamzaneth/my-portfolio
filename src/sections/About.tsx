@@ -29,7 +29,7 @@ export default function About() {
             <p className="profile-code"><span>const</span> mindset = <span className="code-string">'keep learning'</span>;</p>
           </div>
           <div className="about-copy" data-reveal>
-            <p className="about-lead">I’m Phuc, a <strong>Data Engineering student</strong> drawn to the space where data, mathematics, and software meet.</p>
+            <p className="about-lead">I’m Phuc, a <strong>Software Engineering student</strong> drawn to the space where data, mathematics, and software meet.</p>
             <p>I enjoy following data from its raw beginnings to something useful: a reliable pipeline, a clear visualization, or an intelligent system. My focus is on <strong>AI Engineering and Data Engineering</strong>, with data analysis as a foundation for asking better questions.</p>
             <div className="about-current"><span>Currently exploring</span><p>Right now, I’m building practical systems with Python, SQL, and streaming technologies while deepening my understanding of machine learning and applied mathematics.</p></div>
             <a className="text-link [&:hover>svg]:[transform:translate(3px,3px)]" href="#skills">Meet my toolkit <ArrowDownRight size={17} /></a>

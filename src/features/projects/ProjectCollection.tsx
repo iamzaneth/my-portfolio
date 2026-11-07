@@ -4,11 +4,13 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { Project } from '@/types/portfolio'
 import ProjectCard from './ProjectCard'
+import { useCompanion } from '@/features/mascot/companionContext'
 import ProjectDetailsModal from './ProjectDetailsModal'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function ProjectCollection({ projects }: { projects: readonly Project[] }) {
+  const { discover } = useCompanion()
   const [category, setCategory] = useState('All')
   const [opened, setOpened] = useState<{ project: Project; trigger: HTMLButtonElement } | null>(null)
   const [inspectedStages, setInspectedStages] = useState<Record<string, string>>({})
@@ -37,7 +39,7 @@ export default function ProjectCollection({ projects }: { projects: readonly Pro
     </div>}
     <div className="projects-grid">
       {ordered.map((project, index) => <div key={project.id} className="project-cell" hidden={!matches(project)}>
-        <ProjectCard project={project} number={index + 1} onDetails={(project, trigger) => setOpened({ project, trigger })} />
+        <ProjectCard project={project} number={index + 1} onDetails={(project, trigger) => { discover(`Let’s look inside ${project.title}. Follow the connections.`); setOpened({ project, trigger }) }} />
       </div>)}
     </div>
     {count === 0 && <p className="empty-state"><FolderOpen size={23} aria-hidden="true" />{projects.length ? 'No projects in this category yet.' : 'Projects are being prepared.'}</p>}

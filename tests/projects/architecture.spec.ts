@@ -47,7 +47,7 @@ test('event packets pause offscreen, resume in place, and respect reduced motion
 })
 
 for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
-  test(`circular nodes, centered connectors and selection remain aligned at ${width}px`, async ({ page }) => {
+  test(`pixel preview nodes, circular explorer nodes, centered connectors and selection remain aligned at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
@@ -67,7 +67,7 @@ for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
     expect(preview.right).toBeCloseTo(preview.nodes.at(-1)!.x, 0)
     for (const node of preview.nodes) {
       expect(node.width).toBe(node.height)
-      expect(node.radius).toBe('50%')
+      expect(node.radius).toBe('3px')
       expect(node.y).toBeCloseTo(preview.y, 0)
     }
     await page.getByRole('button', { name: 'View details: NexTick' }).click()

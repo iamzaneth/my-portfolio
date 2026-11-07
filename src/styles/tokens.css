@@ -1,16 +1,19 @@
 :root {
+  --focus-ring: var(--accent);
+  --space-medium: 24px;
+  --space-small: 12px;
   color-scheme: dark;
   /* Foundations → section plane → content → interactive elevation. */
-  --bg: #151d2e;
+  --bg: #121b2c;
   --bg-subtle: #1a2640;
   /* Chapter planes vary in tone and temperature, independently of cards. */
-  --section-profile: #1e2c44;
-  --section-surface: #19253a;
-  --section-work: #1c2a42;
-  --section-contact: #1b2740;
-  --surface: #243450;
-  --surface-raised: #2c3d5a;
-  --surface-identity: #2a3752;
+  --section-profile: #18243a;
+  --section-surface: #121d30;
+  --section-work: #18253b;
+  --section-contact: #121b2c;
+  --surface: #20304a;
+  --surface-raised: #263953;
+  --surface-identity: #20304a;
   --surface-inset: #162137;
   --surface-accent: #302c48;
   --surface-accent-hover: #3d3558;
@@ -35,10 +38,10 @@
   --motion-fast: 180ms;
   --motion-component: 320ms;
   --ease-out: cubic-bezier(.22, 1, .36, 1);
-  --section-space: clamp(48px, 5vw, 72px);
+  --section-space: clamp(64px, 7.5vw, 112px);
   --layout-gap: clamp(24px, 4vw, 48px);
   --module-padding: clamp(20px, 2.5vw, 32px);
-  --module-radius: 10px;
+  --module-radius: 12px;
   --module-line: #8a9db825;
   --reading-size: 16px;
   --reading-leading: 1.85;
