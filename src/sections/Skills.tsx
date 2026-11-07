@@ -24,9 +24,11 @@ export default function Skills() {
             return <article className={`skill-card glass-standard skill-${skill.id}`} data-focus={skill.focus} key={skill.id}>
               <div className="skill-top"><span className="skill-emblem"><Icon size={26} strokeWidth={1.5} aria-hidden="true" /></span><span className="skill-kind"><span className="skill-focus">{skill.focus === 'core' ? 'Core focus' : 'Supporting discipline'}</span><span className="skill-number">/{skill.number}</span></span></div>
               <div className="skill-body">
-                <h3>{skill.title}</h3><p className="skill-description">{skill.description}</p>
+                <h3>{skill.title}</h3>
+                <SkillDisclosure title={skill.title} practice={skill.practice}>
+                <p className="skill-description">{skill.description}</p>
                 <ul className="tech-list open-tech-list">{skill.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
-                <SkillDisclosure title={skill.title}>{skill.practice}</SkillDisclosure>
+                </SkillDisclosure>
               </div>
             </article>
           })}

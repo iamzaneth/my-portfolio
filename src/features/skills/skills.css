@@ -16,13 +16,12 @@
 .skill-card .open-tech-list { margin-top: 18px; min-height: 59px; align-content: start; }
 .skill-card .open-tech-list li { font-size: 14px; }
 .skill-practice { padding-top: 18px; margin-top: 16px; border-top: 1px solid var(--module-line); }
-.skill-practice summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px 10px; margin-inline: -10px; color: var(--text); font-size: 14px; font-weight: 550; list-style: none; cursor: pointer; border-radius: 5px; transition: background var(--motion-fast), color var(--motion-fast); }
-.skill-practice summary::-webkit-details-marker { display: none; }
-.skill-practice summary:hover, .skill-practice summary:focus-visible, .skill-practice summary[aria-expanded=true] { background: var(--skill-tint); color: var(--skill-accent); }
-.skill-practice summary svg { color: var(--skill-accent); transition: transform var(--motion-component) var(--ease-out); }
-.skill-practice summary[aria-expanded=true] svg { transform: rotate(180deg); }
-.skill-practice-body { display: flow-root; overflow: clip; }
-.skill-practice p { margin-top: 12px; font-size: 15px; line-height: 1.9; color: var(--muted); }
+.skill-practice-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px 10px; margin-inline: -10px; color: var(--text); font-size: 14px; font-weight: 550; list-style: none; cursor: pointer; border-radius: 5px; transition: background var(--motion-fast), color var(--motion-fast); }
+
+.skill-practice-toggle:hover, .skill-practice-toggle:focus-visible, .skill-practice-toggle[aria-expanded=true] { background: var(--skill-tint); color: var(--skill-accent); }
+.skill-practice-toggle svg { color: var(--skill-accent); transition: transform var(--motion-component) var(--ease-out); }
+.skill-practice-toggle[aria-expanded=true] svg { transform: rotate(180deg); }
+
 .toolkit-footnote { display: flex; align-items: center; gap: 12px; margin-top: 28px; color: var(--faint); font-size: 13px; line-height: 1.9; }
 .toolkit-footnote .status-dot { width: 4px; height: 4px; background: var(--accent); box-shadow: none; }
 
@@ -48,3 +47,14 @@
 .skills-grid { grid-template-columns: 1fr; row-gap: 12px; }
 .skill-card { padding-block: 26px; }
 }
+
+.skill-explanation { order: 1; position: relative; display: flow-root; min-width: 0; }
+.skill-overview { transition: opacity 180ms ease; }
+.skill-practice-body { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; visibility: hidden; opacity: 0; transition: opacity 180ms ease; }
+.skill-practice-body p { margin-top: 6px; margin-bottom: 0; font-size: 14px; line-height: 1.65; }
+.skill-explanation[data-expanded=true] .skill-overview { visibility: hidden; opacity: 0; }
+.skill-explanation[data-expanded=true] .skill-practice-body { visibility: visible; opacity: 1; }
+.skill-practice-body:focus-visible { outline-offset: -2px; }
+.skill-practice-toggle { width: calc(100% + 20px); border: 0; background: transparent; text-align: left; font-family: inherit; }
+
+.skill-body > .skill-practice { order: 2; }
