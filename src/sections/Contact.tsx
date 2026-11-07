@@ -1,3 +1,4 @@
+import { useBackToTop } from '@/features/chapters/useBackToTop'
 import MobileOrbit from '@/features/cosmic/MobileOrbit'
 import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { useEffect, useRef, useState } from 'react'
@@ -7,6 +8,7 @@ import { profile } from '@/data/profile'
 const socialLink = 'group inline-flex min-h-11 items-center gap-2.5 text-[14px] leading-6 font-medium text-muted transition-colors hover:text-accent'
 
 export default function Contact() {
+  const backToTop = useBackToTop()
   const [copied, setCopied] = useState(false)
   const [copyError, setCopyError] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
@@ -92,7 +94,7 @@ export default function Contact() {
           <a className="footer-brand mr-1 text-[19px] font-[750] tracking-[-.8px] text-foreground" href="#home">zaneth<span className="text-accent">.</span></a>
           <span>© {new Date().getFullYear()} {profile.name}</span>
           <span className="footer-built ml-auto max-desktop:hidden">Built with curiosity & a little cat energy.</span>
-          <a className="back-top ml-auto flex min-h-11 items-center gap-2 text-muted transition-colors hover:text-accent desktop:ml-0" href="#home">Back to top <ArrowUp size={15} aria-hidden="true" /></a>
+          <a onClick={backToTop} className="back-top ml-auto flex min-h-11 items-center gap-2 text-muted transition-colors hover:text-accent desktop:ml-0" href="#home">Back to top <ArrowUp size={15} aria-hidden="true" /></a>
         </footer>
       </div>
     </section>

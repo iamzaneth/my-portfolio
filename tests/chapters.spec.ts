@@ -212,3 +212,16 @@ test('chapter transition traverses intermediate positions smoothly',async({page}
  for(let i=1;i<positions.length;i++)expect(positions[i]).toBeGreaterThanOrEqual(positions[i-1]-1)
  await aligned(page,'about')
 })
+
+test('Back to top glides rapidly through intermediate positions and restores history',async({page})=>{
+ await page.goto('/#contact');await aligned(page,'contact')
+ const start=await page.evaluate(()=>scrollY)
+ const samples=page.evaluate(()=>new Promise<number[]>(resolve=>{const values:number[]=[];const tick=()=>{values.push(scrollY);if(values.length<55)requestAnimationFrame(tick);else resolve(values)};requestAnimationFrame(tick)}))
+ await page.locator('.back-top').click()
+ const values=await samples
+ expect(values.some(y=>y>30&&y<start-30)).toBe(true)
+ for(let i=1;i<values.length;i++)expect(values[i]).toBeLessThanOrEqual(values[i-1]+1)
+ await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0)
+ await expect(page).toHaveURL(/#home$/)
+ await page.goBack();await aligned(page,'contact')
+})
