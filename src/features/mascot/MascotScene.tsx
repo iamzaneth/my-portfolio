@@ -26,6 +26,15 @@ const skyStars = [
   [33, 19], [48, 16], [54, 15], [67, 21]
 ]
 
+const orbitStars = [
+  { angle: -90, primary: true }, { angle: -58, primary: false },
+  { angle: -24, primary: true }, { angle: 14, primary: false },
+  { angle: 48, primary: true }, { angle: 83, primary: false },
+  { angle: 118, primary: true }, { angle: 151, primary: false },
+  { angle: 182, primary: true }, { angle: 218, primary: false },
+  { angle: 250, primary: true }, { angle: 281, primary: false },
+]
+
 export default function MascotScene() {
   const { mode, expression, origin, routine, version, dispatch, scene, running, reducedMotion, visible, pageVisible } = useCatController()
   const character = useRef<HTMLSpanElement>(null)
@@ -47,8 +56,10 @@ export default function MascotScene() {
       } as CSSProperties} />)}
     </div>
     <div className="scene-header scene-tag"><span className="scene-coordinate">MOON GARDEN / 01 <span aria-hidden="true">✳</span></span><span className="scene-coordinate scene-coordinate-right">PIXEL HABITAT<br /><span>A SMALL WORLD OF CURIOSITY</span></span></div>
-    <div className="scene-orbit-clip" aria-hidden="true"><div className="scene-orbit"><i /><i /><i /></div></div>
-    <div className="pixel-stars" aria-hidden="true"><i className="star star-one">✦</i><i className="star star-two">+</i><i className="star star-three">✦</i><i className="pixel pixel-one" /><i className="pixel pixel-two" /><i className="pixel pixel-three" /><i className="pixel pixel-four" /><i className="pixel pixel-five" /></div>
+    <div className="scene-orbit-clip" aria-hidden="true"><div className="scene-orbit">{orbitStars.map(({ angle, primary }, index) => <i key={angle} className="orbit-star" data-emphasis={primary ? 'primary' : 'secondary'} style={{
+      left: `${50 + Math.cos(angle * Math.PI / 180) * 50}%`, top: `${50 + Math.sin(angle * Math.PI / 180) * 50}%`,
+      '--twinkle-delay': `${-index * 1.3}s`, '--twinkle-duration': `${5 + index % 4}s`,
+    } as CSSProperties} />)}</div></div>
     <div className="scene-world">
     <MoonGarden />
     <div className="cat-bubble" aria-live={origin === 'user' ? 'polite' : 'off'}>{expression === 'idle' && mode === 'idle' && discovery ? discovery : catAnimations[expression === 'idle' ? mode : expression].message}</div>

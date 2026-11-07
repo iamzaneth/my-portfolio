@@ -24,21 +24,6 @@
 .scene-orbit { position: absolute; width: 350px; height: 350px; left: 50%; top: 60px; margin-left: -175px; border: 1.5px dashed var(--orbit-stroke); border-radius: 50%; box-shadow: 0 0 12px -2px color-mix(in srgb, var(--orbit-stroke) 35%, transparent); }
 .scene-orbit::before { content: ''; position: absolute; inset: 36px; border: 1px solid var(--orbit-inner); border-radius: 50%; box-shadow: 0 0 8px -1px color-mix(in srgb, var(--cyan) 30%, transparent), inset 0 0 8px -1px color-mix(in srgb, var(--cyan) 20%, transparent); }
 .scene-orbit::after { content: ''; position: absolute; top: 50%; left: -30px; right: -30px; height: 1px; background: var(--orbit-guide); }
-.scene-orbit i { position: absolute; width: 7px; height: 7px; background: var(--accent); top: 52px; right: 47px; box-shadow: 0 0 10px 1px var(--accent), 0 0 2px #fff; }
-.scene-orbit i:nth-child(2) { width: 5px; height: 5px; left: -2.5px; top: 175px; background: var(--cyan); box-shadow: 0 0 8px 1px var(--cyan), 0 0 2px #fff; }
-.scene-orbit i:nth-child(3) { width: 5px; height: 5px; left: 100px; top: auto; bottom: 13px; opacity: .9; background: var(--warm); box-shadow: 0 0 8px 1px var(--warm), 0 0 2px #fff; }
-.pixel-stars { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-.star { position: absolute; font-style: normal; color: var(--accent); opacity: .85; text-shadow: 0 0 10px var(--accent), 0 0 20px #b49dff40; animation: sky-sparkle 4.5s ease-in-out infinite; }
-.star-one { font-size: 23px; left: 13%; top: 25%; }
-.star-two { font-size: 22px; right: 8%; top: 56%; color: var(--cyan); text-shadow: 0 0 10px var(--cyan), 0 0 20px #6ec8d440; animation-delay: -2s; }
-.star-three { font-size: 13px; right: 24%; top: 22%; animation-delay: -3.7s; }
-@keyframes sky-sparkle { 0%, 100% { opacity: .4; transform: scale(.9) rotate(0deg); } 50% { opacity: 1; transform: scale(1.25) rotate(6deg); } }
-.pixel { position: absolute; width: 5px; height: 5px; background: #5e4e7e; }
-.pixel-one { left: 21%; top: 64%; width: 7px; height: 7px; }
-.pixel-two { right: 16%; top: 30%; background: #35586e; }
-.pixel-three { right: 25%; top: 70%; width: 3px; height: 3px; }
-.pixel-four { left: 40%; top: 16%; width: 3px; height: 3px; }
-.pixel-five { right: 8%; top: 75%; width: 3px; height: 3px; }
 .cat-bubble { position: absolute; top: 32px; left: 50%; transform: translateX(-50%); width: max-content; max-width: 94%; font-family: var(--mono); font-size: 12px; line-height: 1.7; text-align: center; letter-spacing: -.3px; background: var(--surface-accent); border: 1px solid var(--accent-edge); color: var(--text); padding: 10px 14px; border-radius: 2px; z-index: 2; box-shadow: 4px 4px 0 #0e192e50; }
 .cat-bubble::after { content: ''; position: absolute; width: 8px; height: 8px; bottom: -5px; left: calc(50% - 4px); background: var(--surface-accent); border-right: 1px solid var(--accent-edge); border-bottom: 1px solid var(--accent-edge); transform: rotate(45deg); }
 .cat-stage { z-index: 1; isolation: isolate; --ground-offset: 30px; position: absolute; height: 270px; top: 65px; width: 100%; overflow-x: clip; }
@@ -70,7 +55,7 @@
 .cat-zzz { animation: cat-dream 3.6s ease-in-out infinite; }
 .cat-heart { animation: cat-affection .85s ease-out both; }
 .mascot-scene[data-running=false] .pixel-cat-renderer, .mascot-scene[data-running=false] .cat-zzz, .mascot-scene[data-running=false] .cat-heart { animation-play-state: paused; }
-.mascot-scene[data-running=false] .sky-star, .mascot-scene[data-running=false] .star { animation-play-state: paused; }
+.mascot-scene[data-running=false] .sky-star { animation-play-state: paused; }
 @keyframes cat-breathe { 50% { transform: scaleY(1.012); } }
 @keyframes cat-dream { 50% { transform: translateY(-4px); opacity: .6; } }
 @keyframes cat-affection { from { transform: translateY(16px) scale(.75); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-16px) scale(1.05); opacity: 0; } }
@@ -106,9 +91,6 @@
   .cat-stage { top: 10px; }
   .scene-caption { font-size: 10px; }
   .cat-hint { font-size: 10px; }
-  .star-one { top: 25%; left: 11%; }
-  .star-two { top: 53%; right: 7%; }
-  .star-three { top: 19%; right: 17%; }
 }
 @media (max-width: 359px) {
   .scene-sky { top: 165px; width: min(100%, 300px); }
@@ -135,8 +117,6 @@
 .scene-orbit { opacity: .6; width: 320px; height: 320px; top: 52px; margin-left: -160px; border-style: dotted; box-shadow: none; }
 .scene-orbit::before { inset: 26px; border-style: dashed; opacity: .4; box-shadow: none; }
 .scene-orbit::after { display: none; }
-.scene-orbit i { box-shadow: none; width: 4px; height: 4px; }
-.pixel-stars { display: none; }
 .garden-scenery { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .cat-bubble { top: 48px; max-width: 88%; font-size: 10px; padding: 9px 12px; border-radius: 5px; background: #26304a; box-shadow: 3px 3px 0 #0e192e80; }
 .cat-bubble::after { background: #26304a; }
@@ -185,3 +165,12 @@
 .cat-toy[data-active=true] { opacity: 1; animation: toy-hop 1.8s ease-in-out infinite; }
 .mascot-scene[data-running=false] .cat-toy { animation-play-state: paused; }
 @keyframes toy-hop { 50% { transform: translate(-12px, -20px) rotate(90deg); } }
+
+/* Intentional major stars on the circular guide, independent of cat routines. */
+.scene-orbit { opacity: .8; border-color: var(--orbit-stroke); }
+.scene-orbit .orbit-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--cyan); transform: translate(-50%, -50%); box-shadow: 0 0 5px #6ec8d477; animation: orbit-gleam var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite; }
+.scene-orbit .orbit-star[data-emphasis=primary] { width: 5px; height: 5px; background: #f2edff; box-shadow: 0 0 5px #e8eff8aa, 0 0 11px #b49dff77; }
+.orbit-star[data-emphasis=primary]::before, .orbit-star[data-emphasis=primary]::after { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 1px; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #e9e4ffc0, transparent); }
+.orbit-star[data-emphasis=primary]::after { transform: translate(-50%, -50%) rotate(90deg); }
+@keyframes orbit-gleam { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.mascot-scene[data-running=false] .orbit-star { animation-play-state: paused; }

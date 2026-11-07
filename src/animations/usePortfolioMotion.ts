@@ -44,13 +44,24 @@ export function usePortfolioMotion() {
           scrollTrigger: { trigger: element, start: 'top 90%', once: true },
         })
       })
-      // Follow the scene's visible scroll range, including below the text on mobile.
+    })
+    media.add({ motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 1024px) and (hover: hover) and (pointer: fine)' }, context => {
+      if (!context.conditions?.motion) return
+      if (context.conditions.desktop) {
+        const spin = gsap.to('.scene-orbit', { rotate: '+=360', duration: 64, repeat: -1, ease: 'none', paused: true })
+        let visible = false
+        const sync = () => { if (visible && !document.hidden) spin.resume(); else spin.pause() }
+        ScrollTrigger.create({ trigger: '.mascot-scene', start: 'top bottom', end: 'bottom top',
+          onToggle: self => { visible = self.isActive; sync() },
+          onRefresh: self => { visible = self.isActive; sync() },
+        })
+        document.addEventListener('visibilitychange', sync)
+        return () => document.removeEventListener('visibilitychange', sync)
+      }
+      // Mobile/tablet keeps its original scroll-linked choreography.
       gsap.to('.scene-orbit', {
         rotate: 240, y: -24, ease: 'none',
-        scrollTrigger: {
-          trigger: '.mascot-scene', start: 'clamp(top bottom)', end: 'bottom top',
-          scrub: 0.15, invalidateOnRefresh: true,
-        },
+        scrollTrigger: { trigger: '.mascot-scene', start: 'clamp(top bottom)', end: 'bottom top', scrub: .15, invalidateOnRefresh: true },
       })
     })
     return () => media.revert()

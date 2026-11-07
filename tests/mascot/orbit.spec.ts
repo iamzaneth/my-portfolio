@@ -16,7 +16,7 @@ async function showScene(page: Page) {
   await page.waitForTimeout(250)
 }
 
-for (const viewport of [{ width: 1440, height: 900 }, { width: 820, height: 1180 }, { width: 390, height: 844 }, { width: 320, height: 700 }]) {
+for (const viewport of [{ width: 820, height: 1180 }, { width: 390, height: 844 }, { width: 320, height: 700 }]) {
   test(`orbit responds promptly to short scrolls in both directions at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport)
     await showScene(page)
@@ -120,4 +120,16 @@ test('orbital geometry stays between atmosphere and character, clear of scene co
     await expect(page.locator('.mascot-scene')).toHaveAttribute('data-origin', 'user')
     await expect(page.locator('.cat-bubble')).toBeVisible()
   }
+})
+
+test('desktop orbit rotates automatically, pauses offscreen and has deliberate major stars',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await showScene(page)
+ await expect(page.locator('.orbit-star[data-emphasis=primary]')).toHaveCount(6)
+ await expect(page.locator('.orbit-star')).toHaveCount(12)
+ const first=await rotation(page);await page.waitForTimeout(900)
+ expect(angleDelta(await rotation(page),first)).toBeGreaterThan(3)
+ const beforeScroll=await rotation(page);await page.evaluate(()=>window.scrollBy({top:100,behavior:'instant'}));await page.waitForTimeout(150)
+ expect(Math.abs(angleDelta(await rotation(page),beforeScroll))).toBeLessThan(5)
+ await page.locator('#contact').evaluate(e=>window.scrollTo({top:(e as HTMLElement).offsetTop,behavior:'instant'}));await page.waitForTimeout(250)
+ const paused=await rotation(page);await page.waitForTimeout(250);expect(Math.abs(angleDelta(await rotation(page),paused))).toBeLessThan(.2)
 })
