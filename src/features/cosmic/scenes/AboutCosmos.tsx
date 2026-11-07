@@ -1,13 +1,13 @@
-import { Connections, Stars, type Point } from '../primitives'
+import { Constellation, OrbitalPath, Stars, PixelGlint } from '../primitives'
+import { figures } from '../constellations'
 
 export default function AboutCosmos({ mobile }: { mobile: boolean }) {
-  const points: Point[] = mobile ? [[296,28],[362,82],[320,144],[385,196],[350,244],[8,590],[17,640],[5,721],[18,780],[8,840]] : [[8,110],[38,42],[75,85],[55,210],[8,248],[950,85],[988,170],[942,240],[995,310],[956,430],[8,585],[48,690],[75,735]]
-  return <>
-    <Stars points={mobile ? [[40,80],[235,40],[385,360],[18,390],[370,490],[165,855],[290,890]] : [[75,365],[280,55],[445,25],[790,30],[980,60],[720,745],[340,770],[25,480],[935,610],[840,695],[580,770]]} />
-    <Connections points={points} links={mobile ? [[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[6,8]] : [[0,1],[1,2],[2,3],[3,4],[4,0],[5,6],[6,7],[7,8],[8,9],[10,11],[11,12]]} />
-    <g className="atlas-coordinates" fill="none">
-      <path d={mobile ? 'M255 5Q440 105 398 300M0 565Q28 685 0 870M277 46l16-10m65 192 18 5' : 'M-40 30Q80 140 55 340M950-10Q1070 295 995 510M-25 520Q120 600 65 810M20 80l12-20m948 405 12 8'} />
-    </g>
-    <g className="cosmic-annotation"><text x={mobile ? 276 : 842} y={mobile ? 18 : 65}>ATLAS / II</text><text x={mobile ? 15 : 25} y={mobile ? 880 : 740}>✳ / CURIOSITY</text></g>
-  </>
+ const figure = figures.about
+ return <>
+ <Stars points={mobile ? [[25,35],[350,120],[38,390],[365,610],[90,830]] : [[45,70],[330,35],[640,80],[970,410],[60,650],[780,750],[510,740]]} />
+ <Constellation figure={figure} x={mobile ? 275 : 735 } y={mobile ? 12 : 30} size={mobile ? 120 : 200} />
+ <OrbitalPath cx={mobile ? 390 : -30 } cy={mobile ? 480 : 440 } rx={330 } ry={190 } rotation={28 } start={20} end={245 } />
+ <OrbitalPath cx={mobile ? -60 : 40 } cy={mobile ? 730 : 600 } rx={mobile ? 190 : 260} ry={80} rotation={-30 } start={80} end={245} variant="secondary" />
+ <PixelGlint x={mobile ? 365 : 930} y={mobile ? 210 : 330} size={1.2} />
+ </>
 }

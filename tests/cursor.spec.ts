@@ -204,3 +204,18 @@ test('sparkles use reusable paths, stay sparse under repeated fast motion, and s
   await page.waitForTimeout(250)
   expect(await clears(page)).toBe(stopped)
 })
+
+test('recorded L remains fixed while head moves; no diagonal replacement',async({page})=>{
+ await page.goto('/')
+ const result=await page.evaluate(async()=>{
+ const send=(x:number,y:number)=>window.dispatchEvent(new PointerEvent('pointermove',{pointerType:'mouse',clientX:x,clientY:y}))
+ send(300,300);send(350,300);send(350,340)
+ await new Promise(requestAnimationFrame)
+ send(350,360)
+ await new Promise(requestAnimationFrame)
+ const c=document.querySelector<HTMLCanvasElement>('.comet-cursor')!,ctx=c.getContext('2d')!
+ const alpha=(x:number,y:number)=>ctx.getImageData(x,y,1,1).data[3]
+ return {horizontal:alpha(330,300),vertical:alpha(350,325),shortcut:alpha(330,330)}
+ })
+ expect(result.horizontal).toBeGreaterThan(0);expect(result.vertical).toBeGreaterThan(0);expect(result.shortcut).toBe(0)
+})

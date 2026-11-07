@@ -5,47 +5,29 @@
 .cosmic-mobile { display: none; }
 .cosmic-stars { fill: #dae5ff; opacity: .52; }
 .cosmic-glint { fill: var(--cyan); opacity: .4; }
-.observatory-arcs { stroke: #b49dff; stroke-width: .8; opacity: .2; }
-.cosmic-dashed { stroke-dasharray: 2 12; opacity: .7; }
 .cosmos-home .cosmic-atmosphere { background: radial-gradient(ellipse at 82% 44%, #b49dff30, transparent 51%), radial-gradient(ellipse at 92% 63%, #6ec8d416, transparent 38%), radial-gradient(ellipse at 76% 68%, #e8c08809, transparent 30%); }
 .cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 5% 70%, #8c8fe82b, transparent 47%), radial-gradient(ellipse at 98% 10%, #b49dff17, transparent 40%); }
-.cosmic-connections { stroke: currentColor; stroke-width: .8; opacity: .32; }
-.cosmic-connections circle { fill: #dae5ff; stroke: none; }
-.cosmic-connections .cosmic-node-ring { fill: none; stroke: currentColor; stroke-width: .6; opacity: .5; }
-.atlas-coordinates { stroke: #b49dff; stroke-width: .6; stroke-dasharray: 3 9; opacity: .23; }
-.cosmic-annotation { fill: #a8b9d0; font: 7px var(--mono); letter-spacing: 1px; opacity: .5; }
 .cosmos-toolkit { color: var(--cyan); }
 .cosmos-toolkit .cosmic-atmosphere { background: radial-gradient(ellipse at 0% 24%, #6ec8d422, transparent 37%), radial-gradient(ellipse at 99% 80%, #6ec8d424, transparent 39%), linear-gradient(115deg, transparent 45%, #b49dff06 75%, transparent); }
-.data-circuits { stroke: #6ec8d4; stroke-width: .7; opacity: .23; }
-.cosmic-grid-fragment { opacity: .55; stroke-width: .5; }
 .cosmos-projects .cosmic-atmosphere { background: radial-gradient(ellipse at 103% 5%, #b49dff35, transparent 43%), radial-gradient(ellipse at 0% 94%, #6ec8d41c, transparent 37%), linear-gradient(155deg, transparent 40%, #080f2060); }
-.event-horizon { stroke: #b49dff; stroke-width: 1; opacity: .32; }
-.horizon-inner { stroke: #6ec8d4; stroke-width: .7; opacity: .6; }
-.distant-body { fill: #080e1c; opacity: .65; }
 .cosmos-contact .cosmic-atmosphere { background: radial-gradient(ellipse at 50% 110%, #6ec8d42c, transparent 52%), radial-gradient(ellipse at 55% 105%, #b49dff22, transparent 40%), radial-gradient(ellipse at 50% 110%, #e8c0880c, transparent 32%); }
-.starlit-horizon { fill: #0a1223; stroke: #6ec8d4; stroke-width: .65; stroke-opacity: .25; }
-.starlit-horizon path { stroke: #b49dff; stroke-opacity: .22; }
 @media (max-width: 767px) {
   .cosmic-desktop { display: none; }
   .cosmic-mobile { display: block; }
   .cosmic-stars { opacity: .44; }
-  .cosmic-connections { opacity: .27; }
   .cosmos-home .cosmic-atmosphere { background: radial-gradient(ellipse at 95% 70%, #b49dff2b, transparent 50%), radial-gradient(ellipse at 80% 85%, #6ec8d412, transparent 30%); }
   .cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 0% 55%, #8c8fe825, transparent 45%), radial-gradient(ellipse at 100% 2%, #b49dff13, transparent 25%); }
   .cosmos-projects .cosmic-atmosphere { background: radial-gradient(ellipse at 120% 16%, #b49dff30, transparent 40%), radial-gradient(ellipse at 0% 90%, #6ec8d416, transparent 32%); }
 }
-@media (max-width: 767px) {
-  .cosmic-mobile .cosmic-node-ring { display: none; }
-}
-/* Medium screens have narrower reading gutters than the wide desktop layout. */
-@media (min-width: 768px) and (max-width: 1279px) {
-  .cosmos-about .cosmic-desktop, .cosmos-toolkit .cosmic-desktop { transform: scaleX(1.1); }
-}
-.cosmic-connections { opacity: .4; }
-.atlas-coordinates { opacity: .28; }
-.data-circuits { opacity: .27; }
-.cosmos-projects .event-horizon, .cosmos-projects .distant-body { transform: translateY(-35px); }
-@media (max-width: 767px) {
-  .cosmic-connections { opacity: .27; }
-  .cosmos-projects .event-horizon, .cosmos-projects .distant-body { transform: none; }
-}
+
+.stellar-links { stroke: #b6c8eb; stroke-width: .65; opacity: .28; }
+[data-star] { fill: #dce9ff; opacity: .7; }
+.stellar-primary { fill: #f1edff; opacity: .95; }
+.stellar-tertiary { opacity: .42; }
+.stellar-halo { opacity: .08; }
+.celestial-orbit { stroke: #b49dff; stroke-width: .85; opacity: .19; }
+.orbit-secondary { stroke: #6ec8d4; stroke-width: .6; opacity: .12; }
+.cosmos-toolkit .celestial-orbit { stroke: #6ec8d4; }
+.cosmos-projects .orbit-primary { opacity: .25; }
+.cosmos-contact .orbit-primary { opacity: .12; }
+@media(max-width:767px) { .orbit-secondary { display:none; } .celestial-orbit { opacity:.12; } }

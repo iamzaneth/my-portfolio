@@ -14,7 +14,7 @@ export default function CosmicBackground({ world }: { world: CosmicWorld }) {
   const Scene = scenes[world]
   return <div className={`cosmic-world cosmos-${world}`} aria-hidden="true" data-cosmic-world={world}>
     <div className="cosmic-atmosphere" />
-    <svg className="cosmic-art cosmic-desktop" viewBox="0 0 1000 800" preserveAspectRatio="none" focusable="false"><Scene mobile={false} /></svg>
-    <svg className="cosmic-art cosmic-mobile" viewBox="0 0 400 900" preserveAspectRatio="none" focusable="false"><Scene mobile /></svg>
+    <svg className="cosmic-art cosmic-desktop" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMin meet" focusable="false"><Scene mobile={false} /></svg>
+    <svg className="cosmic-art cosmic-mobile" viewBox="0 0 400 900" preserveAspectRatio="xMidYMin meet" focusable="false"><Scene mobile /></svg>
   </div>
 }

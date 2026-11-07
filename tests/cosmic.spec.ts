@@ -32,3 +32,14 @@ for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
     await expect(page.locator('.comet-cursor')).toBeHidden()
   })
 }
+
+test('recognizable figures use uniform local coordinates and open orbit paths', async ({page})=>{
+ await page.goto('/')
+ for(const [world,name] of [['home','Lyra'],['about','Orion'],['toolkit','Cygnus'],['projects','Scorpius'],['contact','Ursa Major']]) {
+ const art=page.locator(`[data-cosmic-world="${world}"] .cosmic-desktop`)
+ await expect(art.locator('[data-constellation]')).toHaveAttribute('data-constellation',name)
+ await expect(art.locator('[data-constellation]')).toHaveAttribute('preserveAspectRatio','xMidYMid meet')
+ expect(await art.locator('ellipse').count()).toBe(0)
+ expect(await art.locator('.celestial-orbit').count()).toBeGreaterThan(0)
+ }
+})

@@ -1,0 +1,19 @@
+export type Star = { id: string; x: number; y: number; emphasis: 'primary' | 'secondary' | 'tertiary' }
+export type Figure = { name: string; stars: Star[]; connections: readonly (readonly [string, string])[] }
+// Equatorial positions (RA hours, declination degrees), projected locally with
+// cos(mean declination). Stick figures are editorial, not IAU boundaries.
+function figure(name: string, entries: [string, number, number, Star['emphasis']][], connections: Figure['connections']): Figure {
+  const mean = entries.reduce((sum, e) => sum + e[2], 0) / entries.length
+  const coords = entries.map(e => [(24 - e[1]) * 15 * Math.cos(mean * Math.PI / 180), -e[2]])
+  const xs = coords.map(p => p[0]), ys = coords.map(p => p[1])
+  const left = Math.min(...xs), top = Math.min(...ys)
+  const scale = 260 / Math.max(Math.max(...xs) - left, Math.max(...ys) - top)
+  return { name, connections, stars: entries.map((e, i) => ({ id: e[0], x: 20 + (coords[i][0] - left) * scale, y: 20 + (coords[i][1] - top) * scale, emphasis: e[3] })) }
+}
+export const figures = {
+  home: figure('Lyra', [['vega',18.616,38.784,'primary'],['epsilon',18.739,39.67,'tertiary'],['zeta',18.747,37.605,'secondary'],['delta',18.908,36.899,'secondary'],['sheliak',18.835,33.363,'secondary'],['sulafat',18.982,32.69,'secondary']], [['vega','epsilon'],['epsilon','zeta'],['zeta','vega'],['zeta','delta'],['delta','sulafat'],['sulafat','sheliak'],['sheliak','zeta']]),
+  about: figure('Orion', [['betelgeuse',5.919,7.407,'primary'],['bellatrix',5.419,6.35,'secondary'],['meissa',5.585,9.934,'tertiary'],['alnitak',5.679,-1.943,'secondary'],['alnilam',5.603,-1.202,'secondary'],['mintaka',5.533,-.299,'secondary'],['saiph',5.796,-9.67,'secondary'],['rigel',5.242,-8.202,'primary'],['sword',5.588,-5.39,'tertiary']], [['meissa','betelgeuse'],['meissa','bellatrix'],['betelgeuse','alnitak'],['bellatrix','mintaka'],['alnitak','alnilam'],['alnilam','mintaka'],['alnitak','saiph'],['mintaka','rigel'],['saiph','rigel'],['alnilam','sword']]),
+  toolkit: figure('Cygnus', [['deneb',20.691,45.28,'primary'],['sadr',20.37,40.256,'primary'],['albireo',19.512,27.96,'secondary'],['gienah',20.77,33.97,'secondary'],['zeta',21.215,30.23,'tertiary'],['delta',19.75,45.13,'secondary'],['iota',19.495,51.73,'tertiary']], [['deneb','sadr'],['sadr','albireo'],['sadr','gienah'],['gienah','zeta'],['sadr','delta'],['delta','iota']]),
+  projects: figure('Scorpius', [['antares',16.49,-26.43,'primary'],['acrab',16.09,-19.8,'secondary'],['dschubba',16.005,-22.62,'secondary'],['pi',15.981,-26.11,'tertiary'],['tau',16.598,-28.22,'secondary'],['epsilon',16.836,-34.29,'secondary'],['mu',16.865,-38.05,'tertiary'],['zeta',16.91,-42.36,'secondary'],['eta',17.202,-43.24,'tertiary'],['sargas',17.622,-43,'secondary'],['iota',17.793,-40.13,'tertiary'],['kappa',17.708,-39.03,'secondary'],['shaula',17.56,-37.1,'primary'],['lesath',17.512,-37.3,'secondary']], [['acrab','dschubba'],['dschubba','pi'],['dschubba','antares'],['antares','tau'],['tau','epsilon'],['epsilon','mu'],['mu','zeta'],['zeta','eta'],['eta','sargas'],['sargas','iota'],['iota','kappa'],['kappa','shaula'],['shaula','lesath']]),
+  contact: figure('Ursa Major', [['dubhe',11.062,61.75,'primary'],['merak',11.031,56.38,'secondary'],['phecda',11.897,53.69,'secondary'],['megrez',12.257,57.03,'tertiary'],['alioth',12.9,55.96,'primary'],['mizar',13.399,54.93,'secondary'],['alkaid',13.792,49.31,'secondary'],['muscida',8.504,60.72,'tertiary'],['theta',9.547,51.68,'tertiary'],['talitha',8.987,48.04,'secondary'],['tania',10.373,41.5,'tertiary'],['alula',11.308,33.09,'tertiary']], [['dubhe','merak'],['merak','phecda'],['phecda','megrez'],['megrez','dubhe'],['megrez','alioth'],['alioth','mizar'],['mizar','alkaid'],['dubhe','muscida'],['muscida','theta'],['theta','talitha'],['merak','theta'],['phecda','tania'],['phecda','alula']]),
+}
