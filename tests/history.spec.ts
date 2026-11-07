@@ -1,6 +1,7 @@
+import { ribbonEdges } from '../src/features/cursor/ribbon'
 import { ellipseArc } from '../src/features/cosmic/orbit'
 import { expect, test } from '@playwright/test'
-import { append, prune, MAX_POINTS, MAX_LENGTH } from '../src/features/cursor/history'
+import { append, prune, meteorProfile, recentSpeed, MAX_POINTS, MAX_LENGTH } from '../src/features/cursor/history'
 import { figures } from '../src/features/cosmic/constellations'
 
 test('immutable history preserves corners, reversal, linear resampling and stationary fade', () => {
@@ -56,4 +57,22 @@ test('orbital endpoints lie on an ellipse with correct sweep and large arc flags
  expect((ex/rx)**2+(ey/ry)**2).toBeCloseTo(1,10)
  expect(large).toBe(end-20>180?1:0);expect(sweep).toBe(1)
  }
+})
+
+test('comet speed changes width and brightness while lifetime stays stable at 450ms',()=>{
+ const slow=[{x:0,y:0,time:0},{x:5,y:0,time:50}],fast=[{x:0,y:0,time:0},{x:100,y:0,time:50}]
+ const a=meteorProfile(recentSpeed(slow)),b=meteorProfile(recentSpeed(fast))
+ expect(a.lifetime).toBe(b.lifetime);expect(a.width).toBeLessThan(b.width);expect(a.brightness).toBeLessThan(b.brightness)
+ expect(b.lifetime).toBe(450)
+ const saved=fast.map(p=>({...p}));recentSpeed(fast);expect(fast).toEqual(saved)
+})
+
+test('ribbon edges are deterministic and bounded through sharp corners and reversals',()=>{
+ const points=[{x:100,y:100,time:0},{x:150,y:100,time:10},{x:150,y:150,time:20},{x:150,y:100,time:30}]
+ const saved=points.map(p=>({...p}))
+ const left=points.map(()=>({x:0,y:0})),right=points.map(()=>({x:0,y:0}))
+ ribbonEdges(points,40,2.4,left,right)
+ for(const edge of [left,right])for(const [i,p] of edge.entries())expect(Math.hypot(p.x-points[i].x,p.y-points[i].y)).toBeLessThanOrEqual(1.3)
+ const result=JSON.stringify([left,right]);ribbonEdges(points,40,2.4,left,right);expect(JSON.stringify([left,right])).toBe(result)
+ ribbonEdges(points,200,2.4,left,right);expect(points).toEqual(saved)
 })

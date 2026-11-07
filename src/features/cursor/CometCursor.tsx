@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import './comet.css'
-import { append, prune, LIFETIME, MAX_LENGTH, type TrailPoint } from './history'
+import { append, prune, LIFETIME, MAX_POINTS, MAX_LENGTH, recentSpeed, meteorProfile, type TrailPoint } from './history'
+
+import { ribbonEdges } from './ribbon'
 
 const CAPABILITY = '(hover: hover) and (pointer: fine)'
 const MOTION = '(prefers-reduced-motion: reduce)'
@@ -18,11 +20,14 @@ export default function CometCursor() {
     const capability = matchMedia(CAPABILITY)
     const motion = matchMedia(MOTION)
     const points: TrailPoint[] = []
-    const dust = Array.from({ length: PARTICLES }, () => ({ x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 0, size: 1, shape: 0, color: 0 }))
+    const left = Array.from({ length: MAX_POINTS }, () => ({ x: 0, y: 0 }))
+    const right = Array.from({ length: MAX_POINTS }, () => ({ x: 0, y: 0 }))
+    const dust = Array.from({ length: PARTICLES }, () => ({ x: 0, y: 0, vx: 0, vy: 0, age: 0, born: 0, life: 0, size: 1, shape: 0, color: 0 }))
     let width = 0, height = 0, frame = 0, previous = 0
     let x = 0, y = 0, lastMove = -Infinity, lastEmission = -Infinity
     let initialized = false, moved = false, inside = false, enabled = false
     let traveled = 0, slot = 0
+    let speed = 0, visualEnergy = 0
     const star = new Path2D('M0-1L.22-.22L1 0L.22.22L0 1L-.22.22L-1 0L-.22-.22Z')
     const cross = new Path2D('M-.25-1H.25V-.25H1V.25H.25V1H-.25V.25H-1V-.25H-.25Z')
     const colors = ['#e8eff8', '#b49dff', '#6ec8d4']
@@ -38,7 +43,7 @@ export default function CometCursor() {
       previous = 0
       initialized = inside = moved = false
       points.length = 0
-      traveled = 0
+      traveled = speed = visualEnergy = 0
       for (const particle of dust) particle.life = 0
       context!.clearRect(0, 0, width, height)
     }
@@ -67,27 +72,36 @@ export default function CometCursor() {
       previous = now
       context!.clearRect(0, 0, width, height)
       const elapsed = now - lastMove
-      const opacity = Math.max(0, 1 - elapsed / LIFETIME)
+      // Stabilize appearance only. The head and recorded coordinates never ease.
+      visualEnergy += (meteorProfile(speed).energy - visualEnergy) * (1 - Math.exp(-dt / 65))
+      const profile = meteorProfile(visualEnergy * .5)
+      const opacity = Math.max(0, 1 - elapsed / LIFETIME) ** 1.3
       prune(points, now)
-      if (opacity > 0 && points.length) {
-        let distance = 0
-        context!.lineCap = context!.lineJoin = 'round'
-        for (let i = points.length - 1; i > 0; i--) {
-          const a = points[i], b = points[i - 1]
-          const length = Math.hypot(a.x - b.x, a.y - b.y)
-          const taper = Math.max(0, 1 - (distance + length / 2) / MAX_TAIL)
-          const fade = Math.max(0, 1 - (now - (a.time + b.time) / 2) / LIFETIME)
-          context!.strokeStyle = `rgba(180,210,255,${fade * taper ** .65 * .75})`
-          context!.lineWidth = .3 + 2.1 * taper
+      if (points.length) {
+        if (points.length > 1) {
+          ribbonEdges(points, now, profile.width, left, right)
+          // A single filled silhouette replaces hundreds of overlapping round
+          // caps. Width interpolates along arc length; there are no alpha seams.
+          context!.fillStyle = `rgba(180,210,255,${opacity * profile.brightness})`
           context!.beginPath()
-          context!.moveTo(a.x, a.y)
-          context!.lineTo(b.x, b.y)
+          context!.moveTo(left[0].x, left[0].y)
+          for (let i = 1; i < points.length; i++) context!.lineTo(left[i].x, left[i].y)
+          for (let i = points.length - 1; i >= 0; i--) context!.lineTo(right[i].x, right[i].y)
+          context!.closePath()
+          context!.fill()
+          // One connected, fine highlight also closes reversal cusps. Its faint
+          // stroke is continuous rather than separately composited segments.
+          context!.lineCap = context!.lineJoin = 'round'
+          context!.strokeStyle = `rgba(225,239,255,${opacity * .32})`
+          context!.lineWidth = .45
+          context!.beginPath()
+          context!.moveTo(points[0].x, points[0].y)
+          for (let i = 1; i < points.length; i++) context!.lineTo(points[i].x, points[i].y)
           context!.stroke()
-          distance += length
         }
         context!.save()
         context!.translate(x, y)
-        context!.globalAlpha = opacity
+        context!.globalAlpha = opacity * (.45 + .55 * profile.energy)
         context!.fillStyle = glow
         context!.fillRect(-10, -10, 20, 20)
         context!.fillStyle = '#e8eff8'
@@ -97,15 +111,16 @@ export default function CometCursor() {
         context!.fill()
         context!.restore()
       }
-      if (inside && moved && elapsed < 60 && traveled >= 11 && now - lastEmission > 75) {
+      if (inside && moved && elapsed < 45 && speed > .12 && traveled >= 14 && now - lastEmission > 95) {
         const particle = dust[slot]
         particle.x = x
         particle.y = y
         particle.vx = (Math.random() - .5) * .018
         particle.vy = (Math.random() - .5) * .018
         particle.age = 0
+        particle.born = now
         particle.shape = slot % 5 === 0 ? 1 : slot % 10 === 7 ? 2 : 0
-        particle.life = particle.shape ? 240 + Math.random() * 180 : 300 + Math.random() * 200
+        particle.life = particle.shape ? 160 + Math.random() * 120 : 180 + Math.random() * 140
         particle.size = 1.4 + Math.random() * 1.2
         particle.color = slot % colors.length
         slot = (slot + 1) % PARTICLES
@@ -116,7 +131,7 @@ export default function CometCursor() {
       let alive = false
       for (const particle of dust) {
         if (!particle.life) continue
-        particle.age += dt
+        particle.age = now - particle.born
         if (particle.age >= particle.life) { particle.life = 0; continue }
         alive = true
         particle.x += particle.vx * dt
@@ -139,7 +154,9 @@ export default function CometCursor() {
         }
       }
       context!.globalAlpha = 1
-      if (opacity > 0 || alive) frame = requestAnimationFrame(tick)
+      // Stop on the first visually empty frame; quantized canvas alpha can
+      // reach zero slightly before the mathematical lifetime ends.
+      if (opacity > .008 || alive) frame = requestAnimationFrame(tick)
       else reset()
     }
 
@@ -160,6 +177,7 @@ export default function CometCursor() {
         lastMove = time
       }
       if (!moved) return
+      speed = recentSpeed(points)
       if (!frame) frame = requestAnimationFrame(tick)
     }
     function leave(event: PointerEvent) {

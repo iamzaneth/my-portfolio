@@ -219,3 +219,38 @@ test('recorded L remains fixed while head moves; no diagonal replacement',async(
  })
  expect(result.horizontal).toBeGreaterThan(0);expect(result.vertical).toBeGreaterThan(0);expect(result.shortcut).toBe(0)
 })
+
+test('meteor streak responds to speed and the stopped effect clears within 550ms',async({page})=>{
+ await page.goto('/')
+ const metrics=await page.evaluate(async()=>{
+ const c=document.querySelector<HTMLCanvasElement>('.comet-cursor')!,ctx=c.getContext('2d')!
+ const sample=async(step:number)=>{
+ window.dispatchEvent(new Event('blur'))
+ for(let i=0;i<25;i++) {window.dispatchEvent(new PointerEvent('pointermove',{pointerType:'mouse',clientX:300+i*step,clientY:260}));await new Promise(requestAnimationFrame)}
+ const pixels=ctx.getImageData(250,245,350,30).data
+ let lit=0;for(let i=3;i<pixels.length;i+=4)if(pixels[i]>3)lit++
+ return lit
+ }
+ const slow=await sample(1),fast=await sample(9)
+ await new Promise(r=>setTimeout(r,550))
+ const pixels=ctx.getImageData(0,0,c.width,c.height).data
+ return {slow,fast,clear:pixels.every((v,i)=>i%4!==3||v===0)}
+ })
+ console.log("Meteor speed and fade:",metrics)
+ expect(metrics.fast).toBeGreaterThan(metrics.slow*1.5);expect(metrics.clear).toBe(true)
+ const stopped=await clears(page);await page.waitForTimeout(150);expect(await clears(page)).toBe(stopped)
+})
+
+test('comet draws one connected highlight per frame rather than per-sample strokes',async({page})=>{
+ await page.addInitScript(()=>{
+ const stroke=CanvasRenderingContext2D.prototype.stroke,clear=CanvasRenderingContext2D.prototype.clearRect
+ CanvasRenderingContext2D.prototype.stroke=function(...args){
+ if(this.canvas.classList.contains('comet-cursor')) {const n=Number(this.canvas.dataset.strokes||0)+1;this.canvas.dataset.strokes=String(n);this.canvas.dataset.peakStrokes=String(Math.max(n,Number(this.canvas.dataset.peakStrokes||0)))}
+ return Reflect.apply(stroke,this,args)
+ }
+ CanvasRenderingContext2D.prototype.clearRect=function(...args){if(this.canvas.classList.contains('comet-cursor'))this.canvas.dataset.strokes='0';return clear.apply(this,args)}
+ })
+ await page.goto('/');await page.mouse.move(300,300);await page.mouse.move(440,310,{steps:40})
+ expect(Number(await canvas(page).getAttribute('data-peak-strokes'))).toBe(1)
+ await expect.poll(()=>paint(page)).toBe(0)
+})
