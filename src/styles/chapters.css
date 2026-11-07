@@ -66,3 +66,24 @@ main > .contact-section { background-color: #0e1729; }
   .skill-practice { margin-top: 10px; padding-top: 6px; }
 }
 main > .contact-section { padding-block: var(--chapter-space); }
+
+/* The atlas must share About's existing negative space, rather than adding a
+   280px row ahead of both content columns. Keep its current rendered size. */
+@media (min-width: 1280px) {
+  .about-section .atlas-intro { position: relative; display: block; padding-right: 360px; }
+  .about-section .featured-atlas { position: absolute; right: 0; top: 0; }
+  .about-section .about-copy { padding-top: 130px; }
+}
+/* Recover compact chapters on ordinary desktop heights using space, not smaller
+   type or controls. Expanded content and short screens still grow naturally. */
+@media (min-width: 1280px) and (min-height: 800px) and (max-height: 1000px) {
+  main > .about-section, main > .skills-section { padding-block: 16px; }
+  .skills-section .atlas-intro { margin-bottom: 16px; }
+  .skills-section .skills-grid { gap: 8px; }
+  .skills-section .skill-card.glass-standard { padding-block: 10px; }
+  .skills-section .skill-body { margin-top: 8px; }
+  .skills-section .skill-description { margin-top: 4px; }
+  .skills-section .skill-card .open-tech-list { margin-top: 8px; }
+  .skills-section .skill-practice { margin-top: 6px; }
+  .skills-section .toolkit-footnote { margin-top: 12px; }
+}

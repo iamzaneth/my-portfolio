@@ -1,3 +1,4 @@
+import MobileOrbit from '@/features/cosmic/MobileOrbit'
 import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUp, ArrowUpRight, Check, Copy, Facebook, FileText, Github, Mail, MapPin, Phone } from 'lucide-react'
@@ -85,6 +86,7 @@ export default function Contact() {
               </a>}
             </div>
           </div>
+          <MobileOrbit world="contact" />
         </div>
         <footer className="footer flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line py-5 text-[12px] leading-5 text-faint max-md:gap-x-4">
           <a className="footer-brand mr-1 text-[19px] font-[750] tracking-[-.8px] text-foreground" href="#home">zaneth<span className="text-accent">.</span></a>

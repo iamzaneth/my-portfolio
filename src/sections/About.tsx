@@ -1,3 +1,5 @@
+import MobileOrbit from '@/features/cosmic/MobileOrbit'
+import FeaturedConstellation from '@/features/cosmic/FeaturedConstellation'
 import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowDownRight, MapPin } from 'lucide-react'
 import SectionHeading from '@/components/SectionHeading'
@@ -8,7 +10,11 @@ export default function About() {
     <section id="about" className="section-space about-section">
       <CosmicBackground world="about" />
       <div className="page-container">
+        <div className="atlas-intro">
         <SectionHeading number="02" label="THE PERSON BEHIND THE PIXELS">Curiosity is my<br /><span className="text-faint">starting point.</span></SectionHeading>
+        <FeaturedConstellation world="about" />
+        <MobileOrbit world="about" />
+        </div>
         <div className="about-grid">
           <div className="profile-card glass-standard" data-reveal>
             <div className="profile-card-top"><span>Developer field card</span>

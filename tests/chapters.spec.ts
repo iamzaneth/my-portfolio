@@ -180,3 +180,35 @@ test('touch gestures retain native document scrolling and no nested page scroll 
   await expect(page.locator('.footer')).toBeInViewport()
   await context.close()
 })
+
+for (const viewport of [{width:1440,height:900},{width:1920,height:1080}]) {
+ test(`normal desktop ${viewport.width}x${viewport.height} fills and advances every compact chapter`,async({page})=>{
+  await page.setViewportSize(viewport);await page.goto('/')
+  const header=await page.locator('.site-header').evaluate(e=>e.getBoundingClientRect().height)
+  for(const id of ['home','about','skills','projects','contact']) {
+   await expect(page.locator(`#${id}`)).toHaveAttribute('data-compact','true')
+   expect(await page.locator(`#${id}`).evaluate(e=>e.getBoundingClientRect().height)).toBeCloseTo(viewport.height-header,0)
+  }
+  for(const id of ['about','skills','projects','contact']) {
+   await page.mouse.wheel(0,120);await aligned(page,id);await page.waitForTimeout(220)
+  }
+  for(const id of ['projects','skills','about','home']) {
+   await page.mouse.wheel(0,-120);await aligned(page,id);await page.waitForTimeout(220)
+  }
+ })
+}
+
+test('chapter transition traverses intermediate positions smoothly',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('/')
+ const samples=page.evaluate(()=>new Promise<number[]>(resolve=>{
+ const positions:number[]=[]
+ const tick=()=>{positions.push(scrollY);if(positions.length<40)requestAnimationFrame(tick);else resolve(positions)}
+ requestAnimationFrame(tick)
+ }))
+ await page.mouse.wheel(0,120)
+ const positions=await samples
+ const destination=await page.locator('#about').evaluate(e=>e.offsetTop-87)
+ expect(positions.some(y=>y>20&&y<destination-20)).toBe(true)
+ for(let i=1;i<positions.length;i++)expect(positions[i]).toBeGreaterThanOrEqual(positions[i-1]-1)
+ await aligned(page,'about')
+})

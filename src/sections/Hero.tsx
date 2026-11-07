@@ -1,3 +1,4 @@
+import MobileOrbit from '@/features/cosmic/MobileOrbit'
 import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Github } from 'lucide-react'
 import { profile } from '@/data/profile'
@@ -22,6 +23,7 @@ export default function Hero() {
           {profile.showResume && <a className="button border-line" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>}
         </div>
         <div className="hero-socials"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} /> GitHub <ArrowUpRight size={13} /></a><span>Curiosity → code → understanding.</span></div>
+        <MobileOrbit world="home" />
       </div>
       <MascotScene />
     </div>

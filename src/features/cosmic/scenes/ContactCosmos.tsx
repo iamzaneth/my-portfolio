@@ -1,13 +1,10 @@
-import { Constellation, OrbitalPath, Stars, PixelGlint } from '../primitives'
+import { Constellation, OrbitalPath, Stars } from '../primitives'
 import { figures } from '../constellations'
 
 export default function ContactCosmos({ mobile }: { mobile: boolean }) {
- const figure = figures.contact
- return <>
- <Stars points={mobile ? [[25,35],[350,120],[38,390],[365,610],[90,830]] : [[45,70],[330,35],[640,80],[970,410],[60,650],[780,750],[510,740]]} />
- <Constellation figure={figure} x={mobile ? 275 : 620 } y={mobile ? 12 : 30} size={mobile ? 120 : 200} />
- <OrbitalPath cx={mobile ? 390 : 520 } cy={mobile ? 1020 : 1050 } rx={750 } ry={390 } rotation={-8 } start={200} end={340} />
-
- <PixelGlint x={mobile ? 365 : 930} y={mobile ? 210 : 330} size={1.2} />
- </>
+  return <>
+    <Stars points={mobile ? [[330,45],[360,120],[25,340],[345,580],[50,750]] : [[860,40],[925,85],[990,60],[30,310],[990,450],[110,655],[245,705],[750,740],[935,675]]} />
+    <g className="contact-figure"><Constellation figure={figures.contact} x={mobile ? 150 : 10} y={mobile ? 0 : 610} size={mobile ? 185 : 210} /></g>
+    {!mobile && <OrbitalPath cx={mobile ? 200 : 590} cy={mobile ? 1030 : 1010} rx={mobile ? 440 : 680} ry={mobile ? 310 : 350} rotation={6} start={195} end={345} />}
+  </>
 }

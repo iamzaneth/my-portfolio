@@ -1,33 +1,77 @@
-/* Section isolation already exists. Art sits behind content, above foundation;
-   clipping belongs only to this decorative plane, never to chapter content. */
+/* The isolated decorative plane clips art only, never chapter content. */
 .cosmic-world { position: absolute; inset: 0; z-index: -1; overflow: clip; pointer-events: none; color: var(--accent); }
 .cosmic-atmosphere, .cosmic-art { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .cosmic-mobile { display: none; }
 .cosmic-stars { fill: #dae5ff; opacity: .52; }
 .cosmic-glint { fill: var(--cyan); opacity: .4; }
 .cosmos-home .cosmic-atmosphere { background: radial-gradient(ellipse at 82% 44%, #b49dff30, transparent 51%), radial-gradient(ellipse at 92% 63%, #6ec8d416, transparent 38%), radial-gradient(ellipse at 76% 68%, #e8c08809, transparent 30%); }
-.cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 5% 70%, #8c8fe82b, transparent 47%), radial-gradient(ellipse at 98% 10%, #b49dff17, transparent 40%); }
-.cosmos-toolkit { color: var(--cyan); }
-.cosmos-toolkit .cosmic-atmosphere { background: radial-gradient(ellipse at 0% 24%, #6ec8d422, transparent 37%), radial-gradient(ellipse at 99% 80%, #6ec8d424, transparent 39%), linear-gradient(115deg, transparent 45%, #b49dff06 75%, transparent); }
-.cosmos-projects .cosmic-atmosphere { background: radial-gradient(ellipse at 103% 5%, #b49dff35, transparent 43%), radial-gradient(ellipse at 0% 94%, #6ec8d41c, transparent 37%), linear-gradient(155deg, transparent 40%, #080f2060); }
+.cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 5% 78%, #8c8fe82a, transparent 49%), radial-gradient(ellipse at 93% 25%, #6ec8d40c, transparent 40%); }
+.cosmos-toolkit .cosmic-atmosphere { background: radial-gradient(ellipse at 95% 78%, #6ec8d42b, transparent 48%), radial-gradient(ellipse at 8% 20%, #b49dff13, transparent 35%); }
+.cosmos-projects .cosmic-atmosphere { background: radial-gradient(ellipse at 6% 84%, #b49dff2b, transparent 48%), radial-gradient(ellipse at 98% 40%, #6ec8d41c, transparent 42%); }
 .cosmos-contact .cosmic-atmosphere { background: radial-gradient(ellipse at 50% 110%, #6ec8d42c, transparent 52%), radial-gradient(ellipse at 55% 105%, #b49dff22, transparent 40%), radial-gradient(ellipse at 50% 110%, #e8c0880c, transparent 32%); }
-@media (max-width: 767px) {
-  .cosmic-desktop { display: none; }
-  .cosmic-mobile { display: block; }
-  .cosmic-stars { opacity: .44; }
-  .cosmos-home .cosmic-atmosphere { background: radial-gradient(ellipse at 95% 70%, #b49dff2b, transparent 50%), radial-gradient(ellipse at 80% 85%, #6ec8d412, transparent 30%); }
-  .cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 0% 55%, #8c8fe825, transparent 45%), radial-gradient(ellipse at 100% 2%, #b49dff13, transparent 25%); }
-  .cosmos-projects .cosmic-atmosphere { background: radial-gradient(ellipse at 120% 16%, #b49dff30, transparent 40%), radial-gradient(ellipse at 0% 90%, #6ec8d416, transparent 32%); }
-}
-
 .stellar-links { stroke: #b6c8eb; stroke-width: .65; opacity: .28; }
 [data-star] { fill: #dce9ff; opacity: .7; }
 .stellar-primary { fill: #f1edff; opacity: .95; }
 .stellar-tertiary { opacity: .42; }
 .stellar-halo { opacity: .08; }
-.celestial-orbit { stroke: #b49dff; stroke-width: .85; opacity: .19; }
-.orbit-secondary { stroke: #6ec8d4; stroke-width: .6; opacity: .12; }
+/* Non-scaling strokes keep trajectories delicate at every uniform scene scale. */
+.celestial-orbit { stroke: #b49dff; stroke-width: 1.1; opacity: .33; }
+.orbit-secondary { stroke: #6ec8d4; stroke-width: .65; opacity: .15; }
+.cosmos-about .orbit-primary { opacity: .32; }
 .cosmos-toolkit .celestial-orbit { stroke: #6ec8d4; }
-.cosmos-projects .orbit-primary { opacity: .25; }
-.cosmos-contact .orbit-primary { opacity: .12; }
-@media(max-width:767px) { .orbit-secondary { display:none; } .celestial-orbit { opacity:.12; } }
+.cosmos-toolkit .orbit-primary { opacity: .35; }
+.cosmos-projects .orbit-primary { opacity: .36; }
+.cosmos-contact .orbit-primary { opacity: .25; }
+/* Fixed introduction geometry preserves the recovered chapter measurements;
+   illustration dimensions and positions cannot add document flow height. */
+.atlas-intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 340px; min-height: 280px; align-items: center; gap: 32px; margin-bottom: 24px; }
+.atlas-intro .section-heading { margin-bottom: 0; flex-direction: column; align-items: flex-start; }
+.atlas-intro .section-aside { max-width: 340px; margin-top: 10px; }
+.featured-atlas { position: absolute; right: 0; top: 0; display: block; width: 340px; height: 300px; margin-block: -10px; overflow: visible; pointer-events: none; }
+.skills-section .atlas-intro { grid-template-columns: 340px minmax(0, 1fr); }
+.skills-section .atlas-intro .section-heading { grid-column: 2; }
+.skills-section .featured-atlas { left: 0; right: auto; }
+.stellar-featured .stellar-links { stroke: #c6c2ff; stroke-width: 1.05; opacity: .58; }
+.stellar-featured [data-star] { opacity: .9; }
+.stellar-featured .stellar-primary { opacity: 1; }
+.stellar-featured .stellar-tertiary { opacity: .6; }
+.stellar-featured .stellar-core { fill: #f4f4ff; }
+.stellar-featured .stellar-halo { fill: #b49dff; opacity: .2; }
+.stellar-aura { fill: #b49dff; opacity: .055; }
+.atlas-toolkit .stellar-links { stroke: #8edbe7; }
+.atlas-toolkit .stellar-halo, .atlas-toolkit .stellar-aura { fill: #6ec8d4; }
+@media(min-width:1280px) {
+  .about-section .atlas-intro { min-height: 0; }
+  .cosmos-contact .cosmic-desktop .contact-figure { transform: translateX(-115px); }
+}
+@media(min-width:768px) and (max-width:1100px) {
+  .atlas-intro { grid-template-columns: minmax(0, 1fr) 270px; min-height: 260px; gap: 16px; }
+  .skills-section .atlas-intro { grid-template-columns: 270px minmax(0, 1fr); }
+  .featured-atlas { width: 270px; height: 280px; }
+}
+@media(max-width:767px) {
+  .cosmic-desktop { display: none; }
+  .cosmic-mobile { display: block; }
+  .cosmic-stars { opacity: .44; }
+  .orbit-secondary { display: none; }
+  .atlas-intro, .skills-section .atlas-intro { display: block; min-height: 0; padding-bottom: 262px; gap: 12px; }
+  .featured-atlas { top: auto; bottom: 0; right: 0; width: 280px; height: 250px; max-width: 100%; margin-block: 0; }
+  .skills-section .featured-atlas { left: 0; right: auto; }
+  .cosmos-home .orbit-primary, .cosmos-about .orbit-primary, .cosmos-toolkit .orbit-primary, .cosmos-projects .orbit-primary { opacity: .26; }
+  .cosmos-contact .orbit-primary { opacity: .22; }
+  .cosmos-home .cosmic-atmosphere { background: radial-gradient(ellipse at 95% 70%, #b49dff2b, transparent 50%), radial-gradient(ellipse at 80% 85%, #6ec8d412, transparent 30%); }
+  .cosmos-about .cosmic-atmosphere { background: radial-gradient(ellipse at 5% 70%, #8c8fe822, transparent 46%), radial-gradient(ellipse at 90% 12%, #6ec8d40c, transparent 30%); }
+}
+/* The viewport-wide mobile sweep follows content wrapping, not the full-section
+   SVG's width-dependent vertical scale. It never contributes document height. */
+.mobile-orbit-band { display: none; pointer-events: none; }
+.project-heading-anchor { display: flow-root; }
+@media(max-width:767px) {
+  .hero-text, .project-heading-anchor, .contact-panel { position: relative; }
+  .mobile-orbit-band { display: block; position: absolute; top: calc(100% - 30px); left: 50%; width: 100vw; height: 80px; transform: translateX(-50%); z-index: -1; }
+  .mobile-orbit-band .orbit-primary { opacity: .26; }
+  .mobile-orbit-band[data-orbit-world="toolkit"] .orbit-primary { stroke: #6ec8d4; }
+  .hero-text .mobile-orbit-band { top: 100%; }
+  .project-heading-anchor .mobile-orbit-band { top: calc(100% - 40px); }
+  .contact-panel .mobile-orbit-band { top: calc(100% - 10px); }
+}

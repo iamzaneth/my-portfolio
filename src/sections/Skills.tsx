@@ -1,3 +1,5 @@
+import MobileOrbit from '@/features/cosmic/MobileOrbit'
+import FeaturedConstellation from '@/features/cosmic/FeaturedConstellation'
 import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { BrainCircuit, ChartNoAxesCombined, Database, Terminal } from 'lucide-react'
 import { skills } from '@/data/skills'
@@ -11,7 +13,11 @@ export default function Skills() {
     <section id="skills" className="section-space skills-section">
       <CosmicBackground world="toolkit" />
       <div className="page-container">
+        <div className="atlas-intro">
         <SectionHeading number="03" label="TOOLS FOR THE THOUGHTFUL BUILDER" aside="Different tools. Connected ideas. A toolkit that grows with every problem.">A practical toolkit.<br /><span className="text-faint">An open mindset.</span></SectionHeading>
+        <FeaturedConstellation world="toolkit" />
+        <MobileOrbit world="toolkit" />
+        </div>
         <div className="skills-grid">
           {skills.map((skill) => {
             const Icon = icons[skill.icon]
