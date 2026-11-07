@@ -69,10 +69,10 @@ The [Playwright report](../artifacts/playwright-report/index.html) retains contr
 To reproduce locally:
 
 ```bash
-npm run lint
-npm run build
-npm run test:e2e
-npm run capture -- after http://127.0.0.1:4173
+pnpm run lint
+pnpm run build
+pnpm run test:e2e
+pnpm run capture after http://127.0.0.1:4173
 ```
 
 Use `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` when running with a system Chrome installation. A supplied `PLAYWRIGHT_BASE_URL` uses an existing production preview.

@@ -11,38 +11,40 @@
     "test:e2e": "playwright test",
     "test:fixtures": "vite build --config tests/fixtures/vite.config.mjs",
     "assets:prepare": "node scripts/prepare-assets.mjs",
-    "capture": "node scripts/capture-portfolio.mjs"
+    "capture": "node scripts/capture-portfolio.mjs",
+    "audit": "pnpm audit",
+    "audit:prod": "pnpm audit --prod"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "gsap": "^3.15.0",
-    "lucide-react": "^0.562.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "gsap": "^3.15.1",
+    "lucide-react": "^0.577.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^10.0.1",
     "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@playwright/test": "^1.61.1",
-    "@tailwindcss/postcss": "^4.1.18",
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/vite": "^4.3.4",
     "@types/node": "^24.10.6",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "postcss": "^8.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.14.0",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "^4.3.4",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6"
   },
-  "allowScripts": {
-    "esbuild@0.27.2": true
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

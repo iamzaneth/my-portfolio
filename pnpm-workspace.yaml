@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild@0.27.2: true
+
+# GHSA-g3hv-75wg-m249; remove once upstream lint packages require minimatch >=11.0.1.
+overrides:
+  'minimatch@>=7 <11.0.1': '^11.0.1'

@@ -3,7 +3,7 @@ import sharp from 'sharp'
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
-// Usage: npm run capture -- after <preview URL> <output root> [before label]
+// Usage: pnpm run capture after <preview URL> <output root> [before label]
 const [label = 'current', url = 'http://127.0.0.1:4173', output = 'artifacts/visual', compare] = process.argv.slice(2)
 if (!/^[a-z0-9-]+$/i.test(label) || (compare && !/^[a-z0-9-]+$/i.test(compare))) throw new Error('Capture labels must be simple directory names')
 const directory = resolve(output, label)

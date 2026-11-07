@@ -20,7 +20,7 @@ All 11 files under `public/` and `assets/source/` are protected by before/after 
 | `CatPosture`, `catPosture`, `CatState`, `CatEvent`, `PipelineStage` exports | Used only within their defining modules; made implementation details private without changing logic |
 | `.pipeline-title strong span` | Impossible for the current string-only title rendering |
 | `.project-stack-more` | Its color was always overridden by the shared technology-list selector; removed the ineffective rule and marker class |
-| `scripts/inspect-portfolio.mjs`, `inspect-composition.mjs`, `inspect-projects.mjs`, `inspect-section-transitions.mjs` | Overlapping historical capture tools; replaced by one maintained `npm run capture` command |
+| `scripts/inspect-portfolio.mjs`, `inspect-composition.mjs`, `inspect-projects.mjs`, `inspect-section-transitions.mjs` | Overlapping historical capture tools; replaced by one maintained `pnpm run capture` command |
 | `scripts/measure-portfolio.mjs` | One-off redesign profiling/report generator; ongoing production transfer, layout stability, and DOM budgets remain tested |
 | Seven dated redesign reports | Superseded execution history with stale paths and generated evidence; current architecture/content/setup guidance is in README and this record |
 | Old generated screenshots, comparisons, profiling files, migration/debug scripts, and root test reports | Not runtime assets or regression fixtures; inventoried and hashed before deletion |

@@ -17,12 +17,12 @@ export default defineConfig({
   // A supplied base URL belongs to the caller; do not launch a second preview.
   webServer: [
     ...(process.env.PLAYWRIGHT_BASE_URL ? [] : [{
-      command: 'npm run preview -- --host 127.0.0.1 --port 4173 --strictPort',
+      command: 'pnpm run preview --host 127.0.0.1 --port 4173 --strictPort',
       url: 'http://127.0.0.1:4173',
       reuseExistingServer: !process.env.CI,
     }]),
     ...(process.env.PLAYWRIGHT_FIXTURE_URL ? [] : [{
-      command: 'npm run test:fixtures && node node_modules/vite/bin/vite.js preview --outDir artifacts/project-fixtures --host 127.0.0.1 --port 4176 --strictPort',
+      command: 'pnpm run test:fixtures && node node_modules/vite/bin/vite.js preview --outDir artifacts/project-fixtures --host 127.0.0.1 --port 4176 --strictPort',
       url: 'http://127.0.0.1:4176/tests/fixtures/projects.html',
       reuseExistingServer: !process.env.CI,
     }]),
