@@ -1,10 +1,21 @@
 import type { CSSProperties } from 'react'
 
-// Concentric shell and opening: five facets per quarter circle deviate from
-// the smooth 24px CSS radius by at most .30px. All vertices meet exactly.
-const radius = 24
-const inset = 12
-const segments = 5
+// One physical model supplies CSS dimensions and tessellation. Six chords per
+// quarter circle stay within .206px of the rounded lip, with shared endpoints.
+export const identityGeometry = {
+  depth: 18, recess: 3, radius: 24, inset: 12, segments: 6,
+  pitch: 2, yaw: -13, perspective: 1500,
+} as const
+const { radius, inset, segments } = identityGeometry
+export const identityStyle = {
+  '--id-depth': `${identityGeometry.depth}px`,
+  '--id-radius': `${radius}px`,
+  '--id-inset': `${inset}px`,
+  '--id-recess': `${identityGeometry.recess}px`,
+  '--id-pitch': `${identityGeometry.pitch}deg`,
+  '--id-yaw': `${identityGeometry.yaw}deg`,
+  '--id-perspective': `${identityGeometry.perspective}px`,
+} as CSSProperties
 const corners = [
   { name: 'top-left', start: 180, right: false, bottom: false },
   { name: 'top-right', start: 270, right: true, bottom: false },
@@ -22,11 +33,13 @@ function cornerWalls(inner: boolean) {
     return {
       name: `${corner.name}-${index}`,
       style: {
+        // Fixed upper-left environment light; no per-frame lighting work.
+        '--edge-light': `${Math.round(22 + 25 * Math.max(0, -Math.cos(radians) * .6 - Math.sin(radians) * .8))}%`,
         left: corner.right ? `calc(100% - ${radius - x}px)` : `${radius + x}px`,
         top: corner.bottom ? `calc(100% - ${radius - y}px)` : `${radius + y}px`,
         height: `${2 * r * Math.sin(Math.PI / (4 * segments))}px`,
         transform: `translate3d(-50%, -50%, ${inner ? 'var(--well-z)' : '0px'}) rotateZ(${angle}deg) rotateY(${inner ? -90 : 90}deg)`,
-      } satisfies CSSProperties,
+      } satisfies CSSProperties & { '--edge-light': string },
     }
   }))
 }

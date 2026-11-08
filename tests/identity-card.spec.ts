@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import sharp from 'sharp'
+import { identityGeometry } from '../src/features/identity/identityGeometry'
 
 const flip = (page: Page) => page.getByRole('button', { name: 'Flip card: Zaneth identity', exact: true })
 const settle = (page: Page, back: boolean) => expect.poll(() => page.locator('.identity-body').evaluate(element => {
@@ -119,16 +120,20 @@ test('rounded protective shell, recessed inserts and connecting walls preserve t
     const size = getComputedStyle(body)
     return { front: front.m43, back: back.m43, outward: back.m11, width: parseFloat(size.width), height: parseFloat(size.height), walls, wells, shells, structural }
   })
-  expect(geometry.front).toBe(3.5)
-  expect(geometry.back).toBe(-3.5)
+  const { depth, recess, radius, inset, segments } = identityGeometry
+  const halfDepth = depth / 2, panelZ = halfDepth - recess
+  expect(depth).toBeGreaterThanOrEqual(16)
+  expect(depth).toBeLessThanOrEqual(20)
+  expect(geometry.front).toBe(panelZ)
+  expect(geometry.back).toBe(-panelZ)
   expect(geometry.outward).toBe(-1)
-  expect(geometry.shells).toEqual([{ z: 5, border: 12, radius: 24 }, { z: -5, border: 12, radius: 24 }])
+  expect(geometry.shells).toEqual([{ z: halfDepth, border: inset, radius }, { z: -halfDepth, border: inset, radius }])
   expect(geometry.walls.slice(0, 4).map(w => w.edge)).toEqual(['left', 'right', 'top', 'bottom'])
-  expect(geometry.walls).toHaveLength(24)
-  expect(geometry.wells).toHaveLength(48)
+  expect(geometry.walls).toHaveLength(4 + 4 * segments)
+  expect(geometry.wells).toHaveLength(2 * (4 + 4 * segments))
   for (const wall of geometry.walls) {
-    expect(Math.min(...wall.points.map(p => p.z))).toBeCloseTo(-5, 2)
-    expect(Math.max(...wall.points.map(p => p.z))).toBeCloseTo(5, 2)
+    expect(Math.min(...wall.points.map(p => p.z))).toBeCloseTo(-halfDepth, 2)
+    expect(Math.max(...wall.points.map(p => p.z))).toBeCloseTo(halfDepth, 2)
     for (const p of wall.points) {
       expect(p.x).toBeGreaterThanOrEqual(-.02)
       expect(p.x).toBeLessThanOrEqual(geometry.width + .02)
@@ -136,36 +141,36 @@ test('rounded protective shell, recessed inserts and connecting walls preserve t
       expect(p.y).toBeLessThanOrEqual(geometry.height + .02)
       // Endpoints meet straight tangent lines or the true 24px corner circle.
       const x = Math.min(p.x, geometry.width - p.x), y = Math.min(p.y, geometry.height - p.y)
-      expect(Math.min(Math.abs(x), Math.abs(y), Math.abs(Math.hypot(x - 24, y - 24) - 24))).toBeLessThan(.03)
+      expect(Math.min(Math.abs(x), Math.abs(y), Math.abs(Math.hypot(x - radius, y - radius) - radius))).toBeLessThan(.03)
     }
   }
   for (const wall of geometry.wells) {
     const z = wall.points.map(p => p.z), back = Math.max(...z) < 0
-    expect(Math.min(...z)).toBeCloseTo(back ? -5 : 3.5, 2)
-    expect(Math.max(...z)).toBeCloseTo(back ? -3.5 : 5, 2)
+    expect(Math.min(...z)).toBeCloseTo(back ? -halfDepth : panelZ, 2)
+    expect(Math.max(...z)).toBeCloseTo(back ? -panelZ : halfDepth, 2)
     for (const p of wall.points) {
       const x = Math.min(p.x, geometry.width - p.x), y = Math.min(p.y, geometry.height - p.y)
-      expect(x).toBeGreaterThanOrEqual(11.98)
-      expect(y).toBeGreaterThanOrEqual(11.98)
-      expect(Math.min(Math.abs(x - 12), Math.abs(y - 12), Math.abs(Math.hypot(x - 24, y - 24) - 12))).toBeLessThan(.03)
+      expect(x).toBeGreaterThanOrEqual(inset - .02)
+      expect(y).toBeGreaterThanOrEqual(inset - .02)
+      expect(Math.min(Math.abs(x - inset), Math.abs(y - inset), Math.abs(Math.hypot(x - radius, y - radius) - (radius - inset)))).toBeLessThan(.03)
     }
   }
   for (const s of geometry.structural) expect(s).toEqual({ preserve: 'preserve-3d', overflow: 'visible', opacity: '1', filter: 'none', backdrop: 'none', clip: 'none', isolation: 'auto', contain: 'none', blend: 'normal' })
-  await expect(page.locator('.identity-scene')).toHaveCSS('perspective', '1100px')
+  await expect(page.locator('.identity-scene')).toHaveCSS('perspective', `${identityGeometry.perspective}px`)
 })
 
 for (const width of [375, 1440]) {
   test(`real wall pixels remain visible at oblique and edge-on angles at ${width}px`, async ({ page }, info) => {
-    await page.setViewportSize({ width, height: 900 })
+    await page.setViewportSize({ width, height: width === 375 ? 812 : 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.addStyleTag({ content: '.identity-tilt{transform:none!important}.identity-body{transition:none!important}' })
     await page.locator('.identity-stage').scrollIntoViewIfNeeded()
-    for (const angle of [0, 30, 60, 90, 120, 180]) {
+    for (const angle of [0, 15, 30, 45, 60, 90, 120, 180]) {
       await page.locator('.identity-body').evaluate((e, angle) => { (e as HTMLElement).style.transform = `rotateY(${angle}deg)` }, angle)
       const stage = page.locator('.identity-stage')
       const visible = await stage.screenshot()
       await info.attach(`card-${width}-${angle}.png`, { body: visible, contentType: 'image/png' })
-      if ([30, 60, 90, 120].includes(angle)) {
+      if ([15, 30, 45, 60, 90, 120].includes(angle)) {
         await page.locator('.identity-edge').evaluateAll(edges => edges.forEach(e => { (e as HTMLElement).style.visibility = 'hidden' }))
         const hidden = await stage.screenshot()
         await page.locator('.identity-edge').evaluateAll(edges => edges.forEach(e => { (e as HTMLElement).style.removeProperty('visibility') }))
@@ -173,12 +178,12 @@ for (const width of [375, 1440]) {
         const b = await sharp(hidden).removeAlpha().raw().toBuffer()
         let pixels = 0
         for (let i = 0; i < a.length; i += 3) if (Math.max(...[0, 1, 2].map(c => Math.abs(a[i + c] - b[i + c]))) > 20) pixels++
-        expect(pixels, `Actual wall pixels at ${angle}°`).toBeGreaterThan(300)
+        expect(pixels, `Actual wall pixels at ${angle}°`).toBeGreaterThan(angle === 15 ? 200 : 450)
       }
       if (angle === 90) {
         const edge = await page.locator('.identity-edge-left').boundingBox()
-        expect(edge!.width).toBeGreaterThan(10)
-        expect(edge!.width).toBeLessThan(13)
+        expect(edge!.width).toBeGreaterThan(identityGeometry.depth)
+        expect(edge!.width).toBeLessThan(identityGeometry.depth + 5)
         expect(edge!.height).toBeGreaterThan(390)
       }
     }

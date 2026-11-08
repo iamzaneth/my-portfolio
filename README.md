@@ -8,7 +8,7 @@ The personal website of **Tran Thien Phuc**, a Data Engineering student at **Ho 
 
 - Responsive navy/lavender design, self-hosted fonts, and frosted navigation.
 - An interactive pixel cat with varied Pet/Play routines, sleep/wake controls, continuous sprite transitions, and contextual project discoveries.
-- A floating portrait ID badge with a rounded black protective shell, physical CSS 3D depth, recessed faces, keyboard/touch flipping, pointer tilt, and reduced-motion support.
+- A floating portrait ID badge with a rounded black protective shell, 18px physical CSS 3D depth, recessed faces, keyboard/touch flipping, pointer tilt, and reduced-motion support.
 - Keyboard-accessible, fixed-layout skill practice views.
 - Compact project cards, category filters, and in-page case-study dialogs with focus and scroll restoration.
 - A data-driven NexTick architecture explorer; Source and Demo links appear only when valid URLs are configured.

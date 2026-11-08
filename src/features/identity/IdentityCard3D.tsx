@@ -2,7 +2,7 @@ import { useId, useRef, useState, type PointerEvent } from 'react'
 import { Sparkles } from 'lucide-react'
 import { profile } from '@/data/profile'
 import { useMotionPreference } from '@/hooks/useMotionPreference'
-import { shellCorners, straightEdges, wellCorners } from './identityGeometry'
+import { identityStyle, shellCorners, straightEdges, wellCorners } from './identityGeometry'
 import './identity-card.css'
 
 const fields = [
@@ -36,7 +36,7 @@ export default function IdentityCard3D() {
   }
 
   return (
-    <div className="identity-stage" data-face={flipped ? 'back' : 'front'}>
+    <div className="identity-stage" style={identityStyle} data-face={flipped ? 'back' : 'front'}>
       <div className="identity-aura" aria-hidden="true" />
       <div className="identity-shadow" aria-hidden="true" />
       <div className="identity-float">

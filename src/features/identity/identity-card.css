@@ -3,27 +3,23 @@
 .identity-reveal { min-width: 0; display: grid; justify-items: center; align-self: center; }
 .identity-stage {
   --id-width: 290px;
-  --id-depth: 10px;
   --id-half-depth: calc(var(--id-depth) / 2);
-  --id-radius: 24px;
-  --id-inset: 12px;
-  --id-recess: 1.5px;
   --id-panel-z: calc(var(--id-half-depth) - var(--id-recess));
   position: relative;
   width: min(var(--id-width), calc(100% - 24px));
 }
 .identity-float { position: relative; aspect-ratio: .7; animation: identity-float 5.6s ease-in-out infinite; }
 .identity-float, .identity-scene, .identity-tilt, .identity-body, .identity-well-group { transform-style: preserve-3d; }
-.identity-scene { width: 100%; height: 100%; perspective: 1100px; }
-.identity-tilt { width: 100%; height: 100%; transform: rotateX(calc(1.5deg + var(--pointer-x, 0deg))) rotateY(calc(-5deg + var(--pointer-y, 0deg))); transition: transform 280ms var(--ease-out); }
+.identity-scene { width: 100%; height: 100%; perspective: var(--id-perspective); }
+.identity-tilt { width: 100%; height: 100%; transform: rotateX(calc(var(--id-pitch) + var(--pointer-x, 0deg))) rotateY(calc(var(--id-yaw) + var(--pointer-y, 0deg))); transition: transform 280ms var(--ease-out); }
 .identity-body { position: relative; width: 100%; height: 100%; transform: rotateY(0deg); transition: transform 720ms cubic-bezier(.22, 1, .36, 1); }
 .identity-body[data-flipped=true] { transform: rotateY(180deg); }
-/* The substantial lip is a separate plane, 1.5px in front of its printed insert.
+/* The substantial lip is a separate plane, 3px in front of its printed insert.
    Its opening is joined to the insert by inward-facing straight/curved walls. */
-.identity-shell { position: absolute; inset: 0; border: var(--id-inset) solid #080b12; border-color: #1e2636 #0a0d15 #070a10 #141a26; border-radius: var(--id-radius); backface-visibility: hidden; box-shadow: inset 0 0 0 1px #5a6e8c38, 0 0 0 1px #02050c, inset 0 1px 0 #b49dff20, inset 1px 0 0 #6ec8d412; }
+.identity-shell { position: absolute; inset: 0; border: var(--id-inset) solid #080b12; border-color: #303949 #11151e #080c13 #222a39; border-radius: var(--id-radius); backface-visibility: hidden; box-shadow: inset 0 0 0 1px #5a6e8c38, inset 0 1px 0 #b49dff20, inset 1px 0 0 #6ec8d412; }
 .identity-shell-front { transform: translateZ(var(--id-half-depth)); }
 .identity-shell-back { transform: rotateY(180deg) translateZ(var(--id-half-depth)); }
-.identity-face { position: absolute; inset: var(--id-inset); backface-visibility: hidden; border-radius: calc(var(--id-radius) - var(--id-inset)); overflow: hidden; color: var(--text); background-color: #101a2b; background-image: linear-gradient(130deg, #b49dff0e, transparent 55%, #6ec8d405); box-shadow: inset 0 0 0 1px #b8c8e135; }
+.identity-face { position: absolute; inset: var(--id-inset); backface-visibility: hidden; border-radius: calc(var(--id-radius) - var(--id-inset)); overflow: hidden; color: var(--text); background-color: #101a2b; background-image: linear-gradient(130deg, #b49dff0e, transparent 55%, #6ec8d405); box-shadow: inset 0 0 0 1px #02050db3; }
 .identity-front { transform: translateZ(var(--id-panel-z)); }
 .identity-back { transform: rotateY(180deg) translateZ(var(--id-panel-z)); padding: 18px; }
 /* --- Back face header (unchanged) --- */
@@ -34,7 +30,7 @@
 /* --- Full-bleed portrait front --- */
 .identity-portrait { position: absolute; inset: 0; background: #111a27; }
 .identity-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 32%; }
-.identity-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px #e8eff810; background: linear-gradient(110deg, #ffffff06, transparent 35%); }
+.identity-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px #02050d99, inset 0 2px 3px #02050d80; background: linear-gradient(110deg, #ffffff06, transparent 35%); }
 /* Localized gradient scrims for text readability without hiding the portrait */
 .identity-front-shading { position: absolute; inset: 0; pointer-events: none;
   background:
@@ -56,20 +52,22 @@
 .identity-fields dt { font: 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: 1.5px; color: var(--cyan); }
 .identity-fields dd { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text); }
 .identity-fields > div:first-child dd { font-size: 19px; line-height: 1.35; font-weight: 650; }
-/* Outer walls remain real planes. Rounded corners use five joined facets per
+/* Outer walls remain real planes. Rounded corners use six joined facets per
    quadrant; the four straight walls terminate at the shared tangent points. */
-.identity-edge { position: absolute; backface-visibility: hidden; background-color: #10151f; background-image: linear-gradient(90deg, #3e4e64, #1e2838 13%, #080b12 34%, #0c111b 68%, #2e3e52 90%, #4a5568); }
+/* A broad matte core spans the full depth. Narrow specular bands suggest
+   machined lip transitions without tapering any physical wall. */
+.identity-edge { position: absolute; backface-visibility: hidden; background-color: color-mix(in srgb, #8290a8 var(--edge-light, 30%), #080c14); background-image: linear-gradient(90deg, #c4d3e055 0px, #b49dff25 1px, transparent 2px, transparent calc(100% - 2px), #6ec8d41c calc(100% - 1px), #02050d99); }
 .identity-edge-left, .identity-edge-right { top: var(--id-radius); width: var(--id-depth); height: calc(100% - 2 * var(--id-radius)); }
-.identity-edge-left { left: 0; transform: translateX(-50%) rotateY(-90deg); background-image: linear-gradient(90deg, #475a72, #283848 16%, #0e1520 40%, #12192a 65%, #384c62 88%, #506070); }
-.identity-edge-right { left: 100%; transform: translateX(-50%) rotateY(90deg); background-image: linear-gradient(90deg, #2a3e54, #16202d 13%, #080b12 34%, #0c111b 68%, #3a4e64 90%, #4a5e74); }
-.identity-edge-top, .identity-edge-bottom { left: var(--id-radius); width: calc(100% - 2 * var(--id-radius)); height: var(--id-depth); }
-.identity-edge-top { top: 0; transform: translateY(-50%) rotateX(90deg); background-image: linear-gradient(0deg, #4a5870, #1e2c3e 16%, #080b12 45%, #111823 78%, #405068); }
-.identity-edge-bottom { top: 100%; transform: translateY(-50%) rotateX(-90deg); background-image: linear-gradient(0deg, #283040, #101820 16%, #060a10 45%, #0a1018 78%, #222e3e); }
+.identity-edge-left { --edge-light: 42%; left: 0; transform: translateX(-50%) rotateY(-90deg); }
+.identity-edge-right { --edge-light: 28%; left: 100%; transform: translateX(-50%) rotateY(90deg); }
+.identity-edge-top, .identity-edge-bottom { left: var(--id-radius); width: calc(100% - 2 * var(--id-radius)); height: var(--id-depth); background-image: linear-gradient(0deg, #c4d3e055 0px, #b49dff25 1px, transparent 2px, transparent calc(100% - 2px), #6ec8d41c calc(100% - 1px), #02050d99); }
+.identity-edge-top { --edge-light: 47%; top: 0; transform: translateY(-50%) rotateX(90deg); }
+.identity-edge-bottom { --edge-light: 14%; top: 100%; transform: translateY(-50%) rotateX(-90deg); }
 .identity-edge-corner { width: var(--id-depth); }
 .identity-well-group { position: absolute; inset: 0; }
 .identity-well-front { --well-z: calc(var(--id-half-depth) - var(--id-recess) / 2); }
 .identity-well-back { --well-z: calc(-1 * (var(--id-half-depth) - var(--id-recess) / 2)); }
-.identity-well { position: absolute; backface-visibility: hidden; background: #060a11; }
+.identity-well { position: absolute; backface-visibility: hidden; background: linear-gradient(90deg, #02040a, #182132); }
 .identity-well-left, .identity-well-right { top: var(--id-radius); width: var(--id-recess); height: calc(100% - 2 * var(--id-radius)); }
 .identity-well-left { left: var(--id-inset); transform: translate3d(-50%, 0, var(--well-z)) rotateY(90deg); }
 .identity-well-right { left: calc(100% - var(--id-inset)); transform: translate3d(-50%, 0, var(--well-z)) rotateY(-90deg); }
@@ -125,6 +123,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .identity-float { animation: none; }
-  .identity-tilt { transform: rotateX(1.5deg) rotateY(-5deg); transition: none; }
+  .identity-tilt { transform: rotateX(var(--id-pitch)) rotateY(var(--id-yaw)); transition: none; }
   .identity-body { transition: none; }
 }
