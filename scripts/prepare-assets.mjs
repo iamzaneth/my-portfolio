@@ -36,6 +36,8 @@ if (source) {
 }
 
 await sharp('assets/source/avatar.png').resize(256, 256, { fit: 'cover' }).webp({ quality: 82 }).toFile('public/avatar.webp')
+// A portrait derivative preserves the original composition for the larger ID.
+await sharp('assets/source/avatar.png').resize({ width: 720, withoutEnlargement: true }).webp({ quality: 85 }).toFile('public/avatar-portrait.webp')
 const fontFiles = [
   ['@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2', 'manrope-latin.woff2'],
   ['@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2', 'ibm-plex-mono-latin.woff2'],
