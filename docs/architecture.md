@@ -5,6 +5,7 @@
 - `useChapterNavigation` owns desktop chapter selection. The document is the only scroll plane. Compact sections fill viewport minus the measured navbar; genuinely tall content scrolls natively. Preserve wheel intent/momentum gating, native anchors, deep links, history and dialog isolation.
 - `useBackToTop` owns only the bounded 650ms return action. Input interrupts it. Reduced motion returns instantly, and history/focus remain usable.
 - `usePortfolioMotion` owns entrances, reveals and mascot-orbit choreography. Fine-pointer PC at 1024px+ gets a slow 64-second rotation, paused offscreen/in hidden tabs. Mobile/tablet retains its scene-range ScrollTrigger rotation. Live media changes revert the previous GSAP context before switching.
+- `IdentityCard3D` keeps separate reveal, float, perspective, tilt, and flip layers. GSAP reveals only the outer layout wrapper and clears its temporary styles. The black shell spans Z=±5px; printed faces sit at ±3.5px, joined to the lip by recess walls. `identityGeometry.ts` builds the rounded corner facets once. Preserve the 3D chain without clipping, filters, opacity, or containment; rounded clipping belongs on the printed faces. The native flip button remains outside both faces, and the inactive face is inert and aria-hidden. Reduced motion disables drift, tilt, and transitions while retaining face switching.
 - Cat sprite/state/routine logic stays in `features/mascot`. Twelve orbit stars have six explicitly prominent cores; twinkling pauses with scene activity. The unused legacy pixel-star layer was removed.
 - `SkillDisclosure` swaps overview/practice inside the existing card footprint. Hidden content is inert and aria-hidden. Button → practice-region keyboard order, Escape restoration and an internally scrollable region handle accessibility without grid expansion.
 - The comet uses immutable timestamped viewport samples, bounded resampling, a 144px arc budget, a 450ms lifetime and reusable tapered-edge buffers. One filled silhouette plus a connected highlight eliminates per-segment cap seams. One demand-driven canvas RAF stops after fade; particles remain bounded. Never restore follower-chain physics.
@@ -47,7 +48,7 @@ node scripts/capture-cosmic-composition.mjs current http://127.0.0.1:4173
 
 Capture tools write only to ignored `artifacts/`. The cosmic workflow includes full-content, background-only, constellation-only, orbit-only and grayscale contact-sheet views. No production debug UI is needed. Inspect 320/375/430px, tablet, desktop and short-height screens. Record timings as observations; do not assert a guaranteed frame rate.
 
-Latest local verification (2026-11-08): frozen-lockfile install, lint and production build succeeded; all 184 E2E tests passed with no skipped/flaky tests. Desktop/mobile captures were reviewed before generated artifacts were removed.
+Badge tests verify both outer and recessed wall coordinates, rendered edge pixels at oblique and 90° angles, responsive typography, stable layout, keyboard/touch flipping, reduced motion, and compact chapter navigation. Keep these regression checks when adjusting the shell. Generate `public/avatar-portrait.webp` from the retained full-resolution source rather than enlarging the square thumbnail.
 
 ## Repository hygiene
 

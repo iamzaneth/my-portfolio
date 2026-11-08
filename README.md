@@ -8,6 +8,7 @@ The personal website of **Tran Thien Phuc**, a Data Engineering student explorin
 
 - Responsive navy/lavender design, self-hosted fonts, and frosted navigation.
 - An interactive pixel cat with varied Pet/Play routines, sleep/wake controls, continuous sprite transitions, and contextual project discoveries.
+- A floating portrait ID badge with a rounded black protective shell, physical CSS 3D depth, recessed faces, keyboard/touch flipping, pointer tilt, and reduced-motion support.
 - Keyboard-accessible, fixed-layout skill practice views.
 - Compact project cards, category filters, and in-page case-study dialogs with focus and scroll restoration.
 - A data-driven NexTick architecture explorer; Source and Demo links appear only when valid URLs are configured.
@@ -50,7 +51,7 @@ pnpm run build
 pnpm run test:e2e
 ```
 
-Playwright starts the production preview and an isolated project-fixture preview. Tests cover responsive layouts, navigation, contact, accessibility, reduced motion, project dialogs and collections, and cat state/motion continuity. Temporary projects stay in the fixture build and are checked for absence from the real portfolio bundle.
+Playwright starts the production preview and an isolated project-fixture preview. Tests cover responsive layouts, navigation, contact, accessibility, reduced motion, identity-badge geometry and interactions, project dialogs and collections, and cat state/motion continuity. Temporary projects stay in the fixture build and are checked for absence from the real portfolio bundle.
 
 Reports, failure screenshots, and traces go under ignored `artifacts/`. To inspect a report:
 
@@ -89,6 +90,7 @@ src/
     cosmic/          Static celestial scenes and SVG primitives
     cursor/          Immutable historical comet trail
     chapters/        Chapter navigation and bounded return-to-top action
+    identity/        Volumetric badge, protective shell geometry, and materials
   data/              Profile, skills, and project configuration
   hooks/             Visibility/activity and reduced-motion subscriptions
   styles/            Global tokens, shared primitives, sections, and navigation
@@ -122,6 +124,6 @@ pnpm run assets:prepare
 pnpm run assets:prepare "<extracted Pet Cats Pack directory>"
 ```
 
-The script uses the retained avatar source and Fontsource packages to prepare the served avatar/fonts. The optional pack argument rebuilds the atlas and generated sprite catalog. It does not download or hotlink runtime assets.
+The script uses the retained avatar source to prepare the 256px thumbnail and 720px portrait derivative, and Fontsource packages to prepare the served fonts. The optional pack argument rebuilds the atlas and generated sprite catalog. It does not download or hotlink runtime assets.
 
 See the [maintenance guide](docs/architecture.md) for animation boundaries, cosmic composition, keyboard behavior, validation and repository hygiene.
