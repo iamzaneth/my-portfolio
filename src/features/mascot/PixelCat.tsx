@@ -3,6 +3,7 @@ import { catAnimations, type CatMode } from './catConfig'
 import { catAtlas, catSprites } from './catSprites'
 
 const initialStyle = {
+  '--source-ground': catAtlas.groundRow / catAtlas.frameHeight,
   '--atlas-columns': catAtlas.columns,
   '--atlas-rows': catAtlas.rows,
   '--frames': catSprites.idle.frames,

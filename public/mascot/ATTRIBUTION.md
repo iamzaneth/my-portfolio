@@ -1,24 +1,59 @@
 # Pixel companion
 
-The floating terrain in `MascotScene.tsx`, stepped toolkit emblems, and interactive architecture panels are original SVG/CSS artwork authored for this portfolio. They contain no third-party game artwork or branding. No additional downloaded assets or licenses were introduced by the redesign.
-
-Original art: **Pet Cats Pack**, Cat 1, by **LuizMelo**.
+Original motion and silhouette reference: **Pet Cats Pack**, Cat 1, by **LuizMelo**.
 
 - Source: https://luizmelo.itch.io/pet-cat-pack
 - License: CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/
-- Original author-provided license: `LICENSE.txt` in this directory.
-- Retrieved: October 24, 2026.
-- Original download: `Pet Cats Pack.zip`, public itch.io upload 14065011.
+- The original author-provided `LICENSE.txt` is preserved in this directory.
+- Retrieved October 24, 2026; original public itch.io upload 14065011.
 
-The local sheets are cropped from 50 × 50 to 32 × 32 per frame, keeping the original frame alignment. Their brown palette is remapped to muted lavender, preserving alpha and luminance. Idle, Walk, Run, Meow, Sleeping2, Stretching, Sitting, Laying, Licking 1, Licking 2, and Itch are used. These eleven source animations are packed directly into the locally served `cat-atlas.png`; intermediate sheets stay in memory and are not written to the public directory. Jump combines the Meow sheet with GSAP movement; it is not an additional animation supplied by the artist. Idle includes the artist’s existing small movements; no separate blinking sheet is claimed.
+## Project artwork
 
-Sitting down and standing up reuse forward/reverse ranges of the Laying sheet. Additional sniffing, head tilts, kneading, fluff shakes, peeking, and tail-chasing gestures combine these existing frames with code-driven motion; they are not additional source animations supplied by the artist.
+The portfolio's native 64×64 frames are project-authored enhancements of the
+original CC0 poses, rather than new artwork attributed to LuizMelo. They retain
+the slender lavender character, frame ordering and footfall phases, with refined
+contours, tail lighting, ears, eyes, muzzle, chest fur, paws and toe separations.
+The palette contains 13 named colors and uses binary alpha. No interpolation,
+random fur noise or runtime image generation is used.
 
-Waking now reverses Laying frames 7–4 so the sleeping silhouette rises into the same seated pose used by the standing bridge. The Stretching sheet is reserved for standing stretches; it is not used as a lying-to-sitting transition. Sprite placement anchors the artwork's ground row (22 of 32 pixels) to the scene floor at every responsive size.
+The production sources are `assets/source/mascot/manifest.json` and its 65 editable
+transparent PNGs. The manifest describes frame dimensions, row mappings, source
+paths, palette, per-frame bounds and groundRow 44. The served `cat-atlas.png` is
+832×704: 13 columns and 11 rows.
 
-Regenerate with `node scripts/prepare-assets.mjs "<extracted Pet Cats Pack directory>"` after downloading the pack from the author. No critical art is hotlinked. The interface’s pixel face mark and architecture illustration are original code-native graphics.
+| Clip | Original sheet | Frames |
+| --- | --- | ---: |
+| idle | Idle | 10 |
+| walk | Walk | 8 |
+| run | Run | 8 |
+| meow | Meow | 4 |
+| sleep | Sleeping2 | 1 |
+| wake | Stretching | 13 |
+| sit | Sitting | 1 |
+| lieDown | Laying | 8 |
+| groom | Licking 1 | 5 |
+| groomPaw | Licking 2 | 5 |
+| scratch | Itch | 2 |
 
-V2 Moon Garden: the moon, crater shapes, mountain layers and plants in
-`MoonGarden.tsx`, plus the Play star toy and habitat frame, are original code-native
-artwork. The CC0 cat atlas and palette mapping are unchanged. The scene uses
-integer sprite sizes of 256, 288, 320 and 384 pixels to keep atlas pixels crisp.
+The source key `wake` denotes Stretching. Logical waking reverses Laying frames
+7–4 into sitting; sitting/standing bridges use forward/reverse Laying ranges.
+Jump and additional gestures combine these clips with GSAP movement and are not
+additional animations supplied by the original artist.
+
+## Reproduce and validate
+
+```sh
+pnpm run assets:cat        # Pack editable PNGs and generate catSprites.ts
+pnpm run assets:cat:check  # Check source pixels and deterministic output
+pnpm run assets:prepare    # Also prepare avatars and self-hosted fonts
+pnpm run assets:cat:review # Optional contact sheet and pixel audit
+```
+
+No source-pack download, proprietary editor, API key or network access is needed.
+Packing preserves every source RGBA byte, validates all frame counts and bounds,
+and rejects undeclared colors, semitransparent pixels, empty cells, sinking
+artwork and cells with insufficient native pixel detail. Optional review output
+is disposable and goes under `artifacts/mascot/`.
+
+Moon Garden's moon, mountains, plants, terrain, frame and Play toy are original
+code-native SVG/CSS artwork. Font licenses remain separate in `public/fonts/`.

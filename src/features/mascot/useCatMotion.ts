@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, type RefObject } from 'react'
 import gsap from 'gsap'
 import { catAnimations, type CatMode } from './catConfig'
+import { catAtlas } from './catSprites'
 
 export function useCatMotion(
   character: RefObject<HTMLSpanElement | null>,
@@ -21,9 +22,10 @@ export function useCatMotion(
     playback.current = timeline
     const anchor = Number(gsap.getProperty(element, 'x')) || 0
     const spriteSize = element.querySelector<HTMLElement>('.pixel-cat-sprite')?.offsetWidth ?? 0
-    // The widest running frame occupies 30 of its 32 columns. Leave space for
-    // the silhouette, landing tilt, and shadow instead of clipping at the stage.
-    const limit = Math.min(54, Math.max(0, (element.clientWidth - spriteSize * 30 / 32) / 2 - 5))
+    // The generated envelope accounts for the real artwork in either facing.
+    // Retain the existing landing/shadow clearance and maximum travel range.
+    const halfWidth = Math.max(catAtlas.frameWidth / 2 - catAtlas.visibleBounds.left, catAtlas.visibleBounds.right - catAtlas.frameWidth / 2)
+    const limit = Math.min(54, Math.max(0, element.clientWidth / 2 - spriteSize * halfWidth / catAtlas.frameWidth - 5))
     const clampX = gsap.utils.clamp(-limit, limit)
     const grounded = { y: 0, rotate: 0, scaleX: 1, scaleY: 1 }
     const pose = (vars: gsap.TweenVars) => {

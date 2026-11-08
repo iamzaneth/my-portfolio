@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { catSprites } from '../../src/features/mascot/catSprites'
+import { catAtlas, catSprites } from '../../src/features/mascot/catSprites'
 
 test('idle playback advances through consecutive atlas frames on the browser clock', async ({ page }) => {
   await page.goto('/')
@@ -56,7 +56,7 @@ test('visibility events preserve the current sprite, world pose, and pending act
 
 test('atlas cells contain artwork and rapid actions expose exactly one valid frame', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' })
-  const cells = await page.evaluate(async sheets => {
+  const cells = await page.evaluate(async ({ sheets, atlas }) => {
     const image = new Image()
     image.src = '/mascot/cat-atlas.png'
     await image.decode()
@@ -66,10 +66,10 @@ test('atlas cells contain artwork and rapid actions expose exactly one valid fra
     const context = canvas.getContext('2d')!
     context.drawImage(image, 0, 0)
     return Object.entries(sheets).flatMap(([asset, sheet]) => Array.from({ length: sheet.frames }, (_, frame) => {
-      const data = context.getImageData(frame * 32, sheet.row * 32, 32, 32).data
+      const data = context.getImageData(frame * atlas.frameWidth, sheet.row * atlas.frameHeight, atlas.frameWidth, atlas.frameHeight).data
       return { asset, frame, painted: data.some((value, index) => index % 4 === 3 && value > 0) }
     }))
-  }, catSprites)
+  }, { sheets: catSprites, atlas: catAtlas })
   expect(cells.every(cell => cell.painted)).toBe(true)
   const samples = await page.evaluate(async sheets => {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.cat-controls button')
@@ -127,7 +127,7 @@ for (const width of [320, 1440]) {
     await expect(page.locator('.cat-stage')).toHaveCSS('opacity', '1')
     await page.getByRole('button', { name: 'Nap', exact: true }).click()
     await expect(scene).toHaveAttribute('data-state', 'sleep')
-    const ground = await scene.evaluate(async element => {
+    const ground = await scene.evaluate(async (element, atlas) => {
       const active = element.querySelector<HTMLElement>('.pixel-cat-sprite[data-active=true]')!
       const style = getComputedStyle(active)
       const sprite = active.getBoundingClientRect()
@@ -136,18 +136,20 @@ for (const width of [320, 1440]) {
       image.src = '/mascot/cat-atlas.png'
       await image.decode()
       const canvas = document.createElement('canvas')
-      canvas.width = canvas.height = 32
+      canvas.width = atlas.frameWidth
+      canvas.height = atlas.frameHeight
       const context = canvas.getContext('2d')!
       const frame = Math.round(-parseFloat(style.backgroundPositionX) / active.offsetWidth)
       const row = Math.round(-parseFloat(style.backgroundPositionY) / active.offsetHeight)
-      context.drawImage(image, frame * 32, row * 32, 32, 32, 0, 0, 32, 32)
-      const pixels = context.getImageData(0, 0, 32, 32).data
+      context.drawImage(image, frame * atlas.frameWidth, row * atlas.frameHeight, atlas.frameWidth, atlas.frameHeight, 0, 0, atlas.frameWidth, atlas.frameHeight)
+      const pixels = context.getImageData(0, 0, atlas.frameWidth, atlas.frameHeight).data
       let baseline = 0
-      for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) {
-        if (pixels[(y * 32 + x) * 4 + 3]) baseline = y + 1
+      for (let y = 0; y < atlas.frameHeight; y++) for (let x = 0; x < atlas.frameWidth; x++) {
+        if (pixels[(y * atlas.frameWidth + x) * 4 + 3]) baseline = y + 1
       }
-      return { paws: sprite.top + sprite.height * baseline / 32, floor: floor.top }
-    })
+      return { paws: sprite.top + sprite.height * baseline / atlas.frameHeight, floor: floor.top, baseline, groundRow: atlas.groundRow }
+    }, catAtlas)
+    expect(ground.baseline).toBe(ground.groundRow)
     expect(Math.abs(ground.paws - ground.floor)).toBeLessThan(2)
     await page.getByRole('button', { name: 'Wake', exact: true }).click()
     await expect(scene).toHaveAttribute('data-state', 'wake')

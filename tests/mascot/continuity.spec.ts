@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { catAtlas } from '../../src/features/mascot/catSprites'
 import { catReducer, initialCatState } from '../../src/features/mascot/catState'
 
 // This checks actual semantic boundaries: an uninterrupted wake ends seated,
@@ -130,15 +131,16 @@ test('mobile locomotion keeps the full running silhouette inside the stage', asy
     await page.getByRole('button', { name: 'Play', exact: true }).click()
     for (let elapsed = 0; elapsed < 4000; elapsed += 160) {
       await page.clock.runFor(160)
-      const bounds = await page.evaluate(() => {
+      const bounds = await page.evaluate(atlas => {
         const stage = document.querySelector('.cat-stage')!.getBoundingClientRect()
         const sprite = document.querySelector('.pixel-cat-sprite[data-active=true]')!
         const box = sprite.getBoundingClientRect()
-        // The running silhouette spans columns 1..30; both facing directions
-        // have the same symmetric envelope. This also includes landing tilt.
-        const inset = box.width / 32
+        // Generated symmetric envelope includes both facing directions and
+        // landing tilt. Keep this tied to the actual authored source pixels.
+        const margin = Math.min(atlas.visibleBounds.left, atlas.frameWidth - atlas.visibleBounds.right)
+        const inset = box.width * margin / atlas.frameWidth
         return { left: box.left + inset - stage.left, right: stage.right - box.right + inset }
-      })
+      }, catAtlas)
       expect(bounds.left, `${width}px left edge`).toBeGreaterThanOrEqual(-1)
       expect(bounds.right, `${width}px right edge`).toBeGreaterThanOrEqual(-1)
     }

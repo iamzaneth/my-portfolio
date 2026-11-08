@@ -14,7 +14,11 @@
     "assets:prepare": "node scripts/prepare-assets.mjs",
     "capture": "node scripts/capture-portfolio.mjs",
     "audit": "pnpm audit",
-    "audit:prod": "pnpm audit --prod"
+    "audit:prod": "pnpm audit --prod",
+    "assets:cat": "node scripts/build-cat-atlas.mjs",
+    "assets:cat:check": "node scripts/build-cat-atlas.mjs --check",
+    "assets:cat:review": "node scripts/build-cat-atlas.mjs --check --review",
+    "capture:characters": "node scripts/capture-characters.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -32,9 +32,9 @@
 .cat-character { display: block; position: absolute; inset: 0; pointer-events: none; transform-origin: 50% calc(100% - var(--ground-offset)); }
 .cat-facing { position: absolute; inset: 0; transform-origin: 50% 65%; }
 .pixel-cat-renderer { position: absolute; inset: 0; }
-/* Every grounded source clip ends on pixel row 22. Anchor that row, not the
-   transparent 32px frame box, so responsive sizes keep paws on the terrain. */
-.pixel-cat-sprite { position: absolute; width: var(--sprite-size); height: var(--sprite-size); left: calc(50% - var(--sprite-size) / 2); top: calc(100% - var(--ground-offset) - var(--sprite-size) * 22 / 32); background-image: url('/mascot/cat-atlas.png'); background-repeat: no-repeat; background-size: calc(var(--atlas-columns) * var(--sprite-size)) calc(var(--atlas-rows) * var(--sprite-size)); background-position-y: calc(-1 * var(--sprite-row) * var(--sprite-size)); image-rendering: pixelated; animation: cat-frames var(--sprite-duration) steps(var(--frames)) infinite; animation-fill-mode: forwards; opacity: 0; }
+/* The generated catalog supplies the measured source ground reference.
+   Display sizes stay independent of native sprite resolution. */
+.pixel-cat-sprite { position: absolute; width: var(--sprite-size); height: var(--sprite-size); left: calc(50% - var(--sprite-size) / 2); top: calc(100% - var(--ground-offset) - var(--sprite-size) * var(--source-ground)); background-image: url('/mascot/cat-atlas.png'); background-repeat: no-repeat; background-size: calc(var(--atlas-columns) * var(--sprite-size)) calc(var(--atlas-rows) * var(--sprite-size)); background-position-y: calc(-1 * var(--sprite-row) * var(--sprite-size)); image-rendering: pixelated; animation: cat-frames var(--sprite-duration) steps(var(--frames)) infinite; animation-fill-mode: forwards; opacity: 0; }
 .pixel-cat-sprite[data-active=true] { opacity: 1; }
 @keyframes cat-frames { from { background-position-x: calc(-1 * var(--frame-start) * var(--sprite-size)); } to { background-position-x: calc(-1 * var(--frame-end) * var(--sprite-size)); } }
 @keyframes cat-pose { from { background-position-x: calc(-1 * var(--frame-start) * var(--sprite-size)); } to { background-position-x: calc(-1 * var(--frame-end) * var(--sprite-size)); } }

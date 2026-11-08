@@ -7,7 +7,7 @@ The personal website of **Tran Thien Phuc**, a Data Engineering student at **Ho 
 ## Features
 
 - Responsive navy/lavender design, self-hosted fonts, and frosted navigation.
-- An interactive pixel cat with varied Pet/Play routines, sleep/wake controls, continuous sprite transitions, and contextual project discoveries.
+- A native 64×64 lavender pixel cat (65 frames) with varied Pet/Play routines, sleep/wake controls, continuous sprite transitions, and contextual project discoveries.
 - A floating portrait ID badge with a rounded black protective shell, 18px physical CSS 3D depth, recessed faces, keyboard/touch flipping, pointer tilt, and reduced-motion support.
 - Keyboard-accessible, fixed-layout skill practice views.
 - Compact project cards, category filters, and in-page case-study dialogs with focus and scroll restoration.
@@ -80,7 +80,7 @@ The second command compares PNG pixels and fails on size changes or color differ
 ## Structure
 
 ```text
-assets/source/       Original avatar used by asset preparation
+assets/source/       Avatar and editable mascot PNG frames/manifest
 public/              Served avatar, CV, favicon, fonts, mascot atlas, and licenses
 src/
   App.tsx            Page composition and companion context
@@ -120,14 +120,17 @@ Page anchors remain `#home`, `#about`, `#skills`, `#projects`, and `#contact`.
 
 ## Asset sources and licenses
 
-The pixel-cat atlas is derived from LuizMelo's CC0 **Pet Cats Pack**. Source, transformation details, and a reproducible download/regeneration path are in [`public/mascot/ATTRIBUTION.md`](public/mascot/ATTRIBUTION.md); the original license is retained beside the atlas. Font licenses are in [`public/fonts/`](public/fonts/).
+The pixel-cat atlas is derived from LuizMelo's CC0 **Pet Cats Pack**. Source, transformation details, and regeneration instructions are in [`public/mascot/ATTRIBUTION.md`](public/mascot/ATTRIBUTION.md); the original license is retained beside the atlas. Font licenses are in [`public/fonts/`](public/fonts/).
 
 ```sh
 pnpm run assets:prepare
-# Also regenerate the cat atlas/catalog from the author's extracted pack:
-pnpm run assets:prepare "<extracted Pet Cats Pack directory>"
+# Regenerate only the native 64px cat atlas and TypeScript catalog:
+pnpm run assets:cat
+pnpm run assets:cat:check
 ```
 
-The script uses the retained avatar source to prepare the 256px thumbnail and 720px portrait derivative, and Fontsource packages to prepare the served fonts. The optional pack argument rebuilds the atlas and generated sprite catalog. It does not download or hotlink runtime assets.
+The script uses the retained avatar source to prepare the 256px thumbnail and 720px portrait derivative, and Fontsource packages to prepare the served fonts. It also packs all 65 retained native PNG frames into the 832×704 atlas and generates the sprite catalog from the manifest. No source-pack download or proprietary editor is needed. `assets:cat:check` verifies the lossless build, palette, binary alpha, ground bounds and native pixel detail. The original author’s CC0 license and provenance remain in `public/mascot/`.
 
 See the [maintenance guide](docs/architecture.md) for animation boundaries, cosmic composition, keyboard behavior, validation and repository hygiene.
+
+Targeted character review: `pnpm run capture:characters <unique-label> http://127.0.0.1:4173` records eight responsive sizes, card rotation angles, sprite clips and performance observations under `artifacts/characters/`. `pnpm run assets:cat:review` generates a contact sheet and pixel audit only when needed.
