@@ -29,7 +29,7 @@ export function usePortfolioMotion() {
         })
       })
       gsap.from('.about-grid > [data-reveal]', {
-        y: 26, opacity: 0, duration: motion.reveal, stagger: 0.08,
+        y: 26, opacity: 0, duration: motion.reveal, stagger: 0.08, clearProps: 'transform,opacity',
         scrollTrigger: { trigger: '.about-grid', start: 'top 92%', once: true },
       })
       gsap.utils.toArray<HTMLElement>('.skill-card').forEach((element, index) => {

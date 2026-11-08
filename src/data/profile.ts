@@ -1,6 +1,9 @@
 export const profile = {
   name: 'Tran Thien Phuc',
   alias: 'Zaneth',
+  focus: 'AI Engineering / Data Engineering',
+  approach: 'Learn. Build. Understand.',
+  exploring: 'Streaming infrastructure & intelligent applications',
   email: 'zaneth.dev@gmail.com',
   phone: '+84 348 497 984',
   phoneHref: 'tel:+84348497984',

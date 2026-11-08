@@ -36,7 +36,7 @@ for (const width of [375, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
-    const samples = await renderedContrast(page, '.hero-description, .hero-role, .scene-coordinate, .scene-coordinate-right > span, .profile-card-top > span, .profile-fields dt, .profile-code, .about-current > span, .skill-description, .skill-focus, .skill-number, .skill-card .tech-list li, .skill-practice-toggle, .toolkit-footnote, .project-meta > span, .project-summary, .preview-stage, .project-card-stack li, .project-details-button, .contact-description, .contact-email, .footer > span, .cat-bubble, .cat-controls button, .scene-caption, .cat-hint')
+    const samples = await renderedContrast(page, '.hero-description, .hero-role, .scene-coordinate, .scene-coordinate-right > span, .identity-header, .identity-developer, .identity-name h3, .identity-name p, .identity-fields dt, .identity-fields dd, .identity-hint, .about-current > span, .skill-description, .skill-focus, .skill-number, .skill-card .tech-list li, .skill-practice-toggle, .toolkit-footnote, .project-meta > span, .project-summary, .project-card-stack li, .project-details-button, .preview-stage, .contact-description, .contact-email, .footer > span, .cat-bubble, .cat-controls button, .scene-caption, .cat-hint')
     for (const card of await page.locator('.skill-card').all()) {
       await card.locator('.skill-practice-toggle').click()
       await card.locator('.skill-practice-toggle').hover()

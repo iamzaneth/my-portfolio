@@ -114,7 +114,7 @@ test('local assets load and email can be copied', async ({ page, context }) => {
   await page.goto('/')
   const email = await page.locator('.contact-email').innerText()
   await page.getByRole('button', { name: 'Copy email address' }).click()
-  await expect(page.getByRole('status')).toHaveText('Copied!')
+  await expect(page.locator('#contact').getByRole('status')).toHaveText('Copied!')
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(email)
   for (const url of ['/cv.pdf', '/avatar.webp', '/favicon.svg', '/mascot/cat-atlas.png', '/fonts/manrope-latin.woff2', '/fonts/ibm-plex-mono-latin.woff2']) {
     expect((await page.request.get(url)).status()).toBe(200)

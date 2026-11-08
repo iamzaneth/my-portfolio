@@ -19,9 +19,6 @@ main > .contact-section { background-color: #0e1729; }
 .about-copy { padding-top: 12px; }
 .about-copy .about-lead { font-size: clamp(23px, 2.2vw, 29px); line-height: 1.55; }
 .about-copy > p, .about-current p { line-height: 1.8; }
-.profile-fields { margin-top: 18px; padding-top: 16px; gap: 14px 20px; }
-.profile-code { margin-top: 16px; }
-.profile-mindset { margin-top: 18px; }
 .skills-grid { gap: 20px; }
 .skill-body { margin-top: 16px; }
 .skill-body h3 { font-size: 25px; }
@@ -55,8 +52,6 @@ main > .contact-section { background-color: #0e1729; }
 @media (hover: hover) and (pointer: fine) { html { scroll-snap-type: none; } }
 @media (min-width: 1024px) {
   :root { --chapter-space: 28px; }
-  .profile-card { padding: 26px; }
-  .profile-person { margin-top: 18px; }
   .skills-grid { gap: 16px; }
   .skill-card.glass-standard { padding: 18px 22px; }
   .skill-top .skill-emblem { width: 36px; height: 36px; }
