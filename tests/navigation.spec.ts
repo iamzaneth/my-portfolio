@@ -1,5 +1,17 @@
 import { expect, test } from '@playwright/test'
 
+test('mobile navigation closes when keyboard focus leaves the header', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto('/')
+  const toggle = page.getByRole('button', { name: 'Open navigation' })
+  await toggle.click()
+  const links = page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('link')
+  await links.last().focus()
+  await page.keyboard.press('Tab')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeHidden()
+})
+
 test('desktop navigation forms a right-aligned group next to the contact link', async ({ page }) => {
   for (const width of [768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 })

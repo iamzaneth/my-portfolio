@@ -48,7 +48,8 @@ export default function Navbar({ active = 'home' }: { active?: string }) {
 
   return (
     <><span ref={sentinel} className="nav-sentinel" aria-hidden="true" />
-    <header className="site-header sticky top-0 z-50 h-[var(--nav-height)]" data-scrolled={scrolled} data-menu-open={open} ref={container}>
+    <header className="site-header sticky top-0 z-50 h-[var(--nav-height)]" data-scrolled={scrolled} data-menu-open={open} ref={container}
+      onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false) }}>
       <div className="page-container nav-inner flex h-full items-center justify-between gap-[25px]">
         <a href="#home" className="wordmark inline-flex items-center text-[25px] font-extrabold tracking-[-1px] max-md:text-[23px]
           [&>svg]:mr-3 [&>svg]:w-[22px] [&>svg]:text-accent max-md:[&>svg]:mr-2.5 max-md:[&>svg]:w-5" aria-current={active === 'home' ? 'location' : undefined} aria-label="Zaneth, back to home" onClick={() => setOpen(false)}>

@@ -22,6 +22,9 @@ test('portrait loads on the initial front; verified details are exposed only on 
   expect(await portrait.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   expect(await portrait.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(720)
   await expect(page.locator('.identity-front')).toContainText('AI Engineering / Data Engineering')
+  await expect(page.locator('.identity-front')).toContainText('ZANETH.')
+  await expect(page.locator('.identity-front')).toContainText('DEVELOPER')
+  await expect(page.locator('.identity-front')).toContainText('Tran Thien Phuc')
   await expect(page.getByRole('term')).toHaveCount(0)
   await flip(page).click()
   await settle(page, true)
@@ -30,7 +33,6 @@ test('portrait loads on the initial front; verified details are exposed only on 
     'Tran Thien Phuc', 'Zaneth', 'Ho Chi Minh City, Vietnam', 'AI Engineering / Data Engineering',
     'Learn. Build. Understand.', 'Streaming infrastructure & intelligent applications',
   ])
-  await expect(page.locator('.identity-front')).toContainText('DEVELOPER')
   await expect(page.getByRole('img', { name: 'Portrait of Tran Thien Phuc' })).toHaveCount(0)
   await expect(page.locator('.identity-front')).toHaveAttribute('inert', '')
   await expect(page.locator('.identity-stage a')).toHaveCount(0)
@@ -204,22 +206,32 @@ for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
     }
     const type = await page.locator('.identity-body').evaluate(body => {
       const front = body.querySelector<HTMLElement>('.identity-front')!, portrait = body.querySelector<HTMLElement>('.identity-portrait')!
+      const frontRect = front.getBoundingClientRect(), portraitRect = portrait.getBoundingClientRect()
       return { width: parseFloat(getComputedStyle(body).width), height: parseFloat(getComputedStyle(body).height),
-        portrait: portrait.clientHeight / front.clientHeight,
-        title: parseFloat(getComputedStyle(body.querySelector('.identity-front .identity-header > span')!).fontSize),
-        name: parseFloat(getComputedStyle(body.querySelector('.identity-name h3')!).fontSize),
-        role: parseFloat(getComputedStyle(body.querySelector('.identity-name p')!).fontSize),
+        portrait: portraitRect.height / frontRect.height,
+        portraitWidth: portraitRect.width / frontRect.width,
+        title: parseFloat(getComputedStyle(body.querySelector('.identity-brand')!).fontSize),
+        name: parseFloat(getComputedStyle(body.querySelector('.identity-front-bottom h3')!).fontSize),
+        role: parseFloat(getComputedStyle(body.querySelector('.identity-front-bottom p')!).fontSize),
         labels: parseFloat(getComputedStyle(body.querySelector('.identity-fields dt')!).fontSize),
         values: parseFloat(getComputedStyle(body.querySelector('.identity-fields > div:nth-child(2) dd')!).fontSize),
         fonts: document.fonts.check('650 20px Manrope') && document.fonts.check('400 11px "IBM Plex Mono"'),
+        objectFit: getComputedStyle(body.querySelector('.identity-portrait img')!).objectFit,
+        hasOpaqueHeader: !!body.querySelector('.identity-front > .identity-header'),
+        hasOpaqueName: !!body.querySelector('.identity-front > .identity-name'),
       }
     })
     expect(type.width / type.height).toBeCloseTo(.7, 2)
-    expect(type.portrait).toBeGreaterThanOrEqual(.60)
-    expect(type.portrait).toBeLessThanOrEqual(.75)
-    expect(type.title).toBeGreaterThanOrEqual(34)
-    expect(type.name).toBeGreaterThanOrEqual(17)
-    expect(type.role).toBeGreaterThanOrEqual(11)
+    // Full-bleed portrait: fills entire printable face
+    expect(type.portrait).toBeGreaterThanOrEqual(.95)
+    expect(type.portraitWidth).toBeGreaterThanOrEqual(.99)
+    expect(type.objectFit).toBe('cover')
+    // No separate opaque header or footer blocks
+    expect(type.hasOpaqueHeader).toBe(false)
+    expect(type.hasOpaqueName).toBe(false)
+    expect(type.title).toBeGreaterThanOrEqual(24)
+    expect(type.name).toBeGreaterThanOrEqual(16)
+    expect(type.role).toBeGreaterThanOrEqual(10)
     expect(type.labels).toBeGreaterThanOrEqual(10)
     expect(type.values).toBeGreaterThanOrEqual(12)
     expect(type.fonts).toBe(true)

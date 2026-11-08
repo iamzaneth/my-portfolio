@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never', outputFolder: process.env.PLAYWRIGHT_HTML_OUTPUT_DIR || 'artifacts/playwright-report' }]],
   use: {
     ...devices['Desktop Chrome'],
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:4173',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:4188',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {},
@@ -17,8 +17,8 @@ export default defineConfig({
   // A supplied base URL belongs to the caller; do not launch a second preview.
   webServer: [
     ...(process.env.PLAYWRIGHT_BASE_URL ? [] : [{
-      command: 'pnpm run preview --host 127.0.0.1 --port 4173 --strictPort',
-      url: 'http://127.0.0.1:4173',
+      command: 'pnpm run build && pnpm run preview --host 127.0.0.1 --port 4188 --strictPort',
+      url: 'http://127.0.0.1:4188',
       reuseExistingServer: !process.env.CI,
     }]),
     ...(process.env.PLAYWRIGHT_FIXTURE_URL ? [] : [{

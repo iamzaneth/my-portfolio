@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type PointerEvent } from 'react'
-import { RotateCw, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import { profile } from '@/data/profile'
 import { useMotionPreference } from '@/hooks/useMotionPreference'
 import { shellCorners, straightEdges, wellCorners } from './identityGeometry'
@@ -46,11 +46,20 @@ export default function IdentityCard3D() {
               <div className="identity-shell identity-shell-front" aria-hidden="true" />
               <div className="identity-shell identity-shell-back" aria-hidden="true" />
               <div className="identity-face identity-front" id={`${id}-front`} aria-hidden={flipped} inert={flipped}>
-                <div className="identity-header"><span>{profile.alias.toUpperCase()}<span className="identity-header-dot">.</span></span><span className="identity-developer">DEVELOPER</span></div>
                 <div className="identity-portrait">
                   <img src="/avatar-portrait.webp" width="720" height="964" loading="lazy" alt={`Portrait of ${profile.name}`} />
                 </div>
-                <div className="identity-name"><h3>{profile.name}</h3><p>{profile.focus}</p></div>
+                <div className="identity-front-shading" aria-hidden="true" />
+                <div className="identity-front-content">
+                  <div className="identity-front-top">
+                    <span className="identity-brand">{profile.alias.toUpperCase()}<span className="identity-header-dot">.</span></span>
+                    <span className="identity-developer">DEVELOPER</span>
+                  </div>
+                  <div className="identity-front-bottom">
+                    <h3>{profile.name}</h3>
+                    <p>{profile.focus}</p>
+                  </div>
+                </div>
               </div>
               <div className="identity-face identity-back" id={`${id}-back`} aria-hidden={!flipped} inert={!flipped}>
                 <div className="identity-header"><span>{profile.alias.toUpperCase()}<span className="identity-header-dot">.</span></span><Sparkles size={16} aria-hidden="true" /></div>
@@ -69,13 +78,11 @@ export default function IdentityCard3D() {
           </div>
         </div>
       </div>
-      {/* A stable, transparent native button covers the card and its single hint.
+      {/* A stable, transparent native button covers the card.
           Face content stays semantic sibling content, outside button semantics. */}
       <button className="identity-flip" type="button" aria-label="Flip card: Zaneth identity" aria-pressed={flipped}
         aria-describedby={`${id}-state`} aria-controls={`${id}-front ${id}-back`}
-        onClick={() => setFlipped(current => !current)} onPointerMove={point} onPointerLeave={resetTilt} onBlur={resetTilt}>
-        <span className="identity-hint"><RotateCw size={14} aria-hidden="true" /><span>Flip card</span></span>
-      </button>
+        onClick={() => setFlipped(current => !current)} onPointerMove={point} onPointerLeave={resetTilt} onBlur={resetTilt} />
       <span className="sr-only" id={`${id}-state`} role="status">{flipped ? 'Back: personal and technical details.' : 'Front: portrait and identity.'}</span>
     </div>
   )

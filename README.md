@@ -59,6 +59,10 @@ Reports, failure screenshots, and traces go under ignored `artifacts/`. To inspe
 pnpm exec playwright show-report artifacts/playwright-report
 ```
 
+Run `pnpm run test:clean` after reviewing results to remove generated reports,
+traces, and visual captures. Run it only after tests and capture commands finish;
+the reusable project fixture build is preserved.
+
 On PowerShell, use `pnpm.cmd` if execution policy blocks `.ps1` wrappers. If the bundled browser is unavailable, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to an installed Chrome/Chromium executable.
 
 For manually managed servers, `PLAYWRIGHT_BASE_URL` and `PLAYWRIGHT_FIXTURE_URL` override the preview addresses. Run `pnpm run test:fixtures` after changing code when reusing a fixture server; its generated build is `artifacts/project-fixtures/`.
