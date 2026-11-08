@@ -91,7 +91,7 @@
   --breakpoint-wide: 1600px;
 }
 
-/* V3: shared navigation geometry and material hierarchy. */
+/* Shared navigation geometry and material hierarchy. */
 :root {
   --nav-height: 87px;
   --chapter-space: clamp(32px, 4vh, 56px);

@@ -37,7 +37,7 @@
   .skill-focus { gap: 6px; }
 }
 
-/* V2 editorial composition. */
+/* Editorial composition. */
 .skills-grid { gap: 0 40px; }
 .skill-card { border-radius: 0; background: transparent; border-width: 1px 0 0; padding: 30px 0; }
 .skill-card:focus-within { border-color: var(--skill-accent); }

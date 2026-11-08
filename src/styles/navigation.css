@@ -26,6 +26,6 @@
 .menu-toggle[aria-expanded=true] .menu-glyph > span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .menu-toggle[aria-expanded=true] .menu-glyph > span:last-child { transform: rotate(-45deg); }
 
-/* V2 editorial composition. */
+/* Editorial composition. */
 .site-header .desktop-nav a[aria-current]::after { width: 16px; height: 2px; left: calc(50% - 8px); border-radius: 0; }
 .nav-contact { background: var(--accent-soft); }

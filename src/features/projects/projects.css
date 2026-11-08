@@ -169,7 +169,7 @@
   .preview-stage { font-size: 10px; }
 }
 
-/* V2 editorial composition. */
+/* Editorial composition. */
 .project-collection[data-count="1"] .projects-grid { grid-template-columns: minmax(0, 1fr); }
 .project-collection[data-count="1"] + .github-more { max-width: none; justify-content: flex-end; }
 .project-collection[data-count="1"] .project-card { display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px 48px; padding: clamp(24px, 4vw, 48px); background: var(--surface-inset); border-radius: 16px; }

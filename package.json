@@ -1,7 +1,6 @@
 {
   "name": "my-portfolio",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,8 +16,9 @@
     "audit:prod": "pnpm audit --prod",
     "assets:cat": "node scripts/build-cat-atlas.mjs",
     "assets:cat:check": "node scripts/build-cat-atlas.mjs --check",
-    "assets:cat:review": "node scripts/build-cat-atlas.mjs --check --review",
-    "capture:characters": "node scripts/capture-characters.mjs"
+    "capture:characters": "node scripts/capture-characters.mjs",
+    "clean": "node scripts/clean-test-artifacts.mjs --build",
+    "assets:cat:review": "node scripts/build-cat-atlas.mjs --check --review"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

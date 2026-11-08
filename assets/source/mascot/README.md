@@ -27,6 +27,7 @@ quantization and generates the TypeScript catalog from the same manifest.
 `catConfig.ts` owns playback timing and posture bridges independently of the art.
 
 For an optional contact sheet and pixel audit, run `pnpm run assets:cat:review`.
-These disposable outputs go under `artifacts/mascot/`.
+These disposable outputs go under `artifacts/mascot/` and are removed by
+`pnpm run test:clean`.
 
 See `public/mascot/ATTRIBUTION.md` for original provenance and the retained CC0 license.

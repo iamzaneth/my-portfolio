@@ -61,7 +61,7 @@ pnpm exec playwright show-report artifacts/playwright-report
 
 Run `pnpm run test:clean` after reviewing results to remove generated reports,
 traces, and visual captures. Run it only after tests and capture commands finish;
-the reusable project fixture build is preserved.
+fixture previews are rebuilt automatically on the next test run.
 
 On PowerShell, use `pnpm.cmd` if execution policy blocks `.ps1` wrappers. If the bundled browser is unavailable, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to an installed Chrome/Chromium executable.
 
@@ -134,3 +134,5 @@ The script uses the retained avatar source to prepare the 256px thumbnail and 72
 See the [maintenance guide](docs/architecture.md) for animation boundaries, cosmic composition, keyboard behavior, validation and repository hygiene.
 
 Targeted character review: `pnpm run capture:characters <unique-label> http://127.0.0.1:4173` records eight responsive sizes, card rotation angles, sprite clips and performance observations under `artifacts/characters/`. `pnpm run assets:cat:review` generates a contact sheet and pixel audit only when needed.
+
+Run `pnpm run test:clean` after tests/captures finish to remove all generated reports, screenshots, recordings and fixture builds. Run `pnpm run clean` to also remove build output and caches. The repository retains active regression tests and editable assets; generated review files are recreated on demand.

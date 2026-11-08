@@ -56,7 +56,7 @@
   .contact-email { font-size: 14px; }
 }
 
-/* V2 editorial composition. */
+/* Editorial composition. */
 .hero { overflow: clip; background: radial-gradient(ellipse at 78% 35%, #b49dff0b, transparent 48%), var(--bg); }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(30px, 4vw, 64px); padding-block: 76px 60px; }
 .hero-text { min-width: 0; }

@@ -72,6 +72,17 @@ under `artifacts/characters/`.
 
 ## Repository hygiene
 
-Keep source assets, served fonts/atlas, licenses, `README.md`, this guide and active regression tests/fixtures. `scripts/prepare-assets.mjs` needs `assets/source/avatar.png`; project fixtures are intentionally absent from the real production bundle.
+Keep source assets, served atlas/fonts, licenses, active regression tests and
+fixtures. `scripts/prepare-assets.mjs` needs the original avatar and mascot PNGs.
+Fixture content is isolated from the production bundle and built by Playwright.
 
-Generated screenshots, HTML reports, traces and fixture builds under `artifacts/` are disposable after review. Do not commit them. Historical version/audit reports and one-off capture helpers were consolidated/removed; current reusable capture and geometry tools remain. Do not remove tests just because they expose a regression. Update assertions only when the intended interaction changes, and retain stronger geometry/accessibility checks.
+Run `pnpm run test:clean` after all test/capture processes stop. It removes the
+entire generated `artifacts/` tree, including fixture builds, plus root reports
+and coverage. The next test run regenerates fixtures automatically.
+`pnpm run clean` also removes `dist/`, `dist-ssr/`, build caches and TypeScript
+incremental metadata. Neither command removes dependencies, source code or Git.
+
+Do not retain generated screenshots, videos, traces, historical implementation
+reports or capture-only tests in source control. Use the reusable capture commands
+when visual evidence is needed. Keep regression assertions for behavior, geometry,
+accessibility, page budgets and source-asset integrity.
