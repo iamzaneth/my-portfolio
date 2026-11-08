@@ -1,6 +1,8 @@
 export const profile = {
   name: 'Tran Thien Phuc',
   alias: 'Zaneth',
+  role: 'Data Engineering student',
+  university: 'Ho Chi Minh City University of Technology and Engineering',
   focus: 'AI Engineering / Data Engineering',
   approach: 'Learn. Build. Understand.',
   exploring: 'Streaming infrastructure & intelligent applications',

@@ -23,7 +23,7 @@ test('portrait loads on the initial front; verified details are exposed only on 
   expect(await portrait.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(720)
   await expect(page.locator('.identity-front')).toContainText('AI Engineering / Data Engineering')
   await expect(page.locator('.identity-front')).toContainText('ZANETH.')
-  await expect(page.locator('.identity-front')).toContainText('DEVELOPER')
+  await expect(page.locator('.identity-front')).toContainText('STUDENT')
   await expect(page.locator('.identity-front')).toContainText('Tran Thien Phuc')
   await expect(page.getByRole('term')).toHaveCount(0)
   await flip(page).click()
@@ -293,7 +293,7 @@ test('touch taps flip both ways; a swipe starting on the badge scrolls the docum
 })
 
 test('flipping leaves compact chapter navigation and the editorial introduction intact', async ({ page }) => {
-  await expect(page.locator('.about-lead')).toHaveText('I’m Phuc, a Software Engineering student drawn to the space where data, mathematics, and software meet.')
+  await expect(page.locator('.about-lead')).toHaveText('I’m Phuc, a Data Engineering student at Ho Chi Minh City University of Technology and Engineering, drawn to the space where data, mathematics, and software meet.')
   await flip(page).click()
   await settle(page, true)
   await page.mouse.wheel(0, 120)

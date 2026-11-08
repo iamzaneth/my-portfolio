@@ -1,6 +1,6 @@
 # Zaneth — Personal Portfolio
 
-The personal website of **Tran Thien Phuc**, a Data Engineering student exploring AI engineering, data systems, and software development.
+The personal website of **Tran Thien Phuc**, a Data Engineering student at **Ho Chi Minh City University of Technology and Engineering**, exploring AI engineering, data systems, and software development.
 
 [Live website](https://zaneth.vercel.app/) · [GitHub](https://github.com/iamzaneth)
 

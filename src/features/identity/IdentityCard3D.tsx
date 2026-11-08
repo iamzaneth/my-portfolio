@@ -53,7 +53,7 @@ export default function IdentityCard3D() {
                 <div className="identity-front-content">
                   <div className="identity-front-top">
                     <span className="identity-brand">{profile.alias.toUpperCase()}<span className="identity-header-dot">.</span></span>
-                    <span className="identity-developer">DEVELOPER</span>
+                    <span className="identity-developer">STUDENT</span>
                   </div>
                   <div className="identity-front-bottom">
                     <h3>{profile.name}</h3>

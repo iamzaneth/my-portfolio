@@ -15,7 +15,7 @@ export default function Hero() {
         <div className="hero-copy">
           <p className="hero-role">AI ENGINEERING <span aria-hidden="true">/</span> DATA ENGINEERING</p>
           <p className="hero-specialty">Connecting the data dots.</p>
-          <p className="hero-description">I’m Phuc, a Software Engineering student exploring reliable data pipelines, intelligent systems, and the software that connects them.</p>
+          <p className="hero-description">I’m Phuc, a {profile.role} at {profile.university}, exploring reliable data pipelines, intelligent systems, and the software that connects them.</p>
         </div>
         <div className="hero-actions">
           <a className="button bg-accent text-accent-ink hover:bg-accent-hover" href="#projects">Explore my work <ArrowDownRight size={18} /></a>
