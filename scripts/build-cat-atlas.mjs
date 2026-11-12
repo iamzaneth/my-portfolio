@@ -1,18 +1,17 @@
 import sharp from 'sharp'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { createHash } from 'node:crypto'
 
 const root = 'assets/source/mascot'
 const expected = {idle:10,walk:8,run:8,meow:4,sleep:1,wake:13,sit:1,lieDown:8,groom:5,groomPaw:5,scratch:2}
 const m = JSON.parse(await readFile(`${root}/manifest.json`,'utf8'))
 const assert = (condition, message) => { if(!condition) throw new Error(message) }
-assert(m.frameWidth===64&&m.frameHeight===64,'Native frames must be 64×64')
+assert(m.frameWidth===64&&m.frameHeight===64,'Frames must be 64×64')
 assert(m.columns===13&&m.rows===11,'Unexpected atlas layout')
 assert(Number.isInteger(m.groundRow)&&m.groundRow>0&&m.groundRow<=m.frameHeight,'Invalid ground reference')
 assert(Object.keys(m.animations).join()===Object.keys(expected).join(),'Missing or reordered animation')
 const palette = new Set(Object.values(m.palette).map(hex=>hex.toLowerCase()))
-const catalog={}, review=[]
+const catalog={}
 const atlasWidth=m.columns*m.frameWidth, atlasHeight=m.rows*m.frameHeight
 const packed=Buffer.alloc(atlasWidth*atlasHeight*4)
 const boundsOf=(data,width)=>{
@@ -32,15 +31,15 @@ for(const [name,frames] of Object.entries(expected)) {
     const metadata=await sharp(input).metadata()
     assert(metadata.width===m.frameWidth&&metadata.height===m.frameHeight&&metadata.hasAlpha,`${source.source}: dimensions/alpha`)
     const data=await sharp(input).ensureAlpha().raw().toBuffer()
-    let painted=0,subpixelBlocks=0
+    let subpixelBlocks=0
     for(let i=0;i<data.length;i+=4) {
       assert(data[i+3]===0||data[i+3]===255,`${source.source}: semitransparent pixel`)
-      if(data[i+3]){painted++;assert(palette.has('#'+data.subarray(i,i+3).toString('hex')),`${source.source}: undeclared color`)}
+      if(data[i+3]){assert(palette.has('#'+data.subarray(i,i+3).toString('hex')),`${source.source}: undeclared color`)}
     }
     // A palette remap alone is insufficient: native 2×2 blocks must contain
     // genuinely subdivided pixel clusters, contours and features in every pose.
-    for(let y=0;y<64;y+=2)for(let x=0;x<64;x+=2) {
-      const ids=[0,1,64,65].map(d=>(y*64+x+d)*4)
+    for(let y=0;y<m.frameHeight;y+=2)for(let x=0;x<m.frameWidth;x+=2) {
+      const ids=[0,1,m.frameWidth,m.frameWidth+1].map(d=>(y*m.frameWidth+x+d)*4)
       if(ids.some(i=>data[i+3])&&ids.some(i=>!data.subarray(i,i+4).equals(data.subarray(ids[0],ids[0]+4))))subpixelBlocks++
     }
     assert(subpixelBlocks>=20,`${source.source}: insufficient native detail`)
@@ -54,7 +53,6 @@ for(const [name,frames] of Object.entries(expected)) {
       const offset=((sheet.row*m.frameHeight+y)*atlasWidth+frame*m.frameWidth)*4
       data.copy(packed,offset,y*m.frameWidth*4,(y+1)*m.frameWidth*4)
     }
-    review.push({asset:name,frame,painted,nativeDetailBlocks:subpixelBlocks,visibleBounds:actual,sha256:createHash('sha256').update(input).digest('hex')})
   }
   const envelope={left:Math.min(...bounds.map(b=>b.left)),top:Math.min(...bounds.map(b=>b.top)),right:Math.max(...bounds.map(b=>b.right)),bottom:Math.max(...bounds.map(b=>b.bottom))}
   catalog[name]={row:sheet.row,frames,visibleBounds:envelope}
@@ -64,13 +62,7 @@ const atlas={frameWidth:m.frameWidth,frameHeight:m.frameHeight,columns:m.columns
 const png=await sharp(packed,{raw:{width:atlasWidth,height:atlasHeight,channels:4}}).png({compressionLevel:9,palette:false}).toBuffer()
 assert((await sharp(png).ensureAlpha().raw().toBuffer()).equals(packed),'PNG must preserve source RGBA bytes exactly')
 const meta=await sharp(png).metadata()
-assert(meta.width===832&&meta.height===704,'Invalid output')
-// Review artifacts are opt-in; normal builds/checks leave no QA files behind.
-if(process.argv.includes('--review')) {
-  await mkdir('artifacts/mascot',{recursive:true})
-  await sharp(png).resize(1664,1408,{kernel:'nearest'}).flatten({background:'#172136'}).png().toFile('artifacts/mascot/cat-contact.png')
-  await writeFile('artifacts/mascot/artwork-audit.json',JSON.stringify({atlas,frames:review,total:review.length,pngBytes:png.length,decodedBytes:atlasWidth*atlasHeight*4},null,2)+'\n')
-}
+assert(meta.width===atlasWidth&&meta.height===atlasHeight,'Invalid output')
 if(process.argv.includes('--check')) {
   assert(png.equals(await readFile('public/mascot/cat-atlas.png')),'Atlas is stale; run pnpm run assets:cat')
 } else {
@@ -79,4 +71,4 @@ if(process.argv.includes('--check')) {
 const ts=`// Generated from assets/source/mascot/manifest.json by scripts/build-cat-atlas.mjs.\n// Never edit by hand: the manifest and transparent source PNGs own geometry.\nexport const catAtlas = ${JSON.stringify(atlas,null,2)} as const\n\nexport const catSprites = ${JSON.stringify(catalog,null,2)} as const\n`
 if(process.argv.includes('--check'))assert(ts===await readFile('src/features/mascot/catSprites.ts','utf8'),'Sprite catalog is stale')
 else await writeFile('src/features/mascot/catSprites.ts',ts)
-console.log(`Validated ${review.length} native 64×64 frames; atlas ${meta.width}×${meta.height}, ${png.length} bytes.`)
+console.log(`Validated ${Object.values(expected).reduce((sum,frames)=>sum+frames,0)} native ${m.frameWidth}×${m.frameHeight} frames; atlas ${meta.width}×${meta.height}, ${png.length} bytes.`)
