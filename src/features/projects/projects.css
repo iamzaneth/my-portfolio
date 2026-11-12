@@ -83,7 +83,7 @@
 @keyframes project-backdrop-exit { to { opacity: 0; } }
 
 .pipeline-art { --stage-size: 52px; position: relative; min-width: 0; isolation: isolate; }
-.pipeline-art::before { content: ''; position: absolute; z-index: -1; pointer-events: none; left: 0; right: 0; top: 30px; height: 320px; background: radial-gradient(ellipse, #6ec8d40a, transparent 68%); }
+.pipeline-art::before { content: ''; position: absolute; z-index: -1; pointer-events: none; left: 0; right: 0; top: 30px; height: 320px; background: radial-gradient(ellipse, #7dceef0a, transparent 68%); }
 .pipeline-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--muted); font: 13px/1.7 var(--mono); }
 .pipeline-top > span:first-child { display: flex; align-items: center; gap: 10px; }
 .pipeline-logo { display: grid; place-items: center; width: 26px; height: 26px; color: var(--bg); background: var(--cyan); font-size: 17px; font-weight: bold; }

@@ -30,12 +30,12 @@ export default function CometCursor() {
     let speed = 0, visualEnergy = 0
     const star = new Path2D('M0-1L.22-.22L1 0L.22.22L0 1L-.22.22L-1 0L-.22-.22Z')
     const cross = new Path2D('M-.25-1H.25V-.25H1V.25H.25V1H-.25V.25H-1V-.25H-.25Z')
-    const colors = ['#e8eff8', '#b49dff', '#6ec8d4']
+    const colors = ['#e8eff8', '#82adff', '#7dceef']
     const glow = context.createRadialGradient(0, 0, 0, 0, 0, 10)
     glow.addColorStop(0, '#e8eff8df')
-    glow.addColorStop(.23, '#b49dff80')
-    glow.addColorStop(.6, '#6ec8d421')
-    glow.addColorStop(1, '#6ec8d400')
+    glow.addColorStop(.23, '#82adff80')
+    glow.addColorStop(.6, '#7dceef21')
+    glow.addColorStop(1, '#7dceef00')
 
     function reset() {
       cancelAnimationFrame(frame)

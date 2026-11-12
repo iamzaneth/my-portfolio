@@ -1,8 +1,8 @@
 /* Opaque, readable fallbacks. Material blur is static, local, never animated. */
 .glass-subtle, .glass-standard, .glass-elevated {
   border: 1px solid var(--glass-border);
-  background-color: #1b2b44;
-  background-image: linear-gradient(135deg, #e8eff80c, transparent 45%, #6ec8d405);
+  background-color: var(--surface);
+  background-image: linear-gradient(135deg, #e8eff80c, transparent 45%, #7dceef05);
   box-shadow: var(--glass-inner-highlight), var(--glass-shadow);
 }
 .glass-subtle { box-shadow: var(--glass-inner-highlight); }
@@ -13,8 +13,8 @@
   .glass-elevated { background-color: var(--glass-elevated); backdrop-filter: blur(14px) saturate(115%); }
 }
 /* Specificity follows each existing feature's own geometry. */
-.skill-card.glass-standard { border: 1px solid var(--glass-border); border-radius: 14px; padding: 22px 24px; background-color: #1b2b44; transition: border-color var(--motion-component), box-shadow var(--motion-component); }
-.project-collection .project-card.glass-elevated { background-color: #243551; background-image: linear-gradient(120deg, #b49dff10, transparent 40%, #6ec8d408); box-shadow: var(--glass-inner-highlight), var(--glass-shadow); border-color: var(--glass-border); border-top-color: var(--glass-border-highlight); }
+.skill-card.glass-standard { border: 1px solid var(--glass-border); border-radius: 14px; padding: 22px 24px; background-color: var(--surface); transition: border-color var(--motion-component), box-shadow var(--motion-component); }
+.project-collection .project-card.glass-elevated { background-color: var(--surface-raised); background-image: linear-gradient(120deg, #82adff10, transparent 40%, #7dceef08); box-shadow: var(--glass-inner-highlight), var(--glass-shadow); border-color: var(--glass-border); border-top-color: var(--glass-border-highlight); }
 .contact-details.glass-standard { padding: 24px 28px; border-radius: 20px; }
 @supports (backdrop-filter: blur(1px)) {
   .skill-card.glass-standard { background-color: var(--glass-base); }
@@ -25,16 +25,16 @@
 }
 /* The habitat shell reflects light; the sprite and garden retain crisp pixels.
    No backdrop filter inside the already layered character world. */
-.mascot-scene { background: linear-gradient(145deg, #b49dff0a, #17263b80 55%, #6ec8d410); border-color: var(--glass-border); box-shadow: var(--glass-inner-highlight), 0 30px 80px #02081940; }
-.scene-footer { background: #172338cf; box-shadow: inset 0 1px 0 #e8eff811; }
-.scene-sky { background: radial-gradient(ellipse at 50% 62%, #b49dff14, transparent 65%); }
+.mascot-scene { background: linear-gradient(145deg, #82adff0a, #14274999 55%, #7dceef10); border-color: var(--glass-border); box-shadow: var(--glass-inner-highlight), 0 30px 80px #02081940; }
+.scene-footer { background: #0e1b33e6; box-shadow: inset 0 1px 0 #e8eff811; }
+.scene-sky { background: radial-gradient(ellipse at 50% 62%, #82adff14, transparent 65%); }
 .site-header { height: var(--nav-height); background-color: var(--bg); border-bottom-color: var(--glass-border); box-shadow: 0 8px 30px #02081926, inset 0 1px 0 #ffffff10; }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header { background-color: #111d31bc; backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%); }
-  .site-header[data-scrolled=true] { background-color: #111d31d4; }
-  .site-header[data-menu-open=true] { background-color: #111d31f5; }
+  .site-header { background-color: #0c1730bc; backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%); }
+  .site-header[data-scrolled=true] { background-color: #0c1730d4; }
+  .site-header[data-menu-open=true] { background-color: #0c1730f5; }
 }
-.nav-contact { border-radius: 24px; background: linear-gradient(120deg, #b49dff1a, #6ec8d40b); border-color: var(--line); }
+.nav-contact { border-radius: 24px; background: linear-gradient(120deg, #82adff1a, #7dceef0b); border-color: var(--line); }
 .site-header .desktop-nav a[aria-current] { color: var(--accent); }
 @media (max-width: 767px) {
   .contact-details.glass-standard { padding: 18px; }

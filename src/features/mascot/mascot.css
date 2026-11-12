@@ -12,7 +12,7 @@
 .sky-star:nth-child(3n) { width: 1.5px; height: 1.5px; background: var(--cyan); box-shadow: 0 0 6px color-mix(in srgb, var(--cyan) 65%, transparent); }
 .sky-star:nth-child(5n) { width: 2px; height: 2px; background: var(--warm); box-shadow: 0 0 5px color-mix(in srgb, var(--warm) 60%, transparent); }
 .sky-star:nth-child(4n + 2) { width: 2.5px; height: 2.5px; background: #ffffff; box-shadow: 0 0 7px #ffffff90; }
-.sky-star:nth-child(7n)::before, .sky-star:nth-child(7n)::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #dcd2f8b8, transparent); width: 11px; height: 1px; }
+.sky-star:nth-child(7n)::before, .sky-star:nth-child(7n)::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #ccecffb8, transparent); width: 11px; height: 1px; }
 .sky-star:nth-child(7n)::after { transform: translate(-50%, -50%) rotate(90deg); }
 @keyframes sky-twinkle { 0%, 100% { opacity: .2; transform: scale(.75); } 40% { opacity: .95; transform: scale(1.3); } 75% { opacity: .4; transform: scale(.9); } }
 .scene-coordinate { font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: .8px; line-height: 1.9; }
@@ -40,7 +40,7 @@
 @keyframes cat-pose { from { background-position-x: calc(-1 * var(--frame-start) * var(--sprite-size)); } to { background-position-x: calc(-1 * var(--frame-end) * var(--sprite-size)); } }
 .cat-shadow { z-index: 1; position: absolute; width: 245px; height: 19px; border-radius: 50%; bottom: calc(var(--ground-offset) - 9px); left: calc(50% - 122.5px); background: #030a1840; }
 .cat-floor { z-index: 1; position: absolute; height: 1px; bottom: var(--ground-offset); width: 82%; left: 9%; background: var(--accent-edge); }
-.cat-floor i { position: absolute; width: 5px; height: 5px; background: #4a3f62; bottom: -2px; }
+.cat-floor i { position: absolute; width: 5px; height: 5px; background: var(--orbit-guide); bottom: -2px; }
 .cat-floor i:nth-child(2) { right: 0; }
 .cat-floor i:nth-child(3) { left: 48%; bottom: -10px; width: 25px; height: 1px; opacity: .5; }
 .scene-caption { display: flex; justify-content: center; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); padding-inline: 8px; }
@@ -106,25 +106,25 @@
 }
 
 /* Moon Garden: a framed habitat, with the cat grounded in a layered landscape. */
-.mascot-scene { --sprite-size: 384px; grid-template-rows: 54px 360px auto; padding: 0; border: 1px solid var(--module-line); border-radius: 100px 12px 12px 12px; background: #152136; box-shadow: 0 24px 80px #050b172e; overflow: clip; }
+.mascot-scene { --sprite-size: 384px; grid-template-rows: 54px 360px auto; padding: 0; border: 1px solid var(--module-line); border-radius: 100px 12px 12px 12px; background: var(--surface-inset); box-shadow: 0 24px 80px #050b172e; overflow: clip; }
 .scene-header { margin: 0; padding: 22px 24px 0 44px; }
 .scene-coordinate { font-size: 9px; letter-spacing: .6px; }
 .scene-coordinate-right { font-size: 8px; }
 .scene-coordinate-right > span { font-size: 7px; }
 .scene-header .scene-coordinate > span { margin-left: 5px; }
-.scene-sky { width: 100%; height: 414px; top: 0; left: 0; transform: none; border-radius: 0; mask-image: none; -webkit-mask-image: none; background: radial-gradient(ellipse at 50% 62%, #b49dff12, transparent 65%); }
+.scene-sky { width: 100%; height: 414px; top: 0; left: 0; transform: none; border-radius: 0; mask-image: none; -webkit-mask-image: none; background: radial-gradient(ellipse at 50% 62%, #82adff12, transparent 65%); }
 .scene-sky::before { border-radius: 0; }
 .scene-orbit { opacity: .6; width: 320px; height: 320px; top: 52px; margin-left: -160px; border-style: dotted; box-shadow: none; }
 .scene-orbit::before { inset: 26px; border-style: dashed; opacity: .4; box-shadow: none; }
 .scene-orbit::after { display: none; }
 .garden-scenery { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.cat-bubble { top: 48px; max-width: 88%; font-size: 10px; padding: 9px 12px; border-radius: 5px; background: #26304a; box-shadow: 3px 3px 0 #0e192e80; }
-.cat-bubble::after { background: #26304a; }
+.cat-bubble { top: 48px; max-width: 88%; font-size: 10px; padding: 9px 12px; border-radius: 5px; background: var(--surface-accent); box-shadow: 3px 3px 0 #0e192e80; }
+.cat-bubble::after { background: var(--surface-accent); }
 .cat-stage { top: 92px; height: 270px; --ground-offset: 65px; }
 .cat-floor { width: 74%; left: 13%; background: var(--accent); }
 .scene-terrain { left: 5%; width: 90%; }
 .cat-shadow { width: 210px; left: calc(50% - 105px); }
-.scene-footer { padding: 18px 12px; gap: 12px; border-top: 1px solid var(--module-line); background: #172338; }
+.scene-footer { padding: 18px 12px; gap: 12px; border-top: 1px solid var(--module-line); background: var(--surface-inset); }
 .scene-caption { font-size: 10px; }
 .caption-id { display: none; }
 .cat-controls { gap: 0; width: auto; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
@@ -168,9 +168,9 @@
 
 /* Intentional major stars on the circular guide, independent of cat routines. */
 .scene-orbit { opacity: .8; border-color: var(--orbit-stroke); }
-.scene-orbit .orbit-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--cyan); transform: translate(-50%, -50%); box-shadow: 0 0 5px #6ec8d477; animation: orbit-gleam var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite; }
-.scene-orbit .orbit-star[data-emphasis=primary] { width: 5px; height: 5px; background: #f2edff; box-shadow: 0 0 5px #e8eff8aa, 0 0 11px #b49dff77; }
-.orbit-star[data-emphasis=primary]::before, .orbit-star[data-emphasis=primary]::after { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 1px; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #e9e4ffc0, transparent); }
+.scene-orbit .orbit-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--cyan); transform: translate(-50%, -50%); box-shadow: 0 0 5px #7dceef77; animation: orbit-gleam var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite; }
+.scene-orbit .orbit-star[data-emphasis=primary] { width: 5px; height: 5px; background: #eef9ff; box-shadow: 0 0 5px #e8eff8aa, 0 0 11px #82adff77; }
+.orbit-star[data-emphasis=primary]::before, .orbit-star[data-emphasis=primary]::after { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 1px; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #d6f2ffc0, transparent); }
 .orbit-star[data-emphasis=primary]::after { transform: translate(-50%, -50%) rotate(90deg); }
 @keyframes orbit-gleam { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 .mascot-scene[data-running=false] .orbit-star { animation-play-state: paused; }

@@ -1,14 +1,39 @@
 /* The document is the sole scroll container. Offset lives here, not on anchors. */
 html { scroll-padding-top: var(--nav-height); scroll-behavior: smooth; scroll-snap-type: y proximity; }
 html[data-chapter-moving=true] { scroll-snap-type: none; }
-main > section { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); scroll-margin: 0; scroll-snap-align: none; position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; padding-block: var(--chapter-space); background-color: #0f192c; }
+main > section { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); scroll-margin: 0; scroll-snap-align: none; position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; padding-block: var(--chapter-space); background-color: var(--section-surface); }
 main > section[data-compact=true] { scroll-snap-align: start; scroll-snap-stop: always; }
-/* Chapter atmosphere is owned by features/cosmic; layout remains independent. */
-main > .hero { padding-block: 0; background-color: #0e172a; overflow: clip; }
-main > .about-section { background-color: #101a2e; }
-main > .skills-section { background-color: #0d192c; }
-main > .projects-section { background-color: #111a30; }
-main > .contact-section { background-color: #0e1729; }
+/* Adjacent chapters share the exact boundary color. Broad gradients keep
+   each chapter's temperature while blending across variable content heights. */
+main > section {
+  background-image: linear-gradient(to bottom, var(--chapter-from), var(--chapter-tone) 32%, var(--chapter-tone) 68%, var(--chapter-to));
+}
+main > .hero {
+  --chapter-from: var(--bg);
+  --chapter-tone: var(--bg);
+  --chapter-to: color-mix(in srgb, var(--bg), var(--section-profile));
+  padding-block: 0; overflow: clip;
+}
+main > .about-section {
+  --chapter-from: color-mix(in srgb, var(--bg), var(--section-profile));
+  --chapter-tone: var(--section-profile);
+  --chapter-to: color-mix(in srgb, var(--section-profile), var(--section-surface));
+}
+main > .skills-section {
+  --chapter-from: color-mix(in srgb, var(--section-profile), var(--section-surface));
+  --chapter-tone: var(--section-surface);
+  --chapter-to: color-mix(in srgb, var(--section-surface), var(--section-work));
+}
+main > .projects-section {
+  --chapter-from: color-mix(in srgb, var(--section-surface), var(--section-work));
+  --chapter-tone: var(--section-work);
+  --chapter-to: color-mix(in srgb, var(--section-work), var(--section-contact));
+}
+main > .contact-section {
+  --chapter-from: color-mix(in srgb, var(--section-work), var(--section-contact));
+  --chapter-tone: var(--section-contact);
+  --chapter-to: var(--bg);
+}
 .hero-grid { flex: 1; padding-block: 32px 24px; }
 .hero h1 { font-size: clamp(48px, 5.3vw, 80px); }
 .hero-intro { margin-top: 28px; }

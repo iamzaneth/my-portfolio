@@ -16,10 +16,10 @@
 .identity-body[data-flipped=true] { transform: rotateY(180deg); }
 /* The substantial lip is a separate plane, 3px in front of its printed insert.
    Its opening is joined to the insert by inward-facing straight/curved walls. */
-.identity-shell { position: absolute; inset: 0; border: var(--id-inset) solid #080b12; border-color: #303949 #11151e #080c13 #222a39; border-radius: var(--id-radius); backface-visibility: hidden; box-shadow: inset 0 0 0 1px #5a6e8c38, inset 0 1px 0 #b49dff20, inset 1px 0 0 #6ec8d412; }
+.identity-shell { position: absolute; inset: 0; border: var(--id-inset) solid #080b12; border-color: #303949 #11151e #080c13 #222a39; border-radius: var(--id-radius); backface-visibility: hidden; box-shadow: inset 0 0 0 1px #5a6e8c38, inset 0 1px 0 #82adff20, inset 1px 0 0 #7dceef12; }
 .identity-shell-front { transform: translateZ(var(--id-half-depth)); }
 .identity-shell-back { transform: rotateY(180deg) translateZ(var(--id-half-depth)); }
-.identity-face { position: absolute; inset: var(--id-inset); backface-visibility: hidden; border-radius: calc(var(--id-radius) - var(--id-inset)); overflow: hidden; color: var(--text); background-color: #101a2b; background-image: linear-gradient(130deg, #b49dff0e, transparent 55%, #6ec8d405); box-shadow: inset 0 0 0 1px #02050db3; }
+.identity-face { position: absolute; inset: var(--id-inset); backface-visibility: hidden; border-radius: calc(var(--id-radius) - var(--id-inset)); overflow: hidden; color: var(--text); background-color: #101a2b; background-image: linear-gradient(130deg, #82adff0e, transparent 55%, #7dceef05); box-shadow: inset 0 0 0 1px #02050db3; }
 .identity-front { transform: translateZ(var(--id-panel-z)); }
 .identity-back { transform: rotateY(180deg) translateZ(var(--id-panel-z)); padding: 18px; }
 /* --- Back face header (unchanged) --- */
@@ -45,7 +45,7 @@
 .identity-front-bottom {}
 .identity-front-bottom h3 { font-size: 19px; line-height: 1.35; letter-spacing: -.45px; font-weight: 650; color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, .55); }
 .identity-front-bottom p { margin-top: 5px; font: 11px/1.55 var(--mono); color: var(--cyan); text-transform: uppercase; text-wrap: balance; text-shadow: 0 1px 6px rgba(0, 0, 0, .6); }
-.identity-back .identity-header { height: 32px; padding-bottom: 12px; border-bottom: 1px solid #c3d3ff30; }
+.identity-back .identity-header { height: 32px; padding-bottom: 12px; border-bottom: 1px solid #95b8ff30; }
 .identity-back .identity-header > span:first-child { font-size: 20px; line-height: 1; letter-spacing: -.5px; }
 .identity-fields { display: grid; gap: 8px; margin-top: 14px; }
 .identity-fields > div { display: grid; gap: 3px; }
@@ -56,11 +56,11 @@
    quadrant; the four straight walls terminate at the shared tangent points. */
 /* A broad matte core spans the full depth. Narrow specular bands suggest
    machined lip transitions without tapering any physical wall. */
-.identity-edge { position: absolute; backface-visibility: hidden; background-color: color-mix(in srgb, #8290a8 var(--edge-light, 30%), #080c14); background-image: linear-gradient(90deg, #c4d3e055 0px, #b49dff25 1px, transparent 2px, transparent calc(100% - 2px), #6ec8d41c calc(100% - 1px), #02050d99); }
+.identity-edge { position: absolute; backface-visibility: hidden; background-color: color-mix(in srgb, #8290a8 var(--edge-light, 30%), #080c14); background-image: linear-gradient(90deg, #c4d3e055 0px, #82adff25 1px, transparent 2px, transparent calc(100% - 2px), #7dceef1c calc(100% - 1px), #02050d99); }
 .identity-edge-left, .identity-edge-right { top: var(--id-radius); width: var(--id-depth); height: calc(100% - 2 * var(--id-radius)); }
 .identity-edge-left { --edge-light: 42%; left: 0; transform: translateX(-50%) rotateY(-90deg); }
 .identity-edge-right { --edge-light: 28%; left: 100%; transform: translateX(-50%) rotateY(90deg); }
-.identity-edge-top, .identity-edge-bottom { left: var(--id-radius); width: calc(100% - 2 * var(--id-radius)); height: var(--id-depth); background-image: linear-gradient(0deg, #c4d3e055 0px, #b49dff25 1px, transparent 2px, transparent calc(100% - 2px), #6ec8d41c calc(100% - 1px), #02050d99); }
+.identity-edge-top, .identity-edge-bottom { left: var(--id-radius); width: calc(100% - 2 * var(--id-radius)); height: var(--id-depth); background-image: linear-gradient(0deg, #c4d3e055 0px, #82adff25 1px, transparent 2px, transparent calc(100% - 2px), #7dceef1c calc(100% - 1px), #02050d99); }
 .identity-edge-top { --edge-light: 47%; top: 0; transform: translateY(-50%) rotateX(90deg); }
 .identity-edge-bottom { --edge-light: 14%; top: 100%; transform: translateY(-50%) rotateX(-90deg); }
 .identity-edge-corner { width: var(--id-depth); }
