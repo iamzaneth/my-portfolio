@@ -5,19 +5,25 @@
   "rows": 11,
   "groundRow": 44,
   "palette": {
-    "O": "#443650",
-    "S": "#65507d",
-    "D": "#82669f",
-    "B": "#a084c4",
-    "L": "#b99cda",
-    "H": "#d1b6ea",
-    "W": "#eee5ff",
-    "P": "#c38da9",
-    "R": "#956582",
-    "E": "#292d46",
-    "C": "#91d6dd",
-    "T": "#688aa8",
-    "M": "#e2c5ec"
+    "ink": "#080b12",
+    "outline": "#111720",
+    "shadow": "#1c2431",
+    "coat": "#2b3545",
+    "fur": "#3c4a5e",
+    "edge": "#52647a",
+    "light": "#72869b",
+    "silver": "#95a8bb",
+    "whiteShadow": "#adbfce",
+    "whiteMid": "#cedae2",
+    "white": "#edf2f4",
+    "glint": "#fff8e0",
+    "goldShadow": "#8c5e23",
+    "gold": "#c4942f",
+    "iris": "#edbe42",
+    "yellow": "#ffdc70",
+    "earShadow": "#684957",
+    "ear": "#a87883",
+    "nose": "#dfa3a7"
   },
   "animations": {
     "idle": {
@@ -134,7 +140,7 @@
           "visibleBounds": {
             "left": 8,
             "top": 16,
-            "right": 56,
+            "right": 55,
             "bottom": 44
           }
         },
@@ -237,7 +243,7 @@
         {
           "source": "run/04.png",
           "visibleBounds": {
-            "left": 8,
+            "left": 15,
             "top": 20,
             "right": 62,
             "bottom": 44
@@ -246,7 +252,7 @@
         {
           "source": "run/05.png",
           "visibleBounds": {
-            "left": 12,
+            "left": 22,
             "top": 20,
             "right": 54,
             "bottom": 44
