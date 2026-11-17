@@ -13,7 +13,9 @@ with binary alpha. The character has a black coat, white chest/muzzle/socks,
 pink ears and golden yellow eyes. This new artwork is not attributed to LuizMelo.
 
 The 65 editable frames and `manifest.json` are in `assets/source/mascot/`.
-Production frames are 64×64; the served atlas is 832×704 (13 columns × 11 rows).
+Source frames are 64×64. Production frames are reduced to 32×32 using
+nearest-neighbor sampling; the served atlas is 416×352 (13 columns × 11 rows).
+Small golden eye clusters retain their source colors during reduction.
 The website uses no runtime image generation or recolor filter.
 
 Animation frame counts: idle 10, walk 8, run 8, meow 4, sleep 1, stretch (`wake`)

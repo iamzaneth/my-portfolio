@@ -1,6 +1,7 @@
 {
   "frameWidth": 64,
   "frameHeight": 64,
+  "renderFrameSize": 32,
   "columns": 13,
   "rows": 11,
   "groundRow": 44,

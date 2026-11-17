@@ -7,12 +7,18 @@ const expected = {idle:10,walk:8,run:8,meow:4,sleep:1,wake:13,sit:1,lieDown:8,gr
 const m = JSON.parse(await readFile(`${root}/manifest.json`,'utf8'))
 const assert = (condition, message) => { if(!condition) throw new Error(message) }
 assert(m.frameWidth===64&&m.frameHeight===64,'Frames must be 64×64')
+assert(m.renderFrameSize===32,'Production frames must be 32×32')
+const renderSize=m.renderFrameSize
+const renderScale=renderSize/m.frameWidth
+assert(Number.isInteger(m.groundRow*renderScale),'Ground must align to the production pixel grid')
 assert(m.columns===13&&m.rows===11,'Unexpected atlas layout')
 assert(Number.isInteger(m.groundRow)&&m.groundRow>0&&m.groundRow<=m.frameHeight,'Invalid ground reference')
 assert(Object.keys(m.animations).join()===Object.keys(expected).join(),'Missing or reordered animation')
 const palette = new Set(Object.values(m.palette).map(hex=>hex.toLowerCase()))
+const eyeColors = new Set(['goldShadow','gold','iris','yellow'].map(key=>m.palette[key].toLowerCase()))
+const isEye=(data,i)=>data[i+3]&&eyeColors.has('#'+data.subarray(i,i+3).toString('hex'))
 const catalog={}
-const atlasWidth=m.columns*m.frameWidth, atlasHeight=m.rows*m.frameHeight
+const atlasWidth=m.columns*renderSize, atlasHeight=m.rows*renderSize
 const packed=Buffer.alloc(atlasWidth*atlasHeight*4)
 const boundsOf=(data,width)=>{
   const points=[];for(let i=0;i<data.length;i+=4)if(data[i+3])points.push([i/4%width,Math.floor(i/4/width)])
@@ -46,21 +52,37 @@ for(const [name,frames] of Object.entries(expected)) {
     const actual=boundsOf(data,m.frameWidth)
     assert(JSON.stringify(actual)===JSON.stringify(source.visibleBounds),`${source.source}: stale bounds; update manifest after editing`)
     assert(actual.bottom<=m.groundRow,`${source.source}: artwork sinks below ground`)
-    bounds.push(actual);all.push(actual)
+    // Reduce each frame independently so sampling cannot bleed into adjacent
+    // poses. Nearest-neighbor keeps the tuxedo palette and hard pixel edges;
+    // frame counts, timing and on-page size remain independent of resolution.
+    const rendered=await sharp(data,{raw:{width:m.frameWidth,height:m.frameHeight,channels:4}})
+      .resize(renderSize,renderSize,{kernel:'nearest'}).raw().toBuffer()
+    // Tiny golden eyes can fall between nearest-neighbor samples in grooming
+    // poses. Keep their source color in the corresponding 2×2 pixel cluster.
+    for(let y=0;y<renderSize;y++)for(let x=0;x<renderSize;x++) {
+      const target=(y*renderSize+x)*4
+      if(isEye(rendered,target))continue
+      const block=[0,1,m.frameWidth,m.frameWidth+1].map(d=>((y*2*m.frameWidth+x*2)+d)*4)
+      const eye=block.find(i=>isEye(data,i))
+      if(eye!==undefined)data.copy(rendered,target,eye,eye+4)
+    }
+    const renderBounds=boundsOf(rendered,renderSize)
+    assert(renderBounds.bottom<=m.groundRow*renderScale,`${source.source}: reduced artwork sinks below ground`)
+    bounds.push(renderBounds);all.push(renderBounds)
     // Copy RGBA rows directly: compositing libraries may alter RGB beneath
-    // transparent pixels. The production atlas preserves all source bytes.
-    for(let y=0;y<m.frameHeight;y++) {
-      const offset=((sheet.row*m.frameHeight+y)*atlasWidth+frame*m.frameWidth)*4
-      data.copy(packed,offset,y*m.frameWidth*4,(y+1)*m.frameWidth*4)
+    // transparent pixels. The atlas preserves the reduced frame bytes exactly.
+    for(let y=0;y<renderSize;y++) {
+      const offset=((sheet.row*renderSize+y)*atlasWidth+frame*renderSize)*4
+      rendered.copy(packed,offset,y*renderSize*4,(y+1)*renderSize*4)
     }
   }
   const envelope={left:Math.min(...bounds.map(b=>b.left)),top:Math.min(...bounds.map(b=>b.top)),right:Math.max(...bounds.map(b=>b.right)),bottom:Math.max(...bounds.map(b=>b.bottom))}
   catalog[name]={row:sheet.row,frames,visibleBounds:envelope}
 }
 const visibleBounds={left:Math.min(...all.map(b=>b.left)),top:Math.min(...all.map(b=>b.top)),right:Math.max(...all.map(b=>b.right)),bottom:Math.max(...all.map(b=>b.bottom))}
-const atlas={frameWidth:m.frameWidth,frameHeight:m.frameHeight,columns:m.columns,rows:m.rows,groundRow:m.groundRow,visibleBounds}
+const atlas={frameWidth:renderSize,frameHeight:renderSize,columns:m.columns,rows:m.rows,groundRow:m.groundRow*renderScale,visibleBounds}
 const png=await sharp(packed,{raw:{width:atlasWidth,height:atlasHeight,channels:4}}).png({compressionLevel:9,palette:false}).toBuffer()
-assert((await sharp(png).ensureAlpha().raw().toBuffer()).equals(packed),'PNG must preserve source RGBA bytes exactly')
+assert((await sharp(png).ensureAlpha().raw().toBuffer()).equals(packed),'PNG must preserve rendered RGBA bytes exactly')
 const meta=await sharp(png).metadata()
 assert(meta.width===atlasWidth&&meta.height===atlasHeight,'Invalid output')
 if(process.argv.includes('--check')) {
@@ -71,4 +93,4 @@ if(process.argv.includes('--check')) {
 const ts=`// Generated from assets/source/mascot/manifest.json by scripts/build-cat-atlas.mjs.\n// Never edit by hand: the manifest and transparent source PNGs own geometry.\nexport const catAtlas = ${JSON.stringify(atlas,null,2)} as const\n\nexport const catSprites = ${JSON.stringify(catalog,null,2)} as const\n`
 if(process.argv.includes('--check'))assert(ts===await readFile('src/features/mascot/catSprites.ts','utf8'),'Sprite catalog is stale')
 else await writeFile('src/features/mascot/catSprites.ts',ts)
-console.log(`Validated ${Object.values(expected).reduce((sum,frames)=>sum+frames,0)} native ${m.frameWidth}×${m.frameHeight} frames; atlas ${meta.width}×${meta.height}, ${png.length} bytes.`)
+console.log(`Validated ${Object.values(expected).reduce((sum,frames)=>sum+frames,0)} source ${m.frameWidth}×${m.frameHeight} frames; rendered at ${renderSize}×${renderSize}; atlas ${meta.width}×${meta.height}, ${png.length} bytes.`)
