@@ -1,6 +1,5 @@
+import ChapterBody from '@/features/chapters/ChapterBody'
 import { useBackToTop } from '@/features/chapters/useBackToTop'
-import MobileOrbit from '@/features/cosmic/MobileOrbit'
-import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUp, ArrowUpRight, Check, Copy, Facebook, FileText, Github, Mail, MapPin, Phone } from 'lucide-react'
 import { profile } from '@/data/profile'
@@ -24,10 +23,10 @@ export default function Contact() {
   }
   return (
     <section id="contact" aria-labelledby="contact-title" className="contact-section">
-      <CosmicBackground world="contact" />
-      <div className="page-container">
+      <div className="contact-horizon" aria-hidden="true" />
+      <ChapterBody label="Contact">
         <div className="contact-top mb-10 flex flex-wrap items-center justify-between gap-4 max-md:mb-8" data-reveal>
-          <p className="eyebrow"><span>05 /</span> THE NEXT CHAPTER</p>
+          <p className="eyebrow"><span>04 /</span> THE NEXT DESTINATION</p>
           <span className="availability inline-flex items-center gap-2.5 text-[12px] leading-5 text-muted">
             <span className="status-dot" aria-hidden="true" /> Open to opportunities
           </span>
@@ -88,15 +87,14 @@ export default function Contact() {
               </a>}
             </div>
           </div>
-          <MobileOrbit world="contact" />
         </div>
         <footer className="footer flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line py-5 text-[12px] leading-5 text-faint max-md:gap-x-4">
           <a className="footer-brand mr-1 text-[19px] font-[750] tracking-[-.8px] text-foreground" href="#home">zaneth<span className="text-accent">.</span></a>
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <span className="footer-built ml-auto max-desktop:hidden">Built with curiosity & a little cat energy.</span>
+          <span className="footer-built ml-auto max-desktop:hidden">A universe of engineering. Built with curiosity.</span>
           <a onClick={backToTop} className="back-top ml-auto flex min-h-11 items-center gap-2 text-muted transition-colors hover:text-accent desktop:ml-0" href="#home">Back to top <ArrowUp size={15} aria-hidden="true" /></a>
         </footer>
-      </div>
+      </ChapterBody>
     </section>
   )
 }

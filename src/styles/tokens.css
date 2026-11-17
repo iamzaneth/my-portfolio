@@ -1,60 +1,31 @@
+/* Shared cosmic palette: content contrast takes priority over atmospheric light. */
 :root {
-  --focus-ring: var(--accent);
-  --space-medium: 24px;
-  --space-small: 12px;
   color-scheme: dark;
-  /* Foundations → section plane → content → interactive elevation. */
-  --bg: #080d1c;
-  --bg-subtle: #14223e;
-  /* Chapter planes vary in tone and temperature, independently of cards. */
-  --section-profile: #0c1730;
-  --section-surface: #0a1328;
-  --section-work: #0e1b38;
-  --section-contact: #080d1c;
-  --surface: #192c4c;
-  --surface-raised: #223b62;
-  --surface-identity: #192c4c;
-  --surface-inset: #0e1b33;
-  --surface-accent: #1b355e;
-  --surface-accent-hover: #244570;
-  --surface-accent-pressed: #2d527e;
-  --text: #edf6ff;
-  --muted: #b4cbdc;
-  --faint: #98b2c9;
-  /* Control boundaries are stronger than decorative module edges. */
-  --line: #6688b4;
-  --accent: #82adff;
-  --cyan: #7dceef;
-  --warm: #ffd18c;
-  --nebula: #ad9df2;
-  --blue: #3f6fea;
-  --accent-ink: #081329;
-  --accent-hover: #b2ccff;
-  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
-  --cyan-soft: color-mix(in srgb, var(--cyan) 10%, transparent);
-  --accent-edge: color-mix(in srgb, var(--accent) 45%, transparent);
-  --orbit-stroke: #9abbed;
-  --orbit-inner: #7aa9e2;
-  --orbit-guide: #466794;
-  --diagram-line: #6485af;
-  --motion-fast: 180ms;
-  --motion-component: 320ms;
-  --ease-out: cubic-bezier(.22, 1, .36, 1);
-  --section-space: clamp(64px, 7.5vw, 112px);
-  --layout-gap: clamp(24px, 4vw, 48px);
-  --module-padding: clamp(20px, 2.5vw, 32px);
-  --module-radius: 12px;
-  --module-line: #98b2c925;
-  --reading-size: 16px;
-  --reading-leading: 1.85;
-  --glass-top: #0c1730bb;
-  --glass-scrolled: #0c1730d4;
-  --glass-mobile-top: #0c1730c7;
-  --glass-mobile-scrolled: #0c1730db;
-  --glass-text: #d4e8f5;
-  --glass-edge: #98b2c91a;
-  --font: 'Manrope', sans-serif;
-  --mono: 'IBM Plex Mono', monospace;
+  --bg: #050713; --bg-subtle: #0c1024;
+  --section-profile: #080b1a; --section-surface: #070a17;
+  --section-work: #080b1b; --section-contact: #070a17;
+  --surface: #0d1228; --surface-raised: #111830; --surface-identity: #10162b;
+  --surface-inset: #090e20; --surface-accent: #20203d;
+  --surface-accent-hover: #262449; --surface-accent-pressed: #302b55;
+  --text: #f3f3fc; --muted: #b1b8cf; --faint: #929cb9;
+  --line: #58617f; --module-line: #a8b2e51c;
+  --accent: #b59aff; --accent-hover: #cbbbff; --accent-ink: #0c0720;
+  --cyan: #79deef; --warm: #eacb9a; --nebula: #a18af4; --blue: #6282ed;
+  --accent-soft: #a889ff12; --cyan-soft: #79deef12; --accent-edge: #b59aff55;
+  --focus-ring: var(--cyan); --diagram-line: #6579a5;
+  --orbit-stroke: #8986c4; --orbit-inner: #6f89c4; --orbit-guide: #394866;
+  --font: 'Manrope', sans-serif; --mono: 'IBM Plex Mono', monospace;
+  --motion-fast: 180ms; --motion-component: 320ms; --ease-out: cubic-bezier(.22,1,.36,1);
+  --nav-height: 84px; --section-space: clamp(72px,8vw,120px);
+  --layout-gap: clamp(28px,5vw,72px); --module-padding: 28px; --module-radius: 16px;
+  --reading-size: 15px; --reading-leading: 1.85;
+  --glass-subtle: #0d122870; --glass-base: #0d1228c4; --glass-elevated: #11162ad9;
+  --glass-border: #b5b9ef24; --glass-border-highlight: #c7c5ff47;
+  --glass-shadow: 0 20px 60px #02030a40; --glass-inner-highlight: inset 0 1px 0 #ffffff08;
+  --glass-top: #050713b8; --glass-scrolled: #070a19eb;
+  --glass-mobile-top: #050713de; --glass-mobile-scrolled: #070a19f5;
+  --glass-text: #c2c7dc; --glass-edge: #b5b9ef1c;
+  --space-medium: 24px; --space-small: 12px;
 }
 
 /* Expose the shared palette to Tailwind and the sprite's custom CSS. */
@@ -93,21 +64,4 @@
   --breakpoint-wide: 1600px;
 }
 
-/* Shared navigation geometry and material hierarchy. */
-:root {
-  --nav-height: 87px;
-  --chapter-space: clamp(32px, 4vh, 56px);
-  --bg: #080d1c;
-  --muted: #bdd0e1;
-  --faint: #a1bad0;
-  --glass-subtle: #14244280;
-  --glass-base: #1b2e51ad;
-  --glass-elevated: #21385db8;
-  --glass-border: #95b8ff30;
-  --glass-border-highlight: #c7d9ff59;
-  --glass-blue: #82adff1f;
-  --glass-cyan: #7dceef1a;
-  --glass-shadow: 0 22px 60px #02081945, 0 4px 12px #02081924;
-  --glass-inner-highlight: inset 0 1px 0 #ffffff24, inset 0 -1px 0 #070e2430;
-}
-@media (max-width: 767px) { :root { --nav-height: 72px; --chapter-space: 48px; } }
+@media (max-width: 767px) { :root { --nav-height: 68px; } }

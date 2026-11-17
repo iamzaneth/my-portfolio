@@ -1,0 +1,149 @@
+/* One edge-to-edge environment behind every foreground chapter. */
+.portfolio { background:transparent; isolation:isolate; }
+.portfolio::before { display:none; }
+.portfolio > main { position:relative; z-index:1; }
+.global-cosmic-environment { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.global-universe-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; opacity:0; transition:opacity .7s; }
+.global-universe-canvas[data-ready=true] { opacity:1; }
+.cosmic-environment-fallback { position:absolute; inset:0; background-color:#050713; background-image:radial-gradient(ellipse at 75% 35%,#32234c45,transparent 65%),radial-gradient(circle at 12% 18%,#b5bcdd 0 .7px,transparent 1.3px),radial-gradient(circle at 72% 69%,#91a8d2 0 .65px,transparent 1.2px); background-size:100% 100%,223px 263px,347px 311px; transition:background-color 1s; }
+.global-cosmic-environment[data-theme=skills] .cosmic-environment-fallback { background-color:#051218; }
+.global-cosmic-environment[data-theme=about] .cosmic-environment-fallback { background-color:#080d21; }
+.global-cosmic-environment[data-theme=projects] .cosmic-environment-fallback { background-color:#0c071b; }
+.global-cosmic-environment[data-theme=contact] .cosmic-environment-fallback { background-color:#0b0b1d; }
+main > section, .about-section, .contact-section { background:transparent; }
+main > section + section { border-top:0; }
+.universe-viewport, .universe-viewport[data-mode=explorer] { background:none; border-radius:0; cursor:grab; }
+.explorer-scene { background:none; border-color:transparent; box-shadow:none; }
+.root-node-label { position:absolute; left:0; top:0; z-index:2; width:138px; min-height:46px; padding:8px; visibility:hidden; border:0; border-radius:6px; background:transparent; color:#f2edff; pointer-events:auto; text-align:center; text-shadow:0 2px 12px #050713; }
+.root-node-label strong { display:block; font-size:19px; font-weight:650; letter-spacing:2px; }
+.root-node-label span { display:block; margin-top:4px; font:7px/1.5 var(--mono); letter-spacing:1.4px; color:#d9cff5; }
+.project-node-label { width:155px; padding:4px 6px; }
+.project-node-title { font-size:20px; }
+.project-node-category { font-size:7px; }
+.project-node-caption { font-size:6px; }
+.technology-node-label { max-width:110px; min-height:26px; font-size:9px; }
+.technology-node-label small { color:var(--accent); font-size:8px; }
+.legend-root { width:11px; height:11px; border-radius:50%; border:1px solid #b59aff; background:#b59aff3a; box-shadow:0 0 9px #b59aff30; }
+.scene-controls { gap:3px; }
+.scene-controls button { width:38px; height:40px; }
+.scene-controls button[aria-pressed=true] { border-color:var(--cyan); color:var(--cyan); }
+.scene-bottomline { gap:8px; }
+.scene-caption { font-size:8px; max-width:245px; }
+.fallback-root { position:absolute; z-index:2; top:42%; left:21%; transform:translate(-50%,-50%); background:transparent; color:var(--text); border:0; font-size:18px; }
+.fallback-root span { display:block; font:6px var(--mono); color:var(--muted); margin-top:5px; }
+.chapter-body { min-width:0; }
+.toolkit-workspace { display:grid; grid-template-columns:1.1fr 1fr; gap:24px; align-items:stretch; }
+.toolkit-workspace .skills-grid { grid-template-columns:1fr; }
+.toolkit-workspace .technology-clusters { grid-template-columns:1fr 1fr; gap:14px; }
+.toolkit-workspace .technology-map { margin-bottom:0; }
+.project-card-reading { min-height:0; }
+html { scroll-behavior:auto; }
+@media(min-width:1024px) and (min-height:600px) {
+  :root { --nav-height:72px; --chapter-height:calc(100vh - var(--nav-height)); --chapter-height:calc(100dvh - var(--nav-height)); }
+  html { scroll-padding-top:var(--nav-height); scroll-snap-type:none; }
+  main > section, main > .hero, main > .section-space, main > .contact-section { height:var(--chapter-height); min-height:0; padding-block:clamp(16px,2.4dvh,28px); display:flex; flex-direction:column; justify-content:center; overflow:visible; box-sizing:border-box; }
+  main > section:focus { outline:none; }
+  .chapter-body { display:flex; flex-direction:column; flex:1; min-height:0; max-height:100%; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#7273ac66 transparent; }
+  .chapter-body > * { flex-shrink:0; }
+  .hero-grid { min-height:0; padding-block:0; }
+  .hero-text { padding-block:0; }
+  .hero h1 { font-size:clamp(54px,5.5vw,80px); margin-bottom:22px; }
+  .hero-intro { margin-bottom:20px; }
+  .hero-role { margin-bottom:13px; }
+  .hero-description { font-size:14px; line-height:1.85; }
+  .hero-student { margin-top:10px; }
+  .hero-actions { margin-top:23px; }
+  .hero-socials { margin-top:14px; }
+  .hero-universe { min-height:0; padding-bottom:0; }
+  .scene-slot-hero { height:clamp(340px,calc(var(--chapter-height) - 160px),600px); }
+  .hero-universe-link { padding:8px; }
+  .hero-bottom { flex-shrink:0; margin-top:10px; padding-block:0; }
+  .section-heading { margin-bottom:20px; align-items:center; }
+  .section-heading h2 { font-size:clamp(32px,3vw,44px); line-height:1.14; }
+  .section-aside { font-size:12px; line-height:1.8; }
+  .about-grid { flex:1; min-height:0; gap:50px; align-items:center; }
+  .about-copy { max-height:100%; min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; padding:4px 10px 4px 0; }
+  .about-copy .about-lead { font-size:clamp(20px,1.8vw,25px); line-height:1.55; margin-bottom:16px; }
+  .about-copy > p { font-size:14px; line-height:1.85; }
+  .about-current { margin-top:18px; }
+  .about-current p { font-size:13px; line-height:1.8; }
+  .about-copy .text-link { margin-top:14px; }
+  .about-section .identity-stage { --id-width:clamp(220px,calc((var(--chapter-height) - 220px)*.6),300px); }
+  .toolkit-workspace { flex:1; min-height:0; }
+  .toolkit-workspace .technology-map { min-height:0; display:flex; flex-direction:column; justify-content:center; padding:22px; }
+  .toolkit-workspace .technology-clusters { padding-block:22px; }
+  .toolkit-workspace .technology-cluster { padding:16px 13px 16px 28px; }
+  .toolkit-workspace .technology-cluster strong { font-size:14px; }
+  .toolkit-workspace .technology-cluster i { left:12px; }
+  .toolkit-workspace .technology-cluster > span { font:11px/1.7 var(--font); }
+  .toolkit-workspace .skills-grid { display:flex; min-height:0; }
+  .toolkit-workspace .skill-card { width:100%; min-height:0; }
+  .toolkit-workspace .skill-body { min-height:0; }
+  .toolkit-footnote { margin-top:14px; }
+  .projects-section .section-heading h2 br { display:none; }
+  .projects-section .section-heading h2 span { margin-left:.2em; }
+  .projects-section .section-heading h2 { font-size:clamp(29px,2.8vw,40px); }
+  .project-collection { display:flex; flex-direction:column; flex:1; min-height:0; }
+  .project-index { flex-shrink:0; padding:7px 14px; margin-bottom:12px; gap:14px; }
+  .project-index-items { max-height:90px; overflow-y:auto; padding:5px; margin:-5px; scrollbar-width:thin; }
+  .project-index-items button { min-height:38px; padding:8px 12px; }
+  .explorer-layout { flex:1; min-height:0; grid-template-columns:minmax(0,1.65fr) minmax(310px,.9fr); align-items:stretch; gap:20px; }
+  .explorer-scene { min-height:0; display:flex; flex-direction:column; }
+  .scene-slot-explorer { flex:1; min-height:0; height:auto; }
+  .constellation-legend { flex-shrink:0; padding:8px; font-size:8px; gap:14px; }
+  .constellation-legend .legend-relationship { display:none; }
+  .stack-paging { padding:5px 10px; }
+  .stack-paging button { height:34px; width:36px; }
+  .project-panels { height:100%; min-height:0; }
+  .project-panels > div { height:100%; }
+  .project-collection .project-card.glass-elevated { height:100%; min-height:0; padding:18px; display:flex; flex-direction:column; }
+  .project-card-reading { flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; padding-right:7px; }
+  .project-card .project-actions { flex-shrink:0; margin-top:10px; padding-top:10px; }
+  .system-brief-heading { padding-bottom:10px; margin-bottom:14px; }
+  .project-card .project-header h3 { font-size:28px; margin-block:8px; }
+  .project-stack-heading { margin-top:15px; }
+  .project-card .project-summary { font-size:12px; line-height:1.8; }
+  .project-technology-stack button { min-height:32px; padding:6px 8px; }
+  .explorer-access-note { flex-shrink:0; margin-top:8px; font-size:9px; }
+  .project-collection + .github-more { flex-shrink:0; min-height:26px; margin-top:8px; font-size:10px; }
+  .contact-top { margin-bottom:16px; }
+  .contact-panel { flex:1; min-height:0; padding-block:10px; margin-bottom:16px; }
+  .contact-section .footer { padding-block:6px; }
+}
+@media(min-width:1024px) and (max-height:800px) and (min-height:600px) {
+  .section-heading { margin-bottom:15px; }
+  .section-heading h2 { font-size:35px; }
+  .hero h1 { font-size:clamp(54px,5.3vw,72px); }
+  .about-copy .about-lead { font-size:21px; }
+  .toolkit-workspace .technology-cluster { padding-block:13px; }
+  .toolkit-workspace .constellation-caption { font-size:10px; min-height:0; }
+}
+@media(max-width:1023px), (max-height:599px) {
+  html { scroll-padding-top:calc(var(--nav-height) + 12px); scroll-snap-type:y proximity; }
+  main > section { scroll-snap-align:start; min-height:calc(100svh - var(--nav-height)); }
+  .chapter-body { overflow:visible; max-height:none; }
+  .toolkit-workspace { grid-template-columns:1fr; }
+  .toolkit-workspace .skills-grid { display:block; }
+  .project-card-reading { overflow:visible; }
+  .scene-slot-explorer { height:480px; }
+}
+@media(max-width:767px) {
+  .scene-bottomline { flex-direction:column; align-items:flex-start; bottom:8px; gap:8px; }
+  .scene-caption { max-width:100%; }
+  .scene-controls { gap:2px; max-width:100%; }
+  .scene-controls button { width:44px; min-width:44px; height:44px; }
+  .project-node-label { width:130px; }
+  .project-node-title { font-size:18px; }
+  .root-node-label { width:110px; }
+  .root-node-label strong { font-size:15px; }
+  .technology-node-label { max-width:95px; font-size:8px; }
+  .toolkit-workspace .technology-clusters { grid-template-columns:1fr; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+.scene-aux-controls { display:flex; gap:3px; pointer-events:auto; }
+.scene-aux-controls button { display:grid; place-items:center; width:36px; height:36px; border:1px solid #9d9bca2e; border-radius:7px; color:var(--muted); background:#0a0e218c; }
+.scene-aux-controls button[aria-pressed=true] { border-color:var(--cyan); color:var(--cyan); }
+.scene-aux-controls button:disabled { opacity:.4; }
+.scene-topline .scene-signal { margin-left:auto; }
+@media(max-width:767px){.scene-aux-controls button{width:44px;height:44px;}.scene-topline{align-items:flex-start;}}
+@media(min-width:1024px) and (min-height:600px){.hero-grid{grid-template-rows:minmax(0,1fr);}.hero-text{max-height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;}}

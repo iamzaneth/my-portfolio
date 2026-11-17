@@ -1,6 +1,4 @@
-import MobileOrbit from '@/features/cosmic/MobileOrbit'
-import FeaturedConstellation from '@/features/cosmic/FeaturedConstellation'
-import CosmicBackground from '@/features/cosmic/CosmicBackground'
+import ChapterBody from '@/features/chapters/ChapterBody'
 import { ArrowDownRight } from 'lucide-react'
 import SectionHeading from '@/components/SectionHeading'
 import IdentityCard3D from '@/features/identity/IdentityCard3D'
@@ -9,12 +7,9 @@ import { profile } from '@/data/profile'
 export default function About() {
   return (
     <section id="about" className="section-space about-section">
-      <CosmicBackground world="about" />
-      <div className="page-container">
+      <ChapterBody label="About">
         <div className="atlas-intro">
-        <SectionHeading number="02" label="THE PERSON BEHIND THE PIXELS">Curiosity is my<br /><span className="text-faint">starting point.</span></SectionHeading>
-        <FeaturedConstellation world="about" />
-        <MobileOrbit world="about" />
+        <SectionHeading number="01" label="THE PERSON AT THE CENTER" aside="Learn. Build. Understand. The approach behind every project.">Grounded in curiosity.<br /><span className="text-accent">Looking beyond.</span></SectionHeading>
         </div>
         <div className="about-grid">
           <div className="identity-reveal" data-reveal><IdentityCard3D /></div>
@@ -25,7 +20,7 @@ export default function About() {
             <a className="text-link [&:hover>svg]:[transform:translate(3px,3px)]" href="#skills">Meet my toolkit <ArrowDownRight size={17} /></a>
           </div>
         </div>
-      </div>
+      </ChapterBody>
     </section>
   )
 }

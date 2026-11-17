@@ -19,6 +19,6 @@ export const profile = {
 export const navigation = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Toolkit' },
-  { id: 'projects', label: 'Selected work' },
+  { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },
 ]

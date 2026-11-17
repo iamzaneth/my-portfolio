@@ -2,7 +2,6 @@ import { useId, useRef, useState, type CSSProperties } from 'react'
 import { Activity, ArrowRight, Database, Radio, Server, Workflow } from 'lucide-react'
 import type { Project } from '@/types/portfolio'
 import { useActivity } from '@/hooks/useActivity'
-import { useCompanion } from '@/features/mascot/companionContext'
 
 const icons = { source: Radio, stream: Workflow, storage: Database, backend: Server, chart: Activity }
 
@@ -11,7 +10,6 @@ export default function PipelineVisual({ project, initialStageId, onStageChange 
   const [selected, setSelected] = useState(() => Math.max(0, stages.findIndex(stage => stage.id === initialStageId)))
   const container = useRef<HTMLDivElement>(null)
   const running = useActivity(container)
-  const { discover } = useCompanion()
   const id = useId()
   const stage = stages[selected]
   if (!stage) return null
@@ -26,7 +24,7 @@ export default function PipelineVisual({ project, initialStageId, onStageChange 
         const Icon = icons[item.icon]
         return <button type="button" className="pipeline-stage" key={item.id} aria-pressed={selected === index}
           aria-controls={`${id}-detail`}
-          onClick={() => { setSelected(index); onStageChange?.(item.id); discover(item.companion ?? `Exploring ${project.title}, one connection at a time.`) }}>
+          onClick={() => { setSelected(index); onStageChange?.(item.id) }}>
           <span className="stage-icon"><Icon size={22} strokeWidth={1.5} aria-hidden="true" /></span>
           <span className="sr-only">Inspect </span><b>{item.name}</b>{' '}<span className="stage-detail">{item.detail}</span>
         </button>

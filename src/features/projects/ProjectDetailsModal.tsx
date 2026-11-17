@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, type MouseEvent } from 'react'
+import { useId, useLayoutEffect, useRef, type KeyboardEvent, type MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { ArrowUpRight, Check, X } from 'lucide-react'
 import type { Project } from '@/types/portfolio'
@@ -68,12 +68,23 @@ export default function ProjectDetailsModal({ project, number, trigger, onDismis
     if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) requestClose()
   }
 
-  return createPortal(<dialog className="project-dialog" ref={dialog} aria-labelledby={titleId} aria-describedby={summaryId}
+  function cycleFocus(event: KeyboardEvent<HTMLDialogElement>) {
+    if (event.key !== 'Tab') return
+    const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+      .filter(element => element.tabIndex >= 0 && !element.closest('[inert], [hidden]') && element.getClientRects().length > 0)
+    const first = controls[0], last = controls.at(-1)
+    // Keep the boundary inside mission control instead of cycling through browser chrome.
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+  }
+
+  return createPortal(<dialog className="project-dialog" data-origin={trigger.closest('#home') ? 'hero' : 'explorer'} ref={dialog} aria-labelledby={titleId} aria-describedby={summaryId}
+    onKeyDown={cycleFocus}
     onCancel={event => { event.preventDefault(); requestClose() }}
     onClose={event => { if (!event.currentTarget.open) onDismiss() }} onClick={backdropClick}
     onAnimationEnd={event => { if (event.target === event.currentTarget && event.animationName === 'project-dialog-exit') event.currentTarget.close() }}>
     <div className="project-dialog-toolbar">
-      <span><i className="dialog-pixel" aria-hidden="true" /> Project details <span className="dialog-number">/ {String(number).padStart(2, '0')}</span></span>
+      <span><i className="dialog-pixel" aria-hidden="true" /> Mission control <span className="dialog-number">/ {String(number).padStart(2, '0')}</span></span>
       <button type="button" className="project-dialog-close" autoFocus onClick={requestClose} aria-label="Close project details"><span>Close</span><X size={20} aria-hidden="true" /></button>
     </div>
     <div className="project-dialog-body">

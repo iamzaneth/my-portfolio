@@ -1,32 +1,24 @@
-import { useEffect, useMemo, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import { useChapterNavigation } from '@/features/chapters/useChapterNavigation'
-import CometCursor from '@/features/cursor/CometCursor'
 import Hero from '@/sections/Hero'
 import About from '@/sections/About'
 import Skills from '@/sections/Skills'
 import Projects from '@/sections/Projects'
 import Contact from '@/sections/Contact'
 import { usePortfolioMotion } from '@/animations/usePortfolioMotion'
-import { CompanionContext } from '@/features/mascot/companionContext'
+import UniverseProvider from '@/features/universe/UniverseProvider'
+import UniverseViewport from '@/features/universe/UniverseViewport'
+import { projects } from '@/data/projects'
 
 export default function App() {
   const activeChapter = useChapterNavigation()
   const scope = usePortfolioMotion()
-  const [discovery, discover] = useState('')
-  useEffect(() => {
-    if (!discovery) return
-    const timer = window.setTimeout(() => discover(''), 12000)
-    return () => window.clearTimeout(timer)
-  }, [discovery])
-  const companion = useMemo(() => ({ discovery, discover }), [discovery])
   return (
-    <CompanionContext value={companion}>
+    <UniverseProvider projects={projects}>
       <div ref={scope} className="portfolio">
         <a className="skip-link fixed top-3 left-4 z-100 -translate-y-[160%] bg-accent px-[18px] py-3 text-bg
           [clip-path:inset(100%)] focus:translate-y-0 focus:[clip-path:none]" href="#main">Skip to content</a>
         <Navbar active={activeChapter} />
-        <CometCursor />
         <main id="main" tabIndex={-1}>
           <Hero />
           <About />
@@ -34,7 +26,8 @@ export default function App() {
           <Projects />
           <Contact />
         </main>
+        <UniverseViewport chapter={activeChapter} />
       </div>
-    </CompanionContext>
+    </UniverseProvider>
   )
 }

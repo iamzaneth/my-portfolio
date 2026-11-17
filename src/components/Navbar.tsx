@@ -53,10 +53,11 @@ export default function Navbar({ active = 'home' }: { active?: string }) {
       <div className="page-container nav-inner flex h-full items-center justify-between gap-[25px]">
         <a href="#home" className="wordmark inline-flex items-center text-[25px] font-extrabold tracking-[-1px] max-md:text-[23px]
           [&>svg]:mr-3 [&>svg]:w-[22px] [&>svg]:text-accent max-md:[&>svg]:mr-2.5 max-md:[&>svg]:w-5" aria-current={active === 'home' ? 'location' : undefined} aria-label="Zaneth, back to home" onClick={() => setOpen(false)}>
-          <svg width="25" height="24" viewBox="0 0 25 24" fill="currentColor" aria-hidden="true">
-            <path d="M2 3h5v3h11V3h5v17H2V3Zm5 8v4h3v-4H7Zm9 0v4h3v-4h-3Zm-6 6v2h6v-2h-6Z" />
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="6" fill="currentColor" fillOpacity=".85" />
+            <ellipse cx="14" cy="14" rx="13" ry="4.5" transform="rotate(-32 14 14)" stroke="currentColor" strokeWidth="1.2" />
           </svg>
-          zaneth<span className="text-accent">.</span>
+          zaneth<span className="text-accent">.</span><span className="nav-brand-note">A UNIVERSE OF ENGINEERING</span>
         </a>
         <nav className="desktop-nav ml-auto mr-[11px] flex items-center gap-8 max-md:hidden" aria-label="Main navigation">
           {navigation.slice(0, 3).map((link) => <a className="relative py-[15px] text-[14px] text-muted transition-colors duration-200 ease-[ease]

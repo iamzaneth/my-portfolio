@@ -1,32 +1,29 @@
-import MobileOrbit from '@/features/cosmic/MobileOrbit'
-import CosmicBackground from '@/features/cosmic/CosmicBackground'
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Github } from 'lucide-react'
 import { profile } from '@/data/profile'
-import MascotScene from '@/features/mascot/MascotScene'
+import SceneSlot from '@/features/universe/SceneSlot'
 
 export default function Hero() {
-  return <section id="home" className="hero relative">
-      <CosmicBackground world="home" />
-    <div className="page-container hero-grid">
-      <div className="hero-text">
-        <div className="hero-eyebrow"><span className="status-dot" /> Open to opportunities <span className="eyebrow-divider" /> Based in Vietnam</div>
-        <p className="hero-intro hero-eyebrow">TRAN THIEN PHUC <span className="text-accent">/ ZANETH</span></p>
-        <h1><span className="name-line"><span>Engineering</span></span>{' '}<span className="name-line"><span className="text-accent">intelligence.</span></span></h1>
+  return <section id="home" className="hero" aria-labelledby="hero-title">
+    <div className="hero-grid page-container">
+      <div className="hero-text" role="region" aria-label="Introduction" tabIndex={0}>
+        <p className="hero-intro"><span className="tiny-orbit" aria-hidden="true" /> TRAN THIEN PHUC <span>/ ZANETH</span></p>
+        <h1 id="hero-title">Engineering<br /><span>intelligence.</span></h1>
         <div className="hero-copy">
-          <p className="hero-role">AI ENGINEERING <span aria-hidden="true">/</span> DATA ENGINEERING</p>
-          <p className="hero-specialty">Connecting the data dots.</p>
-          <p className="hero-description">I’m Phuc, a {profile.role} at {profile.university}, exploring reliable data pipelines, intelligent systems, and the software that connects them.</p>
+          <p className="hero-role">AI ENGINEERING <span>/</span> DATA ENGINEERING</p>
+          <p className="hero-description">Turning raw data into connected systems.<br className="desktop-break" /> Exploring what happens at the intersection<br className="desktop-break" /> of intelligence, engineering, and curiosity.</p>
+          <p className="hero-student">{profile.role} · {profile.location}</p>
         </div>
         <div className="hero-actions">
-          <a className="button bg-accent text-accent-ink hover:bg-accent-hover" href="#projects">Explore my work <ArrowDownRight size={18} /></a>
-          <a className="button hero-contact border-line text-foreground hover:border-accent" href="#contact">Get in touch <ArrowUpRight size={17} /></a>
-          {profile.showResume && <a className="button border-line" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>}
+          <a className="button primary-button" href="#projects">Explore projects <ArrowDownRight size={17} /></a>
+          <a className="button secondary-button" href="#contact">Get in touch <ArrowUpRight size={17} /></a>
         </div>
-        <div className="hero-socials"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} /> GitHub <ArrowUpRight size={13} /></a><span>Curiosity → code → understanding.</span></div>
-        <MobileOrbit world="home" />
+        <div className="hero-socials"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={16} /> GitHub <ArrowUpRight size={12} /></a><span><i className="status-dot" /> Open to opportunities</span></div>
       </div>
-      <MascotScene />
+      <div className="hero-universe">
+        <SceneSlot mode="hero" />
+        <a className="hero-universe-link" href="#projects"><span className="universe-link-glyph" aria-hidden="true">✧</span><span><small>EXPLORE THE CONNECTED SYSTEMS</small><strong>Every project. Its own constellation.</strong></span><ArrowDownRight size={17} /></a>
+      </div>
     </div>
-    <div className="page-container hero-bottom"><a href="#about" className="scroll-cue"><ArrowDown size={16} /> SCROLL TO EXPLORE</a><span className="hero-index">01 / HOME <span aria-hidden="true">✳</span> EST. IN CURIOSITY</span></div>
+    <div className="hero-bottom page-container"><a href="#projects" className="scroll-cue"><ArrowDown size={14} /> SCROLL TO DISCOVER</a><span className="hero-bottom-note">ONE CONNECTED UNIVERSE. ALWAYS EXPANDING.</span><span className="hero-coordinate">HO CHI MINH CITY, VN</span></div>
   </section>
 }
