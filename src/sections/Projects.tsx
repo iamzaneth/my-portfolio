@@ -10,7 +10,7 @@ export default function Projects() {
     <section id="projects" className="section-space projects-section">
       <ChapterBody label="Projects">
         <div className="project-heading-anchor">
-        <SectionHeading number="03" label="THE ENGINEERING KNOWLEDGE GRAPH" aside="Every system has a story. Trace the technologies that bring each one to life.">Built as systems.<br /><span className="text-accent">Connected by design.</span></SectionHeading>
+        <SectionHeading number="03" label="THE PROJECT UNIVERSE" aside="Choose a world. Explore the engineering behind it.">Engineering worlds.<span className="text-accent"> Connected.</span></SectionHeading>
         </div>
         <ProjectCollection projects={projects} />
         <a href={profile.github} target="_blank" rel="noreferrer" className="github-more mt-5 flex min-h-11 items-center justify-end gap-[9px] text-[12px] hover:text-accent

@@ -26,7 +26,7 @@ export default function UniverseProvider({ projects, children }: { projects: rea
   const pause = useCallback(() => dispatch({ type: 'pause' }), [])
   const open = useCallback((project: Project, trigger: HTMLButtonElement) => {
     dispatch({ type: 'select', id: project.id })
-    setOpened({ project, trigger })
+    setOpened(current => ({ project, trigger: current?.trigger ?? trigger }))
   }, [])
   const dismiss = useCallback(() => {
     setOpened(null)
@@ -57,7 +57,7 @@ export default function UniverseProvider({ projects, children }: { projects: rea
   const value = useMemo(() => ({ state, projects, hover, hoverTechnology, inspectTechnology, setStackPage, browse, open, pause, overview }), [state, projects, hover, hoverTechnology, inspectTechnology, setStackPage, browse, open, pause, overview])
   return <UniverseContext value={value}>
     {children}
-    {opened && <ProjectDetailsModal key={opened.project.id} project={opened.project}
+    {opened && <ProjectDetailsModal project={opened.project}
       number={projects.findIndex(project => project.id === opened.project.id) + 1}
       trigger={opened.trigger} onDismiss={dismiss} initialStageId={stages[opened.project.id]}
       onStageChange={id => setStages(current => ({ ...current, [opened.project.id]: id }))} />}

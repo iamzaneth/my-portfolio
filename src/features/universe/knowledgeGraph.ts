@@ -43,7 +43,7 @@ export function buildKnowledgeGraph(projects:readonly Project[]):KnowledgeGraph 
     if(projectIds.has(project.id))continue
     projectIds.add(project.id)
     const id=`project:${project.id}`
-    nodes.push({id,type:'project',label:project.title,projectId:project.id,projectIds:[project.id],position:[0,0,0],radius:.61,color:colors[index%colors.length]})
+    nodes.push({id,type:'project',label:project.title,projectId:project.id,projectIds:[project.id],position:[0,0,0],radius:.61,color:/data/i.test(project.category)?'#68cce3':colors[index%colors.length]})
     edges.push({id:`${ROOT_ID}->${id}`,source:ROOT_ID,target:id,type:'root-project'})
     for(const name of projectTechnologies(project)) {
       const technologyId=normalizeTechnologyId(name),tid=`technology:${technologyId}`

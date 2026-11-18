@@ -1,0 +1,85 @@
+/* Shared renderer, expansive viewports, compact content chrome. */
+.universe-viewport, .universe-viewport[data-mode=explorer], .universe-canvas { cursor:default; }
+.project-node-label, .root-node-label { cursor:default; }
+.scene-retry { pointer-events:auto; border:1px solid var(--line); background:var(--bg); padding:10px; border-radius:6px; color:var(--text); }
+.hero { overflow:visible; }
+.universe-viewport[data-mode=hero] { overflow:visible; border-radius:0; }
+.hero-grid { position:relative; display:flex; align-items:center; min-height:640px; }
+.hero-text { width:48%; max-width:650px; pointer-events:none; }
+.hero-text a { pointer-events:auto; }
+.hero h1 { font-size:clamp(58px,6.1vw,96px); text-shadow:0 4px 40px #05071355; }
+.hero-description, .hero-student { text-shadow:0 2px 12px #050713; }
+.hero-universe { position:absolute; top:-20px; bottom:-10px; left:calc(50% - 50vw); width:100vw; padding:0; }
+.scene-slot-hero { height:100%; }
+.hero-universe-link { position:absolute; bottom:16px; left:68%; transform:translateX(-20%); white-space:nowrap; }
+.hero-universe .scene-topline { left:65%; top:26px; }
+.hero-universe .scene-bottomline { display:none; }
+.projects-section .chapter-body { position:relative; }
+.projects-section .section-heading { margin-bottom:8px; }
+.projects-section .section-heading h2 { font-size:clamp(25px,2.5vw,38px); }
+.projects-section .section-aside { max-width:270px; font-size:11px; }
+.project-collection { position:relative; display:flex; flex-direction:column; flex:1; min-height:0; }
+.explorer-layout { display:flex; flex:1; min-height:0; width:100%; }
+.explorer-scene { flex:1; display:flex; flex-direction:column; border:0; border-radius:0; }
+.scene-slot-explorer { flex:1; min-height:430px; height:100%; }
+.project-index { position:relative; margin:0; padding:8px 0; background:transparent; border:0; border-top:1px solid #b8a0ff20; border-radius:0; }
+.constellation-legend { position:absolute; bottom:12px; right:16px; padding:0; pointer-events:none; }
+.project-collection + .github-more { margin-top:0; }
+.project-dialog { width:min(43vw,760px); max-height:calc(100dvh - var(--nav-height) - 40px); margin:calc(var(--nav-height) + 20px) 24px auto auto; border:1px solid #aba2df55; background:linear-gradient(145deg,#18172bf5,#090e20f7); box-shadow:0 24px 90px #0006; animation:mission-arrival .6s .15s both; }
+.project-dialog::backdrop { background:linear-gradient(90deg,transparent 35%,#03051030); }
+.project-dialog-toolbar { background:#b59aff08; }
+.project-dialog-body { padding:26px; }
+.project-case-header h2 { font-size:clamp(30px,3vw,44px); }
+.project-case-summary { font-size:16px; }
+.project-story { grid-template-columns:1fr; }
+.mission-worlds { display:flex; flex-wrap:wrap; gap:8px; padding:8px 24px; border-bottom:1px solid var(--line); }
+.mission-worlds button { min-height:44px; border:1px solid var(--line); border-radius:5px; padding:8px 12px; background:transparent; color:var(--muted); }
+.mission-worlds button[aria-current] { color:var(--cyan); border-color:var(--cyan); }
+@keyframes mission-arrival { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:none; } }
+@media(min-width:1024px) and (min-height:600px) {
+  .hero-grid { flex:1; min-height:0; }
+  .hero-universe .scene-slot-hero { height:100%; }
+  .hero h1 { font-size:clamp(58px,6vw,90px); }
+  .projects-section .chapter-body { overflow:hidden; }
+  .projects-section .scene-slot-explorer { min-height:0; }
+  .projects-section .project-collection { flex-shrink:1; }
+  .project-index-items { max-height:75px; }
+}
+@media(max-width:1023px) {
+  .hero-grid { min-height:650px; }
+  .hero-text { width:56%; }
+  .hero-universe { left:28%; width:72%; }
+  .hero-universe-link { display:none; }
+  .scene-slot-explorer { height:65svh; min-height:440px; }
+  .project-dialog { width:min(530px,65vw); }
+}
+@media(max-width:767px) {
+  .hero-grid { display:flex; flex-direction:column; align-items:stretch; padding-top:24px; min-height:0; }
+  .hero-text { width:100%; max-width:none; }
+  .hero h1 { font-size:clamp(48px,11.5vw,76px); }
+  .hero-universe { position:relative; inset:auto; width:100vw; margin:0 calc(50% - 50vw); height:360px; }
+  .hero-universe .scene-topline { left:22px; top:12px; }
+  .hero-universe .scene-slot-hero { height:100%; }
+  .scene-slot-explorer { height:58svh; min-height:370px; }
+  .projects-section .section-aside { display:none; }
+  .constellation-legend { bottom:42px; right:12px; gap:10px; }
+  .project-index { gap:8px; }
+  .project-dialog { width:calc(100% - 16px); max-height:calc(100dvh - 24px); margin:12px auto; }
+  .project-dialog-body { padding:22px; }
+  .planet-fallback > div { width:55%; }
+}
+@media(prefers-reduced-motion:reduce) { .project-dialog { animation:none; } }
+@media(min-width:1024px) {
+  .projects-section .chapter-body { width:calc(100% - 80px); }
+}
+
+/* Short desktop chapters fit their content; Home never becomes an inner reader. */
+@media(min-width:1024px) and (min-height:600px) and (max-height:740px) {
+  .hero h1 { font-size:clamp(46px,9.6dvh,70px); margin-bottom:16px; }
+  .hero-intro { margin-bottom:14px; }
+  .hero-role { margin-bottom:10px; }
+  .hero-description { font-size:13px; line-height:1.7; }
+  .hero-student { margin-top:8px; }
+  .hero-actions { margin-top:18px; }
+  .hero-socials { margin-top:8px; }
+}

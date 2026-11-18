@@ -48,7 +48,7 @@ export function universeReducer(state: UniverseState, event: UniverseEvent): Uni
     case 'select':
       return { ...state, activeId: event.id, selectedId: event.id, focusedId: event.id, hoveredId: null, hoveredTechnology: null, stackPage: state.activeId === event.id ? state.stackPage : 0, phase: 'focusing' }
     case 'close':
-      return { ...state, phase: 'returning', hoveredId: null, selectedId: null, hoveredTechnology: null }
+      return { ...state, phase: 'returning', focusedId: null, technology: null, hoveredId: null, selectedId: null, hoveredTechnology: null }
     case 'settled':
       return state.phase === 'focusing' ? { ...state, phase: 'focused' }
         : state.phase === 'returning' ? { ...state, phase: 'ambient' } : state

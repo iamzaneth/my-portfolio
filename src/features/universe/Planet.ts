@@ -11,7 +11,7 @@ void main() {
   vWorld = (modelMatrix * vec4(position, 1.)).xyz;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
 }`
-const noise = /* glsl */ `
+export const planetNoise = /* glsl */ `
 float hash(vec3 p) { p = fract(p * .3183099 + vec3(.1,.2,.3)); p *= 17.; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
 float noise3(vec3 p) {
   vec3 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
@@ -29,11 +29,13 @@ export function createPlanet(low: boolean) {
   group.rotation.z = -.19
   const geometry = new THREE.SphereGeometry(PLANET_RADIUS, low ? 48 : 80, low ? 32 : 56)
   const material = new THREE.ShaderMaterial({
+    uniforms: { uReveal: { value: 1 }, uHover: { value: 0 } },
     defines: { FBM_OCTAVES: low ? 3 : 5 },
     vertexShader: vertex,
     fragmentShader: /* glsl */ `
+      uniform float uReveal; uniform float uHover;
       varying vec3 vPosition; varying vec3 vNormal; varying vec3 vWorld;
-      ${noise}
+      ${planetNoise}
       void main() {
         vec3 p=vPosition*2.2;
         float warp=fbm(p*1.25);
@@ -41,7 +43,7 @@ export function createPlanet(low: boolean) {
         float veins=abs(fbm(p*5.+warp*4.)-.49);
         float bands=sin(p.y*8.+warp*16.);
         vec3 sea=vec3(.004,.009,.032);
-        vec3 land=mix(vec3(.015,.023,.075),vec3(.072,.038,.16),smoothstep(.3,.7,terrain));
+        vec3 land=mix(vec3(.015,.023,.075),vec3(.11,.036,.23),smoothstep(.3,.7,terrain));
         vec3 surface=mix(sea,land,smoothstep(.34,.63,terrain));
         surface+=vec3(.012,.045,.08)*smoothstep(.3,.8,terrain)*(.5+.5*bands);
         float ridges=(1.-smoothstep(0.,.038,veins))*smoothstep(.40,.58,terrain);
@@ -53,11 +55,11 @@ export function createPlanet(low: boolean) {
         float rim=pow(1.-max(dot(view,n),0.),3.6);
         float spec=pow(max(dot(reflect(-light,n),view),0.),35.);
         float micro=noise3(p*48.);
-        vec3 color=surface*(.2+diffuse*2.2);
+        vec3 color=surface*(.45+diffuse*2.8);
         color+=vec3(.15,.47,.67)*spec*.25*(.3+micro);
-        color+=mix(vec3(.09,.17,.46),vec3(.2,.1,.49),smoothstep(-1.,1.,n.x))*rim*.65;
+        color+=mix(vec3(.09,.17,.46),vec3(.2,.1,.49),smoothstep(-1.,1.,n.x))*rim*(.75+uHover*.35);
         color+=vec3(.1,.31,.38)*smoothstep(.83,.96,micro)*ridges*.6;
-        gl_FragColor=vec4(color,1.);
+        gl_FragColor=vec4(color*uReveal,1.);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
@@ -65,18 +67,21 @@ export function createPlanet(low: boolean) {
   const surface = new THREE.Mesh(geometry, material)
   surface.name = 'Zaneth planet'
   group.add(surface)
-  const atmosphere = new THREE.Mesh(geometry, new THREE.ShaderMaterial({
+  const atmosphereMaterial = new THREE.ShaderMaterial({
+    uniforms: { uHover: { value: 0 }, uReveal: { value: 1 } },
     vertexShader: vertex,
     fragmentShader: /* glsl */ `
+      uniform float uHover; uniform float uReveal;
       varying vec3 vNormal; varying vec3 vWorld;
       void main() {
         vec3 view=normalize(cameraPosition-vWorld);
         float rim=pow(1.-abs(dot(normalize(vNormal),view)),4.5);
         vec3 tint=mix(vec3(.16,.30,.85),vec3(.18,.74,.94),smoothstep(-.7,.7,normalize(vNormal).y));
-        gl_FragColor=vec4(tint,rim*.38);
+        gl_FragColor=vec4(tint,rim*(.45+uHover*.3)*uReveal);
       }`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.BackSide,
-  }))
+  })
+  const atmosphere = new THREE.Mesh(geometry, atmosphereMaterial)
   atmosphere.scale.setScalar(1.045)
   group.add(atmosphere)
 
@@ -97,5 +102,8 @@ export function createPlanet(low: boolean) {
   const ring = new THREE.Mesh(ringGeometry, ringMaterial)
   ring.rotation.set(-1.25, -.1, -.28)
   group.add(ring)
-  return { group, surface }
+  return { group, surface, update(reveal:number,hover:number) {
+    material.uniforms.uReveal.value=reveal;material.uniforms.uHover.value=hover
+    atmosphereMaterial.uniforms.uHover.value=hover;atmosphereMaterial.uniforms.uReveal.value=reveal
+  } }
 }

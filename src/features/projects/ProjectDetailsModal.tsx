@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { ArrowUpRight, Check, X } from 'lucide-react'
 import type { Project } from '@/types/portfolio'
 import { useMotionPreference } from '@/hooks/useMotionPreference'
+import { useUniverse } from '@/features/universe/UniverseContext'
 import ProjectActions from './ProjectActions'
 import ProjectVisual from './ProjectVisual'
 import { externalUrl } from './projectContent'
@@ -17,6 +18,7 @@ interface ProjectDetailsModalProps {
 }
 
 export default function ProjectDetailsModal({ project, number, trigger, onDismiss, initialStageId, onStageChange }: ProjectDetailsModalProps) {
+  const { projects, open } = useUniverse()
   const dialog = useRef<HTMLDialogElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const closing = useRef(false)
@@ -87,7 +89,8 @@ export default function ProjectDetailsModal({ project, number, trigger, onDismis
       <span><i className="dialog-pixel" aria-hidden="true" /> Mission control <span className="dialog-number">/ {String(number).padStart(2, '0')}</span></span>
       <button type="button" className="project-dialog-close" autoFocus onClick={requestClose} aria-label="Close project details"><span>Close</span><X size={20} aria-hidden="true" /></button>
     </div>
-    <div className="project-dialog-body">
+    {projects.length>1&&<nav className="mission-worlds" aria-label="Switch project">{projects.map(world=><button type="button" key={world.id} aria-current={world.id===project.id?'true':undefined} onClick={event=>open(world,event.currentTarget)}>{world.title}</button>)}</nav>}
+    <div className="project-dialog-body" key={project.id}>
       <header className="project-case-header">
         <div className="project-meta"><span>{project.category}</span>{project.status && <span>{project.status}</span>}</div>
         <h2 id={titleId}>{project.title}</h2>

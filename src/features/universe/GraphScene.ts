@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { createGraphAssets, createProjectCore } from './GraphBodies'
-import { createPlanet } from './Planet'
 import { disposeSceneTree } from './sceneResources'
 import { ROOT_ID, normalizeTechnologyId, type GraphNode, type KnowledgeGraph } from './knowledgeGraph'
 import type { UniverseState } from './universeState'
@@ -10,8 +9,8 @@ export function createGraphScene(data:KnowledgeGraph) {
   const group=new THREE.Group(),assets=createGraphAssets(),shared=new Set(Object.values(assets))
   const nodes:RenderedGraphNode[]=data.nodes.map(model=>({model,position:new THREE.Vector3(...model.position)}))
   const byId=new Map(nodes.map(node=>[node.model.id,node]))
-  const root=createPlanet(true)
-  root.group.scale.setScalar(.73);group.add(root.group)
+  const root=createProjectCore(ROOT_ID,'#f5c9ff',assets)
+  root.root.scale.setScalar(1.65);group.add(root.root)
   const rootHit=new THREE.Mesh(assets.hit,assets.invisible)
   rootHit.scale.setScalar(1.08);rootHit.userData.nodeId=ROOT_ID;group.add(rootHit)
   const projects=nodes.filter(node=>node.model.type==='project').map(node=>{
@@ -42,7 +41,7 @@ export function createGraphScene(data:KnowledgeGraph) {
     group,nodes,
     pickables:[rootHit,...projects.map(project=>project.hit),techBodies],
     update(time:number,dt:number,state:UniverseState) {
-      root.surface.rotation.y=time*Math.PI*2/140
+      root.update(time,dt,state.focusedId ? .18 : 1.5)
       const projectFocus=state.hoveredId??state.focusedId
       const technologyTarget=state.hoveredTechnology??state.technology
       const technologyId=technologyTarget?`technology:${normalizeTechnologyId(technologyTarget.name)}`:null
