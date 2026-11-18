@@ -1,15 +1,15 @@
 export type TrailPoint = Readonly<{ x: number; y: number; time: number }>
-export const MAX_LENGTH = 144
-export const LIFETIME = 450
+export const MAX_LENGTH = 216
+export const LIFETIME = 400
 export const MAX_POINTS = 512
-export function prune(points: TrailPoint[], now: number) {
+export function prune(points: TrailPoint[], now: number, maximum = MAX_LENGTH) {
   while (points.length && now - points[0].time > LIFETIME) points.shift()
   let length = 0
   for (let i = points.length - 1; i > 0; i--) {
     const a = points[i], b = points[i - 1]
     const distance = Math.hypot(a.x - b.x, a.y - b.y)
-    if (length + distance > MAX_LENGTH) {
-      const t = (MAX_LENGTH - length) / distance
+    if (length + distance > maximum) {
+      const t = (maximum - length) / distance
       // Replace the visible boundary; never modify a recorded sample.
       points.splice(0, i, { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, time: a.time + (b.time - a.time) * t })
       break
@@ -49,6 +49,6 @@ export function recentSpeed(points: readonly TrailPoint[]) {
 }
 
 export function meteorProfile(speed: number) {
-  const energy = Math.min(1, Math.max(0, speed) / .5)
-  return { energy, lifetime: LIFETIME, width: 2 + .4 * energy, brightness: .65 + .15 * energy }
+  const energy = Math.min(1, Math.max(0, speed) / 1.8)
+  return { energy, lifetime: LIFETIME, length: 34 + (MAX_LENGTH - 34) * energy, width: 1.3 + 1.5 * energy, brightness: .42 + .28 * energy }
 }

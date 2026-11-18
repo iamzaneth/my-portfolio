@@ -6,7 +6,7 @@ import { ribbonEdges } from './ribbon'
 
 const CAPABILITY = '(hover: hover) and (pointer: fine)'
 const MOTION = '(prefers-reduced-motion: reduce)'
-const PARTICLES = 28
+const PARTICLES = 18
 const MAX_TAIL = MAX_LENGTH
 
 /** One demand-driven canvas. Pointer input never updates React state. */
@@ -30,12 +30,12 @@ export default function CometCursor() {
     let speed = 0, visualEnergy = 0
     const star = new Path2D('M0-1L.22-.22L1 0L.22.22L0 1L-.22.22L-1 0L-.22-.22Z')
     const cross = new Path2D('M-.25-1H.25V-.25H1V.25H.25V1H-.25V.25H-1V-.25H-.25Z')
-    const colors = ['#e8eff8', '#82adff', '#7dceef']
+    const colors = ['#edf5ff', '#b2a3ec', '#8bdded']
     const glow = context.createRadialGradient(0, 0, 0, 0, 0, 10)
     glow.addColorStop(0, '#e8eff8df')
-    glow.addColorStop(.23, '#82adff80')
-    glow.addColorStop(.6, '#7dceef21')
-    glow.addColorStop(1, '#7dceef00')
+    glow.addColorStop(.23, '#8bdded80')
+    glow.addColorStop(.6, '#b2a3ec21')
+    glow.addColorStop(1, '#b2a3ec00')
 
     function reset() {
       cancelAnimationFrame(frame)
@@ -44,6 +44,8 @@ export default function CometCursor() {
       initialized = inside = moved = false
       points.length = 0
       traveled = speed = visualEnergy = 0
+      lastMove = lastEmission = -Infinity
+      if (import.meta.env.DEV) canvas!.dataset.active = 'false'
       for (const particle of dust) particle.life = 0
       context!.clearRect(0, 0, width, height)
     }
@@ -53,7 +55,7 @@ export default function CometCursor() {
       width = innerWidth
       height = innerHeight
       // Cap backing-store cost on high-density displays. No layout reads in tick.
-      const ratio = Math.min(devicePixelRatio || 1, 2)
+      const ratio = Math.min(devicePixelRatio || 1, 1.5)
       canvas!.width = enabled ? Math.ceil(width * ratio) : 1
       canvas!.height = enabled ? Math.ceil(height * ratio) : 1
       context!.setTransform(ratio, 0, 0, ratio, 0, 0)
@@ -74,12 +76,12 @@ export default function CometCursor() {
       const elapsed = now - lastMove
       // Stabilize appearance only. The head and recorded coordinates never ease.
       visualEnergy += (meteorProfile(speed).energy - visualEnergy) * (1 - Math.exp(-dt / 65))
-      const profile = meteorProfile(visualEnergy * .5)
+      const profile = meteorProfile(visualEnergy * 1.8)
       const opacity = Math.max(0, 1 - elapsed / LIFETIME) ** 1.3
-      prune(points, now)
+      prune(points, now, profile.length)
       if (points.length) {
         if (points.length > 1) {
-          ribbonEdges(points, now, profile.width, left, right)
+          ribbonEdges(points, now, profile.width, left, right, profile.length)
           // A single filled silhouette replaces hundreds of overlapping round
           // caps. Width interpolates along arc length; there are no alpha seams.
           context!.fillStyle = `rgba(180,210,255,${opacity * profile.brightness})`
@@ -88,7 +90,10 @@ export default function CometCursor() {
           for (let i = 1; i < points.length; i++) context!.lineTo(left[i].x, left[i].y)
           for (let i = points.length - 1; i >= 0; i--) context!.lineTo(right[i].x, right[i].y)
           context!.closePath()
+          context!.shadowColor = '#8ccde7'
+          context!.shadowBlur = 7 + 5 * profile.energy
           context!.fill()
+          context!.shadowBlur = 0
           // One connected, fine highlight also closes reversal cusps. Its faint
           // stroke is continuous rather than separately composited segments.
           context!.lineCap = context!.lineJoin = 'round'
@@ -107,11 +112,11 @@ export default function CometCursor() {
         context!.fillStyle = '#e8eff8'
         context!.globalAlpha = opacity * .92
         context!.beginPath()
-        context!.arc(0, 0, 2.2, 0, Math.PI * 2)
+        context!.arc(0, 0, 1.25 + profile.energy * .5, 0, Math.PI * 2)
         context!.fill()
         context!.restore()
       }
-      if (inside && moved && elapsed < 45 && speed > .12 && traveled >= 14 && now - lastEmission > 95) {
+      if (inside && moved && elapsed < 45 && speed > .65 && traveled >= 28 && now - lastEmission > 95 - 25 * profile.energy) {
         const particle = dust[slot]
         particle.x = x
         particle.y = y
@@ -120,8 +125,8 @@ export default function CometCursor() {
         particle.age = 0
         particle.born = now
         particle.shape = slot % 5 === 0 ? 1 : slot % 10 === 7 ? 2 : 0
-        particle.life = particle.shape ? 160 + Math.random() * 120 : 180 + Math.random() * 140
-        particle.size = 1.4 + Math.random() * 1.2
+        particle.life = 220 + Math.random() * 180
+        particle.size = .8 + Math.random() * .8
         particle.color = slot % colors.length
         slot = (slot + 1) % PARTICLES
         traveled = 0
@@ -178,7 +183,10 @@ export default function CometCursor() {
       }
       if (!moved) return
       speed = recentSpeed(points)
-      if (!frame) frame = requestAnimationFrame(tick)
+      if (!frame) {
+        if (import.meta.env.DEV) canvas!.dataset.active = 'true'
+        frame = requestAnimationFrame(tick)
+      }
     }
     function leave(event: PointerEvent) {
       if (event.relatedTarget !== null) return

@@ -3,7 +3,7 @@ export type EdgePoint = { x: number; y: number }
 
 /** Fill caller-owned buffers. Each edge stays within 1.3px of its immutable
  * center sample; averaged unit tangents have no miter spikes or spline loops. */
-export function ribbonEdges(points: readonly TrailPoint[], now: number, width: number, left: EdgePoint[], right: EdgePoint[]) {
+export function ribbonEdges(points: readonly TrailPoint[], now: number, width: number, left: EdgePoint[], right: EdgePoint[], maximum = MAX_LENGTH) {
   let distance = 0
   for (let i = points.length - 1; i >= 0; i--) {
     const p = points[i], before = points[Math.max(0, i - 1)], after = points[Math.min(points.length - 1, i + 1)]
@@ -14,9 +14,9 @@ export function ribbonEdges(points: readonly TrailPoint[], now: number, width: n
     let dy = (incoming ? (p.y - before.y) / incoming : 0) + (outgoing ? (after.y - p.y) / outgoing : 0)
     let length = Math.hypot(dx, dy)
     if (length < .001) { dx = p.x - before.x; dy = p.y - before.y; length = Math.hypot(dx, dy) || 1 }
-    const taper = Math.max(0, 1 - distance / MAX_LENGTH)
+    const taper = Math.max(0, 1 - distance / maximum)
     const age = Math.max(0, 1 - (now - p.time) / LIFETIME)
-    const radius = Math.min(1.3, width / 2) * taper ** .8 * age ** .6
+    const radius = Math.min(1.5, width / 2) * taper ** .8 * age ** .6
     const nx = -dy / length * radius, ny = dx / length * radius
     left[i].x = p.x + nx; left[i].y = p.y + ny
     right[i].x = p.x - nx; right[i].y = p.y - ny
