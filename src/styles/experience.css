@@ -32,10 +32,6 @@ main > section + section { border-top:0; }
 .fallback-root { position:absolute; z-index:2; top:42%; left:21%; transform:translate(-50%,-50%); background:transparent; color:var(--text); border:0; font-size:18px; }
 .fallback-root span { display:block; font:6px var(--mono); color:var(--muted); margin-top:5px; }
 .chapter-body { min-width:0; }
-.toolkit-workspace { display:grid; grid-template-columns:1.1fr 1fr; gap:24px; align-items:stretch; }
-.toolkit-workspace .skills-grid { grid-template-columns:1fr; }
-.toolkit-workspace .technology-clusters { grid-template-columns:1fr 1fr; gap:14px; }
-.toolkit-workspace .technology-map { margin-bottom:0; }
 .project-card-reading { min-height:0; }
 html { scroll-behavior:auto; }
 @media(min-width:1024px) and (min-height:600px) {
@@ -69,16 +65,6 @@ html { scroll-behavior:auto; }
   .about-current p { font-size:13px; line-height:1.8; }
   .about-copy .text-link { margin-top:14px; }
   .about-section .identity-stage { --id-width:clamp(220px,calc((var(--chapter-height) - 220px)*.6),300px); }
-  .toolkit-workspace { flex:1; min-height:0; }
-  .toolkit-workspace .technology-map { min-height:0; display:flex; flex-direction:column; justify-content:center; padding:22px; }
-  .toolkit-workspace .technology-clusters { padding-block:22px; }
-  .toolkit-workspace .technology-cluster { padding:16px 13px 16px 28px; }
-  .toolkit-workspace .technology-cluster strong { font-size:14px; }
-  .toolkit-workspace .technology-cluster i { left:12px; }
-  .toolkit-workspace .technology-cluster > span { font:11px/1.7 var(--font); }
-  .toolkit-workspace .skills-grid { display:flex; min-height:0; }
-  .toolkit-workspace .skill-card { width:100%; min-height:0; }
-  .toolkit-workspace .skill-body { min-height:0; }
   .toolkit-footnote { margin-top:14px; }
   .projects-section .section-heading h2 br { display:none; }
   .projects-section .section-heading h2 span { margin-left:.2em; }
@@ -115,15 +101,11 @@ html { scroll-behavior:auto; }
   .section-heading h2 { font-size:35px; }
   .hero h1 { font-size:clamp(54px,5.3vw,72px); }
   .about-copy .about-lead { font-size:21px; }
-  .toolkit-workspace .technology-cluster { padding-block:13px; }
-  .toolkit-workspace .constellation-caption { font-size:10px; min-height:0; }
 }
 @media(max-width:1023px), (max-height:599px) {
   html { scroll-padding-top:calc(var(--nav-height) + 12px); scroll-snap-type:y proximity; }
   main > section { scroll-snap-align:start; min-height:calc(100svh - var(--nav-height)); }
   .chapter-body { overflow:visible; max-height:none; }
-  .toolkit-workspace { grid-template-columns:1fr; }
-  .toolkit-workspace .skills-grid { display:block; }
   .project-card-reading { overflow:visible; }
   .scene-slot-explorer { height:480px; }
 }
@@ -137,7 +119,6 @@ html { scroll-behavior:auto; }
   .root-node-label { width:110px; }
   .root-node-label strong { font-size:15px; }
   .technology-node-label { max-width:95px; font-size:8px; }
-  .toolkit-workspace .technology-clusters { grid-template-columns:1fr; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
 .scene-aux-controls { display:flex; gap:3px; pointer-events:auto; }
@@ -146,4 +127,3 @@ html { scroll-behavior:auto; }
 .scene-aux-controls button:disabled { opacity:.4; }
 .scene-topline .scene-signal { margin-left:auto; }
 @media(max-width:767px){.scene-aux-controls button{width:44px;height:44px;}.scene-topline{align-items:flex-start;}}
-@media(min-width:1024px) and (min-height:600px){.hero-grid{grid-template-rows:minmax(0,1fr);}.hero-text{max-height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;}}

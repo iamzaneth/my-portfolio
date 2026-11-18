@@ -121,29 +121,6 @@
 .about-section .identity-reveal { position:relative; padding-block:22px; }
 .about-section .identity-reveal::after { content:'IDENTITY / CLICK TO TURN'; position:absolute; bottom:-4px; font:8px/1.8 var(--mono); letter-spacing:1.3px; color:var(--faint); }
 .identity-float { animation:none; }
-.technology-map { position:relative; min-height:248px; border:1px solid var(--module-line); border-radius:14px; padding:24px 28px; background:linear-gradient(125deg,#17152c80,#0a102080); margin-bottom:25px; overflow:hidden; }
-.constellation-art { position:absolute; inset:10px 0 35px; opacity:.4; pointer-events:none; }
-.constellation-art svg { width:100%; height:100%; fill:var(--accent); }
-.constellation-art path { stroke:#9a8edd5e; stroke-width:.8px; fill:none; }
-.technology-map-heading { position:relative; display:flex; justify-content:space-between; gap:20px; color:var(--faint); font:8px/1.8 var(--mono); letter-spacing:1px; }
-.technology-clusters { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:28px; padding:22px 0 18px; }
-.technology-cluster { position:relative; text-align:left; padding:15px 18px 15px 35px; border:1px solid #9b91c32b; border-radius:8px; background:#090e21d9; transition:border-color .25s,background .25s; }
-.technology-cluster:hover,.technology-cluster[aria-pressed=true] { border-color:var(--accent-edge); background:#171930ed; }
-.technology-cluster i { position:absolute; top:22px; left:16px; width:5px; height:5px; background:var(--cyan); border-radius:50%; box-shadow:0 0 10px #79deef70; }
-.technology-cluster strong { display:block; font-size:15px; font-weight:550; }
-.technology-cluster > span { display:block; color:var(--muted); font:9px/1.9 var(--mono); margin-top:8px; }
-.constellation-caption { position:relative; color:var(--muted); font-size:11px; line-height:1.85; min-height:42px; max-width:900px; }
-.skills-grid { gap:20px; }
-.skill-card.glass-standard { padding:24px; border-radius:12px; border-color:#a4a1cb24; }
-.skill-card .skill-body h3 { font-size:23px; }
-.skill-card .skill-kind { font-size:10px; }
-.skill-card .skill-description { font-size:13px; }
-.skill-card .open-tech-list { min-height:0; margin-top:15px; }
-.skill-card .open-tech-list li { font-size:12px; }
-.skill-card .skill-practice { margin-top:12px; padding-top:9px; }
-.skill-card .skill-practice-toggle { font-size:11px; }
-.skill-card .skill-practice-body p { font-size:13px; }
-.toolkit-footnote { font-size:11px; }
 @media(min-width:1600px) { .page-container { width:min(1450px,calc(100% - 160px)); } }
 @media(max-width:1279px) { .nav-brand-note { display:none; } }
 @media(max-width:1100px) {
@@ -185,13 +162,6 @@
   .project-technology-stack button { min-height:44px; }
   .project-dialog { width:calc(100% - 20px); margin:auto; max-height:calc(100dvh - 24px); border-radius:12px; }
   .project-dialog-body { padding:22px; }
-  .technology-map { padding:20px; }
-  .technology-clusters { grid-template-columns:1fr; gap:12px; padding-block:20px 15px; }
-  .technology-map-heading { font-size:7px; letter-spacing:.5px; }
-  .technology-map-heading > span:last-child { display:none; }
-  .technology-cluster > span { font-size:9px; }
-  .constellation-caption { font-size:11px; }
-  .skill-card.glass-standard { padding:22px; }
   .footer-built { display:none; }
   .contact-email-row { gap:8px; }
   .contact-email-row > span:first-child { display:none; }
