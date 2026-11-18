@@ -35,7 +35,7 @@ export function createUniverseEngine(canvas:HTMLCanvasElement,host:HTMLElement,i
     plane.add(line,light);hero.add(plane);orbits.push({plane,light,radius,material})
   }
 
-  let settings=initial,graph:ReturnType<typeof createGraphScene>|null=null,signature=''
+  let settings=initial,graph:ReturnType<typeof createGraphScene>|null=null,graphData:KnowledgeGraph|null=null
   const projector=createLabelProjector(host),globalClock=new SceneClock(),localClock=new SceneClock()
   let width=innerWidth,height=innerHeight,frame=0,last=0,disposed=false,lost=false,awakeUntil=performance.now()+1600,lastLabels=0,lastStats=0,frames=0,slow=0,sampleTime=0,samples=0
   let ratio=Math.min(devicePixelRatio||1,mobile?1.15:1.5),dragging=false,moved=false,downPoint:{x:number;y:number}|null=null,hoverKey=''
@@ -50,8 +50,7 @@ export function createUniverseEngine(canvas:HTMLCanvasElement,host:HTMLElement,i
     hero.visible=settings.mode==='hero';if(graph)graph.group.visible=settings.mode==='explorer'
     projector.refresh();boundsDirty=true;lastLabels=0
     if(settings.mode==='explorer') {
-      const next=JSON.stringify(settings.graph.nodes.map(node=>node.id))
-      if(next!==signature){if(graph){local.remove(graph.group);graph.dispose()}graph=createGraphScene(settings.graph);local.add(graph.group);signature=next}
+      if(settings.graph!==graphData){if(graph){local.remove(graph.group);graph.dispose()}graph=createGraphScene(settings.graph);local.add(graph.group);graphData=settings.graph}
       graph!.group.visible=true
     }
   }
@@ -80,14 +79,19 @@ export function createUniverseEngine(canvas:HTMLCanvasElement,host:HTMLElement,i
         // Expand the slot's original projection onto the entire shared canvas.
         // This preserves the planet's size/anchor while allowing rings and atmosphere
         // to continue beyond the DOM slot instead of hitting its scissor rectangle.
-        heroCamera.setViewOffset(bounds.width,bounds.height,-bounds.left,-bounds.top,width,height)
+        const view=heroCamera.view
+        if(!view||view.fullWidth!==bounds.width||view.fullHeight!==bounds.height||view.offsetX!==-bounds.left||view.offsetY!==-bounds.top||view.width!==width||view.height!==height)heroCamera.setViewOffset(bounds.width,bounds.height,-bounds.left,-bounds.top,width,height)
         heroCamera.position.set(settings.reduced?0:smoothParallax.x*.22,1.55+(settings.reduced?0:smoothParallax.y*.14),Math.max(8.6,6.4/aspect)+(width>=768&&width<1024?1.8:0)+(1-entrance)*1.4+travel*3)
         heroCamera.lookAt(0,0,0);camera=heroCamera
 
       } else {
         graph!.update(localClock.time,dt,settings.state)
         const pose=graphCamera.update(graph!.nodes,settings.state.focusedId,aspect,dt,settings.reduced)
-        Object.assign(host.dataset,{yaw:pose.yaw.toFixed(3),polar:pose.polar.toFixed(3),zoom:pose.zoom.toFixed(3),graphNodes:String(graph!.nodes.length)})
+        const yaw=pose.yaw.toFixed(3),polar=pose.polar.toFixed(3),zoom=pose.zoom.toFixed(3),nodeCount=String(graph!.nodes.length)
+        if(host.dataset.yaw!==yaw)host.dataset.yaw=yaw
+        if(host.dataset.polar!==polar)host.dataset.polar=polar
+        if(host.dataset.zoom!==zoom)host.dataset.zoom=zoom
+        if(host.dataset.graphNodes!==nodeCount)host.dataset.graphNodes=nodeCount
         camera=graphCamera.camera
         if(now-lastLabels>=32){projector.update(camera,graph!.nodes,settings.state,bounds.width,bounds.height);lastLabels=now}
       }

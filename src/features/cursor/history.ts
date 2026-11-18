@@ -19,7 +19,7 @@ export function prune(points: TrailPoint[], now: number, maximum = MAX_LENGTH) {
   if (points.length > MAX_POINTS) points.splice(0, points.length - MAX_POINTS)
 }
 export function append(points: TrailPoint[], x: number, y: number, time: number) {
-  if (![x, y, time].every(Number.isFinite)) return false
+  if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(time)) return false
   let last = points.at(-1)
   if (last && time < last.time) return false
   if (last && (time - last.time > 180 || Math.hypot(x - last.x, y - last.y) > 600)) { points.length = 0; last = undefined }

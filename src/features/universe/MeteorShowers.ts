@@ -82,6 +82,9 @@ export function createMeteorShowers(compact: boolean, random = Math.random) {
       if (stats.phase === 'active' && (activity.modal || activity.transitioning || activity.layoutPending || viewport !== `${activity.width}:${activity.height}` || (revision !== activity.revision && events.some(event => !clearSkyPath(event.screenStart, event.screenEnd, activity.zones, 12))))) cancelAt = Math.min(cancelAt, time)
       if (stats.phase === 'active' && (time >= endAt || time >= cancelAt + .25)) { events = []; stats.phase = 'cooldown'; stats.meteors = 0 }
       stats.nextAt = nextAt
+      // Invisible pooled buffers need no clearing or GPU uploads. Scheduling above
+      // still runs every frame, preserving the existing randomized event timing.
+      if (!events.length) { stats.live = 0; group.visible = false; return }
       const quiet = activity.modal || disabled ? 0 : (pointerBusy ? .65 : 1) * (cancelAt === Infinity ? 1 : Math.max(0, 1 - (time - cancelAt) / .25))
       strengths.fill(0); headStrengths.fill(0); stats.live = 0
       right.setFromMatrixColumn(camera.matrixWorld, 0)

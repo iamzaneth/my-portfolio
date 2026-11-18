@@ -6,7 +6,7 @@ export function createGraphCamera() {
   const camera=new THREE.PerspectiveCamera(40,1,.1,180)
   let yaw=.12,polar=1.28,zoom=1,desiredYaw=yaw,desiredPolar=polar,desiredZoom=zoom
   let currentDistance=0
-  const box=new THREE.Box3()
+  const box=new THREE.Box3(),worldUp=new THREE.Vector3(0,1,0)
   const target=new THREE.Vector3(),desiredTarget=new THREE.Vector3(),direction=new THREE.Vector3(),right=new THREE.Vector3(),up=new THREE.Vector3(),relative=new THREE.Vector3()
   return {
     camera,
@@ -23,7 +23,7 @@ export function createGraphCamera() {
       else if(nodes.length)box.getCenter(desiredTarget)
       else desiredTarget.set(0,0,0)
       direction.set(Math.sin(polar)*Math.sin(yaw),Math.cos(polar),Math.sin(polar)*Math.cos(yaw))
-      right.crossVectors(new THREE.Vector3(0,1,0),direction).normalize();up.crossVectors(direction,right).normalize()
+      right.crossVectors(worldUp,direction).normalize();up.crossVectors(direction,right).normalize()
       const tangent=Math.tan(THREE.MathUtils.degToRad(20))
       let distance=6
       for(const node of nodes) {
@@ -37,7 +37,7 @@ export function createGraphCamera() {
       const radius=currentDistance
       if(focused&&aspect>1.25)desiredTarget.addScaledVector(right,radius*tangent*aspect*.43)
       target.lerp(desiredTarget,smooth)
-      camera.aspect=aspect;camera.updateProjectionMatrix()
+      if(camera.aspect!==aspect){camera.aspect=aspect;camera.updateProjectionMatrix()}
       camera.position.copy(target).addScaledVector(direction,radius);camera.lookAt(target);camera.updateMatrixWorld()
       return {yaw,polar,zoom,distance:radius}
     },

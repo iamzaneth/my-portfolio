@@ -12,6 +12,7 @@ export function createLabelProjector(host:HTMLElement) {
   function update(camera:THREE.PerspectiveCamera,nodes:RenderedGraphNode[],state:UniverseState,width:number,height:number) {
     camera.updateMatrixWorld()
     const placed:Box[]=[]
+    const technologyCount=nodes.reduce((count,node)=>count+Number(node.model.type==='technology'),0)
     const targetTech=state.hoveredTechnology??state.technology
     const focus=state.hoveredId??state.focusedId
     const sorted=[...nodes].sort((a,b)=>(a.model.type==='root'?-100:a.model.type==='project'?(a.model.projectId===focus?-90:-80):0)-(b.model.type==='root'?-100:b.model.type==='project'?(b.model.projectId===focus?-90:-80):0))
@@ -27,7 +28,7 @@ export function createLabelProjector(host:HTMLElement) {
         edge.copy(other.position).sub(camera.position);const t=edge.dot(direction)
         return t>0&&t<distance-other.model.radius&&edge.lengthSq()-t*t<other.model.radius*other.model.radius*.92
       })
-      const selected=node.model.type!=='technology'||node.model.projectIds.includes(focus??'')||nodes.filter(n=>n.model.type==='technology').length<=8||normalizeTechnologyId(targetTech?.name??'')===node.model.technologyId
+      const selected=node.model.type!=='technology'||node.model.projectIds.includes(focus??'')||technologyCount<=8||normalizeTechnologyId(targetTech?.name??'')===node.model.technologyId
       const visible=selected&&!occluded&&point.z>=-1&&point.z<=1&&x>=0&&x<=width&&y>=0&&y<=height
       const w=label.width,h=label.height
       const pixels=node.model.radius/(Math.max(1,distance)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*height*.5

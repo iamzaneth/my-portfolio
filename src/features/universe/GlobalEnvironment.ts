@@ -40,7 +40,7 @@ export function createGlobalEnvironment(compact:boolean) {
       const damping=reduced?1:1-Math.exp(-3*(dt||.016))
       theme.lerp(desiredTheme,damping);accent.lerp(desiredAccent,damping)
       material.uniforms.uTime.value=time;material.uniforms.uAspect.value=aspect;starsMaterial.uniforms.uTime.value=time
-      camera.aspect=aspect;camera.updateProjectionMatrix();camera.position.x=reduced?0:pointer.x*.22;camera.position.y=reduced?0:pointer.y*.15
+      if(camera.aspect!==aspect){camera.aspect=aspect;camera.updateProjectionMatrix()};camera.position.x=reduced?0:pointer.x*.22;camera.position.y=reduced?0:pointer.y*.15
       camera.lookAt(0,0,-35)
       camera.updateMatrixWorld()
       meteors.update(time,activity,camera,reduced||paused,low,pointerBusy)
